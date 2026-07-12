@@ -1,8 +1,8 @@
 "use client";
 
-import { CloudField } from "@/components/sky/cloud-field";
+import { DoodleField } from "@/components/paper/doodle-field";
 import { easeInOutCubic } from "@/lib/animation";
-import { SECTION_CLOUDS } from "@/lib/clouds";
+import { SECTION_DOODLES } from "@/lib/doodles";
 import { cn } from "@/lib/utils";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { forwardRef, useRef } from "react";
@@ -81,7 +81,7 @@ const Section = forwardRef<HTMLElement, SectionProps>(
 
     return (
       <section id={id} ref={ref} className="relative">
-        {id && <CloudField section={SECTION_CLOUDS[id]} />}
+        {id && <DoodleField section={SECTION_DOODLES[id]} />}
         <div className={cn("relative z-10", className)}>
           {!hideHeader && hasHeaderContent && variant === "centered" && (
             <div className={cn(centeredAlignment, "space-y-4 pb-10 mx-auto")}>

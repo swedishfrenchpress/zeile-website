@@ -11,16 +11,21 @@ export function FAQ() {
       className="container-page px-6 py-[var(--section-y-tight)] lg:px-10"
     >
       <div className="mx-auto max-w-3xl">
-        <h2 className="mb-10 type-display-2 text-foreground">FAQs</h2>
-        {siteConfig.faqs.map((faq, index) => (
-          <AccordionItem
-            key={index}
-            question={faq.question}
-            defaultOpen={index === 0}
-          >
-            {faq.answer}
-          </AccordionItem>
-        ))}
+        <h2 className="mb-10 type-display-2 text-foreground">
+          Questions, answered.
+        </h2>
+        <div className="flex flex-col gap-3">
+          {siteConfig.faqs.map((faq, index) => (
+            <AccordionItem
+              key={index}
+              question={faq.question}
+              defaultOpen={index === 0}
+              className="note-surface border-b-0 px-6"
+            >
+              {faq.answer}
+            </AccordionItem>
+          ))}
+        </div>
       </div>
     </Section>
   );

@@ -7,15 +7,12 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
-import { Globe } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const NAV_ICONS = [
-  { label: "View source on GitHub", href: siteConfig.links.repo, icon: Icons.github },
-  { label: "Get the iOS app", href: siteConfig.links.testflight, icon: Icons.apple },
-  { label: "Get the Android app", href: siteConfig.links.androidApk, icon: Icons.android },
-  { label: "Open in browser", href: siteConfig.links.wallet, icon: Globe },
+  { label: "View source on GitHub", href: siteConfig.links.appRepo, icon: Icons.github },
+  { label: "Get zeile on the App Store", href: siteConfig.links.appStore, icon: Icons.apple },
 ];
 
 export function Header() {
@@ -34,19 +31,21 @@ export function Header() {
 
   return (
     <header className="sticky top-4 z-50 flex justify-center px-4 lg:px-6">
+      {/* Opaque note paper, never glass (the app's anti-glassmorphism rule):
+          the pill reads as a small paper object riding over the page. */}
       <div
         className={cn(
-          "flex w-full max-w-5xl flex-nowrap items-center justify-between gap-6 rounded-lg border border-glass-border bg-background/55 px-6 py-3 shadow-[var(--glass-shadow)] backdrop-blur-lg transition-[background-color,border-color] duration-500 ease-out-quart lg:px-8",
-          isScrolled && "border-glass-border-strong bg-background/75"
+          "flex w-full max-w-5xl flex-nowrap items-center justify-between gap-6 rounded-card border border-border bg-paper px-6 py-3 shadow-[var(--paper-shadow)] transition-[border-color,box-shadow] duration-500 ease-out-quart lg:px-8",
+          isScrolled && "border-rose-hairline"
         )}
       >
         <Link
           href="/"
-          title="cashu.me"
+          title="zeile"
           className="flex shrink-0 items-center gap-2.5 transition-opacity hover:opacity-90"
         >
           <Logo className="size-7 shrink-0" />
-          <span className="whitespace-nowrap font-display text-sm font-bold uppercase tracking-[0.14em]">
+          <span className="whitespace-nowrap font-display text-lg font-extrabold lowercase leading-none text-primary">
             {siteConfig.name}
           </span>
         </Link>
@@ -72,9 +71,7 @@ export function Header() {
             <ThemeToggle className="-m-2.5 inline-flex items-center justify-center p-2.5" />
           </div>
           <a
-            href={siteConfig.links.wallet}
-            target="_blank"
-            rel="noreferrer noopener"
+            href={siteConfig.links.appStore}
             className={cn(buttonVariants({ variant: "primary", size: "sm" }))}
           >
             {siteConfig.cta}

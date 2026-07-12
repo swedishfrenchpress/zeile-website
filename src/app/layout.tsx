@@ -1,31 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { GeistSans } from "geist/font/sans";
-import { Azeret_Mono, Manrope } from "next/font/google";
+import { JetBrains_Mono, Nunito } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
-import { SkyProvider } from "@/components/sky/sky-provider";
+import { ScrollProvider } from "@/components/paper/scroll-provider";
 import { ConsoleGreeting } from "@/components/console-greeting";
 import { siteConfig } from "@/lib/config";
 import "./globals.css";
 
-const azeretMono = Azeret_Mono({
+const nunito = Nunito({
   subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-azeret-mono",
+  weight: ["600", "700", "800", "900"],
+  variable: "--font-nunito",
   display: "swap",
 });
 
-const manrope = Manrope({
+// Pairing codes only — the one deliberate mono moment on the site.
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-manrope",
+  weight: ["700", "800"],
+  variable: "--font-jetbrains-mono",
   display: "swap",
 });
 
-const title = "Cashu Me";
-const ogImageAlt = "Cashu Me — Privacy of a $20 bill. The speed of a tap.";
-const ogImages = [
-  { url: "/images/og-cashu-me.png", width: 1200, height: 640, alt: ogImageAlt },
-];
+const title = "zeile — leave a little note";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -34,27 +30,25 @@ export const metadata: Metadata = {
   keywords: siteConfig.keywords,
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
+  // OG/Twitter images come from src/app/opengraph-image.tsx (file convention).
   openGraph: {
     title,
     description: siteConfig.tagline,
     url: siteConfig.url,
     siteName: siteConfig.name,
     type: "website",
-    images: ogImages,
   },
   twitter: {
     card: "summary_large_image",
     title,
     description: siteConfig.tagline,
-    creator: "@CashuBTC",
-    images: ogImages,
   },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#c9e2f5" },
-    { media: "(prefers-color-scheme: dark)", color: "#070708" },
+    { media: "(prefers-color-scheme: light)", color: "#fdfbfc" },
+    { media: "(prefers-color-scheme: dark)", color: "#161314" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -68,7 +62,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${azeretMono.variable} ${manrope.variable}`}
+      className={`${nunito.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
       <body>
@@ -77,7 +71,7 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
         >
-          <SkyProvider>{children}</SkyProvider>
+          <ScrollProvider>{children}</ScrollProvider>
           <ConsoleGreeting />
         </ThemeProvider>
       </body>

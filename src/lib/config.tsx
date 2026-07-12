@@ -1,146 +1,182 @@
 import type { ReactNode } from "react";
 
+// TODO(launch): swap for the real App Store link the day zeile ships.
+// Header, hero badge, and footer all read this one constant.
+export const APP_STORE_URL = "#";
+
 const links = {
-  wallet: "https://wallet.cashu.me",
-  spec: "https://github.com/cashubtc/nuts",
-  repo: "https://github.com/asmogo/wallet",
-  docs: "https://docs.cashu.space",
-  nostr:
-    "https://primal.net/p/nprofile1qqs0y3tvskgs9gpgxxu5ahgz3fmms3rzmxt504qceqtz4a6pdgfwlkghwl6j8",
-  twitter: "https://x.com/CashuBTC",
-  opencash: "http://opencash.dev/",
-  // iOS ships via TestFlight (public beta); the Android native build is still in
-  // closed beta, so there is no Play Store listing yet. It ships as a direct
-  // APK download instead, via GitHub releases.
-  testflight: "https://testflight.apple.com/join/DT1xF1y4",
-  androidApk: "https://github.com/asmogo/wallet/releases",
+  appStore: APP_STORE_URL,
+  appRepo: "https://github.com/swedishfrenchpress/zeile",
+  siteRepo: "https://github.com/swedishfrenchpress/zeile-website",
 };
 
+/** A note as it appears on the widget mockups. */
+export interface SampleNote {
+  type: "text" | "doodle";
+  text?: string;
+  /** which built-in doodle drawing to render (see mockups/widget-card) */
+  doodle?: "flower" | "smiley";
+  timestamp: string;
+}
+
 export const siteConfig = {
-  name: "cashu.me",
-  description: "A Cashu Wallet.",
+  name: "zeile",
+  description: "Leave a little note.",
   tagline:
-    "A native wallet for iPhone and Android. Hold bearer ecash on your device, send with a tap, redeem to any Lightning address. No account.",
-  url: "https://cashu.me",
-  cta: "Open wallet",
+    "zeile pairs you with one person. Send a quick note or doodle — it lands right on their Home Screen.",
+  // TODO(domain): confirm the production domain before launch.
+  url: "https://zeile.app",
+  cta: "Get the app",
   keywords: [
-    "Cashu",
-    "ecash",
-    "bitcoin",
-    "lightning",
-    "privacy",
-    "wallet",
-    "open source",
+    "zeile",
+    "widget",
+    "notes",
+    "doodle",
+    "couples app",
+    "long distance",
+    "iOS widget",
+    "home screen",
   ],
   links,
+  hero: {
+    headline: "Leave a little note.",
+    /** the person whose notes arrive on the hero widget */
+    sender: "Sam",
+    /** cycled by the living widget in the hero */
+    sampleNotes: [
+      {
+        type: "text",
+        text: "good luck today. you've got this.",
+        timestamp: "now",
+      },
+      { type: "doodle", doodle: "flower", timestamp: "now" },
+      {
+        type: "text",
+        text: "home at six. i'm cooking ♡",
+        timestamp: "now",
+      },
+    ] as SampleNote[],
+  },
   featureHighlight: [
     {
-      title: "Bearer ecash, in your pocket.",
+      title: "It lives on their Home Screen.",
       description:
-        "Your ecash lives on your device. No account, no login, no balance tied to your name. The mint holds the underlying bitcoin, same as any custodian, but you hold ecash that redeems to any Lightning address, any time, no permission needed.",
-      imageSrc: "/images/screen-receive-ecash-light.png",
-      imageSrcDark: "/images/screen-receive-ecash-dark.png",
+        "No app to open, no inbox to check. Your note shows up on your person's widget the moment you send it — with a quiet ♥ from you. The only heart in the whole app.",
+      media: "widget" as const,
       direction: "ltr" as const,
     },
     {
-      title: "Lose the phone, keep the cash.",
+      title: "Or draw it instead.",
       description:
-        "Twelve words back up your whole wallet, the same way Bitcoin does. Restore on any device, any time.",
-      videoSrc: "/videos/seedphrase-light.mp4",
-      videoSrcDark: "/videos/seedphrase-dark.mp4",
-      posterSrc: "/images/seedphrase-light-poster.jpg",
-      posterSrcDark: "/images/seedphrase-dark-poster.jpg",
-      direction: "ltr" as const,
+        "Some things don't need words. Sketch with six inks and send — your doodle arrives crisp on a little white card, right next to their apps.",
+      media: "drawing" as const,
+      direction: "rtl" as const,
     },
   ],
-  tapToPay: {
-    title: "Tap to pay.",
+  pairing: {
+    title: "One code. Two phones.",
     description:
-      "Hold your phone near the receiver. The ecash token transfers over NFC in seconds. No card network, no settlement window.",
-    videoSrc: "/videos/tap-to-pay.mp4",
+      "Setup is the whole of it: one of you creates a code, the other types it in. No account, no phone number, no contact list. Just you two.",
+    sampleCode: "K7RM24QZ",
   },
   bento: [
     {
-      id: "custody-comparison",
-      title: "Account wallets see everything.",
+      id: "audience-of-one",
+      title: "An audience of one.",
       content:
-        "Every send, every receive, every contact, tied to a single account in someone else's database. A change of policy is a change of access.",
-      imageSrc: "/images/iphone-placeholder.png",
-      imageAlt: "Cluttered wallet UI showing transaction history",
+        "zeile is you and your person. No feed, no followers, no likes, no streaks. Nothing to perform, nothing to keep up — just the small good feeling of being thought of.",
       fullWidth: true,
     },
     {
-      id: "imessage-chat",
-      title: "iMessage, SMS, Bluetooth, your group chat.",
+      id: "write-or-draw",
+      title: "Write it or draw it.",
       content:
-        "Ecash is just text. Anywhere you can paste a string (a chat, an SMS, a Bluetooth share), you can send money. No app to install on their end.",
-      imageSrc: "/images/screen-imessage-light.png",
-      imageSrcDark: "/images/screen-imessage-dark.png",
-      imageAlt:
-        "iMessage thread: a long Cashu token pasted in reply to 'dinner last night was $38 each'",
+        "A short note or a quick doodle — whatever the moment calls for.",
+      screenshot: {
+        // Drop simulator captures in public/images/screens/ under these
+        // names and the placeholder swaps itself for the real thing.
+        src: "/images/screens/screen-compose-light.png",
+        srcDark: "/images/screens/screen-compose-dark.png",
+        alt: "The zeile compose screen with a note being written",
+        ready: false,
+      },
       fullWidth: false,
     },
     {
-      id: "lightning-address",
-      title: "Bitcoin address, BOLT12, Lightning address.",
+      id: "no-signup",
+      title: "Nothing to sign up for.",
       content:
-        "Hand out a Bitcoin address, a BOLT12 offer, or a Lightning address. Sats arrive while you're offline.",
-      imageSrc: "/images/screen-lightning-address-light.png",
-      imageSrcDark: "/images/screen-lightning-address-dark.png",
-      imageAlt: "Bottom sheet showing a Lightning Address QR code with Copy and Share actions",
+        "No account, no email, no password. Pair once and start sending.",
+      screenshot: {
+        src: "/images/screens/screen-history-light.png",
+        srcDark: "/images/screens/screen-history-dark.png",
+        alt: "The zeile history screen listing sent and received notes",
+        ready: false,
+      },
       fullWidth: false,
     },
   ],
   faqs: [
     {
-      question: "How private is this?",
+      question: "Do we both need the app?",
       answer:
-        "The mint signs your ecash blind, without seeing what it's signing, so it can't link your withdrawal to your later spend. Peer-to-peer sends, over iMessage, NFC, or any chat, never touch the mint, leaving no transaction graph to trace. Minting or melting to Lightning does reveal amount and timing.",
+        "Yes — zeile is for two. You each install it, pair once, and add the widget to your Home Screens. It's iPhone-only, iOS 17 and up.",
     },
     {
-      question: "What if a mint disappears?",
+      question: "How does pairing work?",
       answer:
-        "You lose the ecash minted there. The protocol does not solve this. Mitigate by choosing mints with known operators, holding small amounts per mint, and redeeming regularly to a Lightning wallet you control.",
+        "One of you creates an 8-character code, the other types it in. That's the whole setup. A pair locks to exactly two phones, and you can unpair in Settings whenever you like.",
     },
     {
-      question: "How is this different from an account-based (custodial) wallet?",
-      answer:
-        "Account-based wallets hold a balance in a database tied to your identity and can rate-limit, suspend, or geofence you. A Cashu mint also holds bitcoin, but it issues you blinded bearer ecash instead of an account balance. You can swap to another mint, send ecash peer-to-peer, or withdraw to any Lightning address, without permission.",
+      question: "Is there an Android version?",
+      answer: (
+        <>
+          Not yet — zeile is iOS-only for now. If your person is on Android,{" "}
+          <a
+            href={links.appRepo}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="underline underline-offset-4 transition-colors hover:text-primary"
+          >
+            tell us on GitHub
+          </a>{" "}
+          — it helps us decide what to build next.
+        </>
+      ),
     },
     {
-      question: "Can I back it up?",
+      question: "Are my notes private?",
       answer:
-        "Three ways. cashu.me derives ecash from a 12-word BIP39 seed, the same kind Bitcoin wallets use. Mint URLs and settings export as an encrypted file. Either restores on any device. There's also an experimental iCloud backup that syncs an encrypted copy automatically; it's new and unproven, so don't rely on it alone yet. Ecash is a bearer instrument: possession of the backup means possession of the funds. Store accordingly.",
+        "Your notes only ever go to your paired person — there's no feed, no public anything. They sync through Apple's iCloud (CloudKit) and are not end-to-end encrypted, so think of zeile like a postcard, not a vault. Don't send anything sensitive.",
+    },
+    {
+      question: "What does the widget show?",
+      answer:
+        "The latest note from your person — text or doodle — with “♥ from <their name>” and when it arrived. Your own sends live in History inside the app.",
     },
   ] as { question: string; answer: ReactNode }[],
   footer: {
-    tagline: "Bearer cash for the web.",
-    attribution: "Open source under MIT.",
-    copyright: "© 2026 cashu.me",
+    tagline: "a tiny note goes a long way.",
+    attribution: "Made for exactly two people.",
+    copyright: "© 2026 zeile",
     columns: [
       {
-        label: "Wallet",
+        label: "the app",
         links: [
-          { label: "iOS (TestFlight)", href: links.testflight },
-          { label: "Android", href: links.androidApk },
-          { label: "Browser", href: links.wallet },
+          { label: "App Store", href: links.appStore },
+          { label: "iOS 17+", href: links.appRepo },
         ],
       },
       {
-        label: "Protocol",
+        label: "source",
         links: [
-          { label: "Spec (NUTs)", href: links.spec },
-          { label: "Source", href: links.repo },
-          { label: "Docs", href: links.docs },
+          { label: "zeile on GitHub", href: links.appRepo },
+          { label: "this website", href: links.siteRepo },
         ],
       },
       {
-        label: "Community",
-        links: [
-          { label: "Nostr", href: links.nostr },
-          { label: "X", href: links.twitter },
-          { label: "Opencash", href: links.opencash },
-        ],
+        label: "say hi",
+        links: [{ label: "GitHub", href: links.appRepo }],
       },
     ],
   },

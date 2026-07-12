@@ -6,10 +6,12 @@ import { Footer } from "@/components/sections/footer";
 import { siteConfig } from "@/lib/config";
 
 const FeatureHighlight = dynamic(() =>
-  import("@/components/sections/feature-highlight").then((m) => m.FeatureHighlight)
+  import("@/components/sections/feature-highlight").then(
+    (m) => m.FeatureHighlight
+  )
 );
-const TapToPay = dynamic(() =>
-  import("@/components/sections/tap-to-pay").then((m) => m.TapToPay)
+const Pairing = dynamic(() =>
+  import("@/components/sections/pairing").then((m) => m.Pairing)
 );
 const BentoGrid = dynamic(() =>
   import("@/components/sections/bento").then((m) => m.BentoGrid)
@@ -27,7 +29,7 @@ export default function Home() {
           layoutIndex={0}
           className="pt-[var(--section-y-wide)] pb-0"
         />
-        <TapToPay />
+        <Pairing />
         <FeatureHighlight
           id="feature-2"
           feature={siteConfig.featureHighlight[1]}

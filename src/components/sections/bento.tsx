@@ -1,15 +1,47 @@
 "use client";
 
-import { CustodyComparison } from "@/components/illustrations/custody-comparison";
+import { ComposeMockup } from "@/components/mockups/compose-mockup";
+import { ScreenshotPlaceholder } from "@/components/mockups/screenshot-placeholder";
+import { WidgetCard } from "@/components/mockups/widget-card";
 import { Section } from "@/components/section";
 import { easeInOutCubic } from "@/lib/animation";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
 import { useRef } from "react";
 
-const CARD_MIN_HEIGHTS = ["min-h-[460px]", "min-h-[360px]", "min-h-[420px]"];
+const CARD_MIN_HEIGHTS = ["min-h-[420px]", "min-h-[420px]", "min-h-[420px]"];
+
+/** your phone → their Home Screen: one send, one receive, nobody else */
+function TwoPhones() {
+  return (
+    <div className="flex w-full flex-col items-center justify-center gap-6 sm:flex-row sm:items-center sm:gap-10">
+      <ComposeMockup className="w-52 -rotate-2 sm:w-56" />
+      {/* the hand-drawn hop from your phone to theirs */}
+      <svg
+        aria-hidden
+        viewBox="0 0 100 62"
+        fill="none"
+        className="w-16 shrink-0 rotate-90 text-muted-foreground/60 sm:w-20 sm:rotate-0"
+      >
+        <path
+          d="M6 48 C24 42, 34 46, 40 34 C46 21, 34 16, 35 28 C37 42, 60 38, 78 26 M68 16 L82 23 L74 37"
+          stroke="currentColor"
+          strokeWidth={6}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      <WidgetCard
+        note={{ type: "text", text: "thinking of you.", timestamp: "now" }}
+        sender={siteConfig.hero.sender}
+        size="small"
+        animate={false}
+        className="w-44 rotate-2 !p-4 text-left sm:w-48"
+      />
+    </div>
+  );
+}
 
 export function BentoGrid() {
   const ref = useRef<HTMLElement>(null);
@@ -63,91 +95,30 @@ export function BentoGrid() {
             CARD_MIN_HEIGHTS[index] ?? CARD_MIN_HEIGHTS[CARD_MIN_HEIGHTS.length - 1];
           return (
             <motion.div
-              key={index}
+              key={item.id}
               style={motions[index]}
               className={cn(
-                "group relative grid grid-cols-1 grid-rows-[auto_1fr] overflow-hidden rounded-lg border border-glass-border bg-background/55 p-6 pb-0 shadow-[var(--glass-shadow)] backdrop-blur-lg sm:p-8",
+                // opaque note paper, never glass — the app's signature surface
+                "note-surface group relative grid grid-cols-1 grid-rows-[auto_1fr] overflow-hidden p-6 sm:p-8",
                 minHeight,
                 item.fullWidth && "md:col-span-2"
               )}
             >
               <div className="flex min-w-0 flex-col">
-                <h3 className="type-display-3 text-foreground">
-                  {item.title}
-                </h3>
+                <h3 className="type-display-3 text-foreground">{item.title}</h3>
                 <p className="mt-4 max-w-[52ch] type-body-lg text-foreground/70">
                   {item.content}
                 </p>
               </div>
-              <div className="mt-6 flex justify-center">
-                {item.id === "custody-comparison" ? (
-                  <CustodyComparison />
-                ) : item.id === "imessage-chat" ? (
-                  <div className="aspect-[585/422] w-full overflow-hidden rounded-[2rem] border border-white/10 [-webkit-mask-image:linear-gradient(to_bottom,black_55%,transparent)] [mask-image:linear-gradient(to_bottom,black_55%,transparent)]">
-                    <Image
-                      src={item.imageSrc}
-                      alt={item.imageAlt}
-                      width={585}
-                      height={1266}
-                      sizes="(min-width: 768px) 50vw, 100vw"
-                      className={cn(
-                        "h-full w-full select-none object-cover object-top transition-transform duration-500 group-hover:-translate-y-2",
-                        "imageSrcDark" in item && item.imageSrcDark && "dark:hidden"
-                      )}
-                      draggable={false}
-                    />
-                    {"imageSrcDark" in item && item.imageSrcDark && (
-                      <Image
-                        src={item.imageSrcDark}
-                        alt={item.imageAlt}
-                        width={585}
-                        height={1266}
-                        sizes="(min-width: 768px) 50vw, 100vw"
-                        className="hidden h-full w-full select-none object-cover object-top transition-transform duration-500 group-hover:-translate-y-2 dark:block"
-                        draggable={false}
-                      />
-                    )}
-                  </div>
-                ) : item.id === "lightning-address" ? (
-                  <div className="w-full max-w-[340px] self-end">
-                    <Image
-                      src={item.imageSrc}
-                      alt={item.imageAlt}
-                      width={585}
-                      height={686}
-                      sizes="340px"
-                      className={cn(
-                        "block h-auto w-full select-none rounded-[1.75rem] border border-foreground/10 transition-transform duration-500 group-hover:-translate-y-1",
-                        "imageSrcDark" in item && item.imageSrcDark && "dark:hidden"
-                      )}
-                      draggable={false}
-                    />
-                    {"imageSrcDark" in item && item.imageSrcDark && (
-                      <Image
-                        src={item.imageSrcDark}
-                        alt={item.imageAlt}
-                        width={585}
-                        height={686}
-                        sizes="340px"
-                        className="hidden h-auto w-full select-none rounded-[1.75rem] border border-foreground/10 transition-transform duration-500 group-hover:-translate-y-1 dark:block"
-                        draggable={false}
-                      />
-                    )}
-                  </div>
-                ) : (
-                  <Image
-                    src={item.imageSrc}
-                    alt={item.imageAlt}
-                    width={900}
-                    height={1840}
-                    sizes="200px"
-                    className={cn(
-                      "h-64 w-auto select-none object-contain object-top transition-transform duration-500 group-hover:-translate-y-2 sm:h-80",
-                      item.fullWidth && "sm:h-96"
-                    )}
-                    draggable={false}
+              <div className="mt-8 flex items-center justify-center">
+                {item.id === "audience-of-one" ? (
+                  <TwoPhones />
+                ) : item.screenshot ? (
+                  <ScreenshotPlaceholder
+                    screenshot={item.screenshot}
+                    className="max-w-[240px] transition-transform duration-500 group-hover:-translate-y-1 motion-reduce:group-hover:translate-y-0"
                   />
-                )}
+                ) : null}
               </div>
             </motion.div>
           );

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { siteConfig } from "@/lib/config";
 
 export const metadata = {
-  title: "Page not found · cashu.me",
+  title: "Page not found · zeile",
 };
 
 export default function NotFound() {
@@ -12,26 +12,23 @@ export default function NotFound() {
         [404]
       </span>
       <h1 className="mt-6 type-display-2 text-foreground">
-        Page not found.
+        This note wandered off.
       </h1>
-      <p className="mt-6 max-w-[50ch] type-lead text-foreground/75">
-        The page you asked for doesn't exist on this site. The wallet, the spec,
-        and everything else still lives at the addresses below.
+      <p className="mt-6 max-w-[46ch] type-lead text-foreground/75">
+        The page you asked for isn&apos;t here. The app and its source still
+        are, at the addresses below.
       </p>
       <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 type-label text-muted-foreground">
-        <Link
-          href="/"
-          className="transition-colors hover:text-foreground"
-        >
-          → Back to cashu.me
+        <Link href="/" className="transition-colors hover:text-primary">
+          → back to zeile
         </Link>
         <a
-          href={siteConfig.links.repo}
+          href={siteConfig.links.appRepo}
           target="_blank"
           rel="noreferrer noopener"
-          className="transition-colors hover:text-foreground"
+          className="transition-colors hover:text-primary"
         >
-          → View source on GitHub
+          → view source on GitHub
         </a>
       </div>
     </main>

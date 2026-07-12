@@ -4,20 +4,20 @@ import { useScroll, useReducedMotion, type MotionValue } from "framer-motion";
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 
-interface SkyContextValue {
+interface ScrollFieldContextValue {
   /** whole-document scroll progress, 0–1 — the single global motion source */
   progress: MotionValue<number>;
-  /** false → clouds render static (reduced motion, or below md) */
+  /** false → doodles render static (reduced motion, or below md) */
   drift: boolean;
 }
 
-const SkyContext = createContext<SkyContextValue | null>(null);
+const ScrollFieldContext = createContext<ScrollFieldContextValue | null>(null);
 
-export function useSky() {
-  return useContext(SkyContext);
+export function useScrollField() {
+  return useContext(ScrollFieldContext);
 }
 
-export function SkyProvider({ children }: { children: ReactNode }) {
+export function ScrollProvider({ children }: { children: ReactNode }) {
   const { scrollYProgress } = useScroll();
   const reduceMotion = useReducedMotion() ?? false;
   const [isDesktop, setIsDesktop] = useState(false);
@@ -31,10 +31,10 @@ export function SkyProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <SkyContext.Provider
+    <ScrollFieldContext.Provider
       value={{ progress: scrollYProgress, drift: isDesktop && !reduceMotion }}
     >
       {children}
-    </SkyContext.Provider>
+    </ScrollFieldContext.Provider>
   );
 }

@@ -4,7 +4,7 @@ interface FooterWordmarkProps {
 
 export function FooterWordmark({ text }: FooterWordmarkProps) {
   return (
-    <div className="type-wordmark uppercase text-foreground select-none">
+    <div className="type-wordmark lowercase text-primary select-none">
       {text}
     </div>
   );

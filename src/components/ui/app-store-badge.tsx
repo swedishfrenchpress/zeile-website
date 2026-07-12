@@ -7,15 +7,17 @@ interface AppStoreBadgeProps {
   className?: string;
 }
 
-// The iOS app ships via TestFlight (public beta), not the App Store yet — the badge
-// keeps the Apple mark but points at the TestFlight invite.
+// The primary CTA. While APP_STORE_URL is still the "#" placeholder the
+// badge renders as-is but stays on-page; swap the constant in lib/config.tsx
+// at launch and this becomes a real store link.
 export function AppStoreBadge({ href, className }: AppStoreBadgeProps) {
+  const isPlaceholder = href === "#";
   return (
     <a
       href={href}
-      target="_blank"
-      rel="noreferrer noopener"
-      aria-label="Download the cashu.me beta on TestFlight"
+      target={isPlaceholder ? undefined : "_blank"}
+      rel={isPlaceholder ? undefined : "noreferrer noopener"}
+      aria-label="Download zeile on the App Store"
       className={cn(storeBadgeClass, className)}
     >
       <Icons.apple
@@ -23,12 +25,10 @@ export function AppStoreBadge({ href, className }: AppStoreBadgeProps) {
         aria-hidden="true"
       />
       <span className="flex flex-col items-start leading-none">
-        <span className="type-button text-[11px] text-muted-foreground">
-          Download Beta on
+        <span className="type-button text-[11px] opacity-85">
+          Download on the
         </span>
-        <span className="mt-1 type-button text-[18px]">
-          TestFlight
-        </span>
+        <span className="mt-1 type-button text-[19px]">App Store</span>
       </span>
     </a>
   );

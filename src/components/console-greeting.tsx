@@ -6,12 +6,12 @@ export function ConsoleGreeting() {
   useEffect(() => {
     if (process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "development") return;
     if (typeof window === "undefined") return;
-    const w = window as Window & { __cashuGreeted?: boolean };
-    if (w.__cashuGreeted) return;
-    w.__cashuGreeted = true;
+    const w = window as Window & { __zeileGreeted?: boolean };
+    if (w.__zeileGreeted) return;
+    w.__zeileGreeted = true;
     console.info(
-      "%ccashu.me%c\n// bearer ecash. open protocol. open source.\n// spec: github.com/cashubtc/nuts",
-      "font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; color: #b4a7f5; font-weight: 500;",
+      "%czeile%c\n// psst — leave a little note.\n// source: github.com/swedishfrenchpress/zeile",
+      "font-family: ui-rounded, ui-monospace, monospace; font-size: 14px; color: #fb5481; font-weight: 800;",
       "font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #8a8a93;"
     );
   }, []);

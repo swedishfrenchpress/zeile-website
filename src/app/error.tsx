@@ -25,8 +25,8 @@ export default function Error({
         Something went wrong.
       </h1>
       <p className="mt-6 max-w-[50ch] type-lead text-foreground/75">
-        This page failed to load. The wallet and protocol are unaffected.
-        Try again, or return to the homepage.
+        This page failed to load. The app itself is unaffected. Try again,
+        or head back to the homepage.
       </p>
       {error.digest && (
         <span
@@ -48,7 +48,7 @@ export default function Error({
           href="/"
           className="transition-colors hover:text-foreground"
         >
-          → Back to cashu.me
+          → back to zeile
         </Link>
       </div>
     </main>

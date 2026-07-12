@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { DrawingName } from "@/components/mockups/drawings";
 
 // TODO(launch): swap for the real App Store link the day zeile ships.
 // Header, hero badge, and footer all read this one constant.
@@ -8,14 +9,17 @@ const links = {
   appStore: APP_STORE_URL,
   appRepo: "https://github.com/swedishfrenchpress/zeile",
   siteRepo: "https://github.com/swedishfrenchpress/zeile-website",
+  email: "erikcativo@pm.me",
+  contact: "/contact",
+  privacy: "/privacy",
 };
 
 /** A note as it appears on the widget mockups. */
 export interface SampleNote {
   type: "text" | "doodle";
   text?: string;
-  /** which built-in doodle drawing to render (see mockups/widget-card) */
-  doodle?: "flower" | "smiley";
+  /** which drawing to render (see mockups/drawings) */
+  doodle?: DrawingName;
   timestamp: string;
 }
 
@@ -42,19 +46,17 @@ export const siteConfig = {
     headline: "Leave a little note.",
     /** the person whose notes arrive on the hero widget */
     sender: "Sam",
-    /** cycled by the living widget in the hero */
+    /** cycled by the living widget in the hero — drawings first and mostly */
     sampleNotes: [
+      { type: "doodle", doodle: "sun", timestamp: "now" },
+      { type: "doodle", doodle: "flower", timestamp: "now" },
       {
         type: "text",
         text: "good luck today. you've got this.",
         timestamp: "now",
       },
-      { type: "doodle", doodle: "flower", timestamp: "now" },
-      {
-        type: "text",
-        text: "home at six. i'm cooking.",
-        timestamp: "now",
-      },
+      { type: "doodle", doodle: "rainbow", timestamp: "now" },
+      { type: "doodle", doodle: "hi", timestamp: "now" },
     ] as SampleNote[],
   },
   featureHighlight: [
@@ -68,7 +70,7 @@ export const siteConfig = {
     {
       title: "Or draw it instead.",
       description:
-        "Some things don't need words. Sketch with six inks and send — your doodle arrives crisp on a little white card, right next to their apps.",
+        "Some things don't need words. Sketch in any color you can think of — the whole wheel, not just a few inks — and send. Your doodle arrives crisp on a little white card, right next to their apps.",
       media: "drawing" as const,
       direction: "rtl" as const,
     },
@@ -169,14 +171,14 @@ export const siteConfig = {
       },
       {
         label: "source",
-        links: [
-          { label: "zeile on GitHub", href: links.appRepo },
-          { label: "this website", href: links.siteRepo },
-        ],
+        links: [{ label: "zeile on GitHub", href: links.appRepo }],
       },
       {
         label: "say hi",
-        links: [{ label: "GitHub", href: links.appRepo }],
+        links: [
+          { label: "contact", href: links.contact },
+          { label: "privacy policy", href: links.privacy },
+        ],
       },
     ],
   },

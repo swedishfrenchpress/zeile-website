@@ -21,14 +21,14 @@ export function AppStoreBadge({ href, className }: AppStoreBadgeProps) {
       className={cn(storeBadgeClass, className)}
     >
       <Icons.apple
-        className="size-8 flex-shrink-0 fill-current"
+        className="size-10 flex-shrink-0 fill-current"
         aria-hidden="true"
       />
       <span className="flex flex-col items-start leading-none">
-        <span className="type-button text-[11px] opacity-85">
+        <span className="type-button text-[13px] opacity-85">
           Download on the
         </span>
-        <span className="mt-1 type-button text-[19px]">App Store</span>
+        <span className="mt-1.5 type-button text-2xl">App Store</span>
       </span>
     </a>
   );

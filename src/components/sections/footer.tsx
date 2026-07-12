@@ -2,6 +2,7 @@ import { FooterWordmark } from "@/components/footer-wordmark";
 import { DoodleField } from "@/components/paper/doodle-field";
 import { SECTION_DOODLES } from "@/lib/doodles";
 import { siteConfig } from "@/lib/config";
+import Link from "next/link";
 
 export function Footer() {
   return (
@@ -28,17 +29,28 @@ export function Footer() {
               </span>
               <ul className="flex flex-col gap-1">
                 {col.links.map((link) => {
+                  const isInternal = link.href.startsWith("/");
                   const isPlaceholder = link.href === "#";
+                  const linkClass =
+                    "-mx-1 inline-block px-1 py-1.5 text-base text-foreground/85 transition-colors hover:text-primary";
                   return (
                     <li key={link.label}>
-                      <a
-                        href={link.href}
-                        target={isPlaceholder ? undefined : "_blank"}
-                        rel={isPlaceholder ? undefined : "noreferrer noopener"}
-                        className="-mx-1 inline-block px-1 py-1.5 text-base text-foreground/85 transition-colors hover:text-primary"
-                      >
-                        {link.label}
-                      </a>
+                      {isInternal ? (
+                        <Link href={link.href} className={linkClass}>
+                          {link.label}
+                        </Link>
+                      ) : (
+                        <a
+                          href={link.href}
+                          target={isPlaceholder ? undefined : "_blank"}
+                          rel={
+                            isPlaceholder ? undefined : "noreferrer noopener"
+                          }
+                          className={linkClass}
+                        >
+                          {link.label}
+                        </a>
+                      )}
                     </li>
                   );
                 })}

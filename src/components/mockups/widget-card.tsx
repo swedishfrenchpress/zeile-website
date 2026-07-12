@@ -1,19 +1,23 @@
 "use client";
 
+import { Drawing } from "@/components/mockups/drawings";
 import type { SampleNote } from "@/lib/config";
 import { easeOutCubic, easeOutQuart } from "@/lib/animation";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 /**
  * A pixel-faithful CSS recreation of the zeile home-screen widget — the
  * app's "front door" (ZeileWidgetView). Blush widget paper, a soft rose
  * bloom in the top-left by the heart, "♥ from <name>" in the rounded voice,
- * and the note (text or doodle) as the hero.
+ * and the note (text or drawing) as the hero.
  *
  * The heart here is THE one heart on the entire site (the app's One-Heart
  * Rule: it marks a note that came from your person — never decoration).
- * It pops once per arriving note, spring-in, never loops.
+ * It pops once when the widget first appears, and never again.
+ *
+ * The card itself never moves or re-mounts: arriving notes crossfade in
+ * place inside a fixed-height body, so cycling causes zero layout shift.
  */
 
 export function HeartMark({ className }: { className?: string }) {
@@ -29,87 +33,11 @@ export function HeartMark({ className }: { className?: string }) {
   );
 }
 
-/* The note drawings — quick pen sketches as they'd arrive from the canvas.
-   Fixed ink palette (--ink-*): drawings always composite on canvas white,
-   exactly like the app's PencilKit exports. */
-const WIDGET_DRAWINGS: Record<
-  "flower" | "smiley",
-  { paths: { d: string; ink: string }[]; viewBox: string; label: string }
-> = {
-  flower: {
-    viewBox: "0 0 100 100",
-    label: "A hand-drawn flower",
-    paths: [
-      {
-        d: "M50 40 C43 18, 59 16, 52 36 C70 22, 80 36, 56 42 C78 48, 70 64, 52 46 C55 68, 39 66, 47 46 C26 56, 20 38, 45 38",
-        ink: "var(--ink-red)",
-      },
-      {
-        d: "M50 50 C48 64, 52 76, 47 92 M47 74 C40 68, 34 68, 28 72",
-        ink: "var(--ink-green)",
-      },
-    ],
-  },
-  smiley: {
-    viewBox: "0 0 100 100",
-    label: "A hand-drawn smiley face",
-    paths: [
-      {
-        d: "M50 10 C74 10, 90 28, 89 51 C88 74, 71 90, 49 89 C27 88, 11 71, 12 49 C13 27, 28 11, 50 10 Z",
-        ink: "var(--ink-orange)",
-      },
-      {
-        d: "M37 40 C37 43, 37 45, 37 48 M64 39 C64 42, 64 44, 64 47 M33 62 C40 72, 60 73, 68 61",
-        ink: "var(--ink-charcoal)",
-      },
-    ],
-  },
-};
-
-function NoteDrawing({
-  drawing,
-  animate,
-  className,
-}: {
-  drawing: "flower" | "smiley";
-  animate: boolean;
-  className?: string;
-}) {
-  const art = WIDGET_DRAWINGS[drawing];
-  return (
-    <svg
-      viewBox={art.viewBox}
-      fill="none"
-      role="img"
-      aria-label={art.label}
-      className={className}
-    >
-      {art.paths.map((path, i) => (
-        <motion.path
-          key={i}
-          d={path.d}
-          stroke={path.ink}
-          strokeWidth={6}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          initial={animate ? { pathLength: 0 } : false}
-          animate={{ pathLength: 1 }}
-          transition={
-            animate
-              ? { duration: 0.9, ease: easeOutCubic, delay: 0.25 + i * 0.55 }
-              : { duration: 0 }
-          }
-        />
-      ))}
-    </svg>
-  );
-}
-
 interface WidgetCardProps {
   note: SampleNote;
   sender: string;
   size?: "small" | "medium";
-  /** play the arrival animation (heart pop, word stagger, self-drawing ink) */
+  /** play arrival animations (crossfade, word stagger, self-drawing ink) */
   animate?: boolean;
   className?: string;
 }
@@ -121,9 +49,50 @@ export function WidgetCard({
   animate = false,
   className,
 }: WidgetCardProps) {
-  const words = note.text?.split(" ") ?? [];
-
   const compact = size === "small";
+  const words = note.text?.split(" ") ?? [];
+  const noteKey = note.type === "text" ? note.text : note.doodle;
+
+  const body =
+    note.type === "text" ? (
+      <p
+        className={cn(
+          "text-foreground",
+          compact
+            ? "font-display text-[15px] font-semibold leading-snug"
+            : "type-note"
+        )}
+      >
+        {animate
+          ? words.map((word, i) => (
+              <motion.span
+                key={`${word}-${i}`}
+                className="inline-block whitespace-pre"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.3,
+                  ease: easeOutQuart,
+                  delay: 0.2 + i * 0.06,
+                }}
+              >
+                {word}
+                {i < words.length - 1 ? " " : ""}
+              </motion.span>
+            ))
+          : note.text}
+      </p>
+    ) : (
+      // drawings keep their white-composited card, hairline-framed,
+      // so ink reads in light and dark alike
+      <div className="flex aspect-square h-full max-h-full items-center justify-center rounded-[12px] border border-border bg-canvas-white p-2">
+        <Drawing
+          name={note.doodle ?? "flower"}
+          animate={animate}
+          className="h-full w-auto"
+        />
+      </div>
+    );
 
   return (
     <div
@@ -175,49 +144,24 @@ export function WidgetCard({
           </span>
         </div>
 
-        {note.type === "text" ? (
-          <div className="flex flex-1 items-center">
-            <p
+        {/* fixed-height stage: notes crossfade in place, never reflow */}
+        <div className={cn("relative flex-1", compact ? "mt-2" : "mt-3")}>
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={noteKey}
               className={cn(
-                "text-foreground",
-                compact
-                  ? "font-display text-[15px] font-semibold leading-snug"
-                  : "type-note"
+                "absolute inset-0 flex items-center",
+                note.type === "doodle" && !compact && "justify-center"
               )}
+              initial={animate ? { opacity: 0 } : false}
+              animate={{ opacity: 1 }}
+              exit={animate ? { opacity: 0 } : undefined}
+              transition={{ duration: 0.4, ease: easeOutCubic }}
             >
-              {animate
-                ? words.map((word, i) => (
-                    <motion.span
-                      key={`${word}-${i}`}
-                      className="inline-block whitespace-pre"
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.3,
-                        ease: easeOutQuart,
-                        delay: 0.25 + i * 0.06,
-                      }}
-                    >
-                      {word}
-                      {i < words.length - 1 ? " " : ""}
-                    </motion.span>
-                  ))
-                : note.text}
-            </p>
-          </div>
-        ) : (
-          <div className="mt-3 flex flex-1 items-center justify-start">
-            {/* drawings keep their white-composited card, hairline-framed,
-                so ink reads in light and dark alike */}
-            <div className="flex aspect-square h-full max-h-full items-center justify-center rounded-[12px] border border-border bg-canvas-white p-2">
-              <NoteDrawing
-                drawing={note.doodle ?? "flower"}
-                animate={animate}
-                className="h-full w-auto"
-              />
-            </div>
-          </div>
-        )}
+              {body}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );

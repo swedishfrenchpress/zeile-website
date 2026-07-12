@@ -18,7 +18,8 @@ import Link from "next/link";
 
 const links = [
   { label: "zeile on GitHub", href: siteConfig.links.appRepo, external: true },
-  { label: "this website", href: siteConfig.links.siteRepo, external: true },
+  { label: "contact", href: siteConfig.links.contact, external: false },
+  { label: "privacy policy", href: siteConfig.links.privacy, external: false },
 ];
 
 export function MobileDrawer() {
@@ -57,7 +58,9 @@ export function MobileDrawer() {
               className="flex items-center justify-between rounded-none py-3 text-base text-foreground/90 transition-colors hover:text-foreground"
             >
               <span>{link.label}</span>
-              <Icons.github className="size-4 text-muted-foreground" />
+              {link.external && (
+                <Icons.github className="size-4 text-muted-foreground" />
+              )}
             </a>
           ))}
         </nav>

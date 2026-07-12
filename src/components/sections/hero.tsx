@@ -13,7 +13,7 @@ import {
 } from "@/lib/animation";
 import { SECTION_DOODLES } from "@/lib/doodles";
 import { siteConfig } from "@/lib/config";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const NOTE_CYCLE_MS = 5200;
@@ -75,7 +75,7 @@ export function Hero() {
             A notification chip drops in, the card spring-settles, the heart
             pops once, the note reveals. This replaces any hero screenshot:
             the widget IS the product. */}
-        <div className="relative mt-10 flex justify-center sm:mt-12">
+        <div className="relative mt-10 flex w-full justify-center sm:mt-12">
           <motion.div
             initial={reduceMotion ? false : { y: 16, filter: "blur(8px)" }}
             animate={{ y: 0, filter: "blur(0px)" }}
@@ -90,52 +90,24 @@ export function Hero() {
             }
             className="w-full max-w-[340px] sm:max-w-[400px] md:max-w-[440px]"
           >
-            {/* the arriving notification banner */}
+            {/* the notification banner — static; arriving notes crossfade
+                inside the card below, so nothing on the page ever shifts */}
             <div className="mb-3 flex justify-center" aria-hidden>
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={`chip-${noteIndex}`}
-                  initial={reduceMotion ? false : { y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={reduceMotion ? undefined : { y: -12, opacity: 0 }}
-                  transition={
-                    reduceMotion
-                      ? { duration: 0 }
-                      : { type: "spring", bounce: 0.3, duration: 0.5 }
-                  }
-                  className="inline-flex items-center gap-2 rounded-full bg-paper px-4 py-1.5 shadow-[var(--paper-shadow)]"
-                >
-                  <span className="size-2 rounded-full bg-primary" />
-                  <span className="text-xs font-semibold text-muted-foreground">
-                    zeile · a note from {sender}
-                  </span>
-                </motion.div>
-              </AnimatePresence>
+              <div className="inline-flex items-center gap-2 rounded-full bg-paper px-4 py-1.5 shadow-[var(--paper-shadow)]">
+                <span className="size-2 rounded-full bg-primary" />
+                <span className="text-xs font-semibold text-muted-foreground">
+                  zeile · a note from {sender}
+                </span>
+              </div>
             </div>
 
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={noteIndex}
-                initial={
-                  reduceMotion ? false : { scale: 0.97, y: 8, opacity: 0 }
-                }
-                animate={{ scale: 1, y: 0, opacity: 1 }}
-                exit={reduceMotion ? undefined : { y: -6, opacity: 0 }}
-                transition={
-                  reduceMotion
-                    ? { duration: 0 }
-                    : { type: "spring", bounce: 0.3, duration: 0.55 }
-                }
-              >
-                <WidgetCard
-                  note={note}
-                  sender={sender}
-                  size="medium"
-                  animate={!reduceMotion}
-                  className="text-left"
-                />
-              </motion.div>
-            </AnimatePresence>
+            <WidgetCard
+              note={note}
+              sender={sender}
+              size="medium"
+              animate={!reduceMotion}
+              className="text-left"
+            />
           </motion.div>
         </div>
 

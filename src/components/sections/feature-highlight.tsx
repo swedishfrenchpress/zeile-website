@@ -1,6 +1,8 @@
 "use client";
 
 import { Section } from "@/components/section";
+import { Drawing, DRAWINGS } from "@/components/mockups/drawings";
+import type { DrawingName } from "@/components/mockups/drawings";
 import { WidgetCard } from "@/components/mockups/widget-card";
 import { siteConfig } from "@/lib/config";
 import {
@@ -9,7 +11,7 @@ import {
   REVEAL_DURATION_SM,
 } from "@/lib/animation";
 import { cn } from "@/lib/utils";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 interface FeatureLayout {
@@ -74,79 +76,100 @@ function HomeScreenWidget({ reduceMotion }: { reduceMotion: boolean }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Media: the drawing canvas where a doodle draws itself              */
+/* Media: the drawing carousel — six sketches, dot-per-drawing        */
 /* ------------------------------------------------------------------ */
 
-const CANVAS_STROKES: { d: string; ink: string }[] = [
-  // flower head — red ink
-  {
-    d: "M50 34 C43 14, 58 12, 52 30 C68 18, 78 30, 55 36 C76 42, 68 56, 51 40 C54 60, 39 58, 46 40 C24 48, 20 32, 44 32",
-    ink: "var(--ink-red)",
-  },
-  // stem + leaf — green ink
-  {
-    d: "M49 42 C47 56, 51 66, 46 82 M46 66 C39 60, 33 60, 27 64",
-    ink: "var(--ink-green)",
-  },
-  // "hi" underline flourish — charcoal
-  { d: "M62 74 C70 70, 80 71, 88 73", ink: "var(--ink-charcoal)" },
+const CAROUSEL: DrawingName[] = [
+  "flower",
+  "sun",
+  "star",
+  "coffee",
+  "hi",
+  "rainbow",
 ];
 
-const INK_SWATCHES = [
-  "var(--ink-charcoal)",
-  "var(--ink-red)",
-  "var(--ink-orange)",
-  "var(--ink-green)",
-  "var(--ink-blue)",
-  "var(--ink-purple)",
-];
+const CAROUSEL_INTERVAL_MS = 3800;
 
-function DrawingCanvas({ reduceMotion }: { reduceMotion: boolean }) {
+function DrawingCarousel({ reduceMotion }: { reduceMotion: boolean }) {
+  const [index, setIndex] = useState(0);
+  const [inView, setInView] = useState(false);
+  const name = CAROUSEL[index];
+
+  // Auto-advance only while on screen and motion is welcome; a manual dot
+  // click restarts the timer (index is a dependency). Reduced motion keeps
+  // the dots fully usable — it just never advances on its own.
+  useEffect(() => {
+    if (reduceMotion || !inView) return;
+    const timer = setInterval(
+      () => setIndex((i) => (i + 1) % CAROUSEL.length),
+      CAROUSEL_INTERVAL_MS
+    );
+    return () => clearInterval(timer);
+  }, [reduceMotion, inView, index]);
+
   return (
     <div className="w-full max-w-[320px]">
       {/* the drawing ground is always canvas white — strokes must read the
-          same in light and dark, exactly like the app's PencilKit exports */}
-      <div
-        role="img"
-        aria-label="The zeile drawing canvas with a hand-drawn flower"
-        className="relative flex aspect-square items-center justify-center overflow-hidden rounded-note border border-rose-hairline bg-canvas-white p-6 shadow-[var(--paper-shadow)]"
+          same in light and dark, exactly like the app's PencilKit exports.
+          Fixed square stage: drawings crossfade in place, nothing reflows. */}
+      <motion.div
+        className="relative aspect-square overflow-hidden rounded-note border border-rose-hairline bg-canvas-white shadow-[var(--paper-shadow)]"
+        onViewportEnter={() => setInView(true)}
+        onViewportLeave={() => setInView(false)}
+        viewport={{ margin: "-80px" }}
       >
-        <svg viewBox="0 0 100 100" fill="none" className="h-full w-full">
-          {CANVAS_STROKES.map((stroke, i) => (
-            <motion.path
-              key={i}
-              d={stroke.d}
-              stroke={stroke.ink}
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={name}
+            className="absolute inset-0 flex items-center justify-center p-6"
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={reduceMotion ? undefined : { opacity: 0 }}
+            transition={{ duration: 0.35, ease: easeOutCubic }}
+          >
+            <Drawing
+              name={name}
+              animate={!reduceMotion}
               strokeWidth={5}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              initial={reduceMotion ? false : { pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={
-                reduceMotion
-                  ? { duration: 0 }
-                  : { duration: 0.9, ease: easeOutCubic, delay: 0.2 + i * 0.5 }
-              }
+              className="h-full w-full"
             />
-          ))}
-        </svg>
-      </div>
-      {/* the ink control bar: six inks, charcoal selected */}
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
+
+      {/* carousel dots, one per drawing, each wearing its drawing's color —
+          the rainbow dot is the full wheel (zeile supports every color) */}
       <div
-        aria-hidden
+        role="tablist"
+        aria-label="Example drawings"
         className="mt-5 flex items-center justify-center gap-4"
       >
-        {INK_SWATCHES.map((ink, i) => (
-          <span
-            key={ink}
-            className={cn(
-              "size-4 rounded-full",
-              i === 0 && "ring-2 ring-ring ring-offset-2 ring-offset-background"
-            )}
-            style={{ backgroundColor: ink }}
-          />
-        ))}
+        {CAROUSEL.map((drawingName, i) => {
+          const dot = DRAWINGS[drawingName].dot;
+          return (
+            <button
+              key={drawingName}
+              type="button"
+              role="tab"
+              aria-selected={i === index}
+              aria-label={`Show ${DRAWINGS[drawingName].label}`}
+              onClick={() => setIndex(i)}
+              className={cn(
+                "size-4 rounded-full transition-transform duration-200 ease-out-quart hover:scale-110 motion-reduce:hover:scale-100",
+                i === index &&
+                  "ring-2 ring-ring ring-offset-2 ring-offset-background"
+              )}
+              style={
+                dot === "rainbow"
+                  ? {
+                      background:
+                        "conic-gradient(#e63836, #f2851a, #f2c048, #2e943d, #2663eb, #7d3bed, #e63836)",
+                    }
+                  : { backgroundColor: dot }
+              }
+            />
+          );
+        })}
       </div>
     </div>
   );
@@ -231,7 +254,7 @@ function Feature({
         {media === "widget" ? (
           <HomeScreenWidget reduceMotion={reduceMotion} />
         ) : (
-          <DrawingCanvas reduceMotion={reduceMotion} />
+          <DrawingCarousel reduceMotion={reduceMotion} />
         )}
       </div>
     </div>

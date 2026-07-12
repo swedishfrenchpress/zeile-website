@@ -20,7 +20,7 @@ import { motion } from "framer-motion";
  */
 
 export type DrawingName =
-  | "kiss"
+  | "cheeks"
   | "cat"
   | "icecream"
   | "cheers"
@@ -45,39 +45,58 @@ export interface DrawingSpec {
 }
 
 export const DRAWINGS: Record<DrawingName, DrawingSpec> = {
-  // two stick people, heads together, holding hands — heart overhead
-  kiss: {
-    label: "two people kissing under a heart",
+  // two faces squished cheek to cheek, heart overhead
+  cheeks: {
+    label: "two faces cheek to cheek under a heart",
     dot: "#e63836",
     tilt: -2,
     paths: [
-      // left person: thin-pen head, marker body
+      // left face — medium pen
       {
-        d: "M37 28 C43 28, 47 33, 46 39 C45 45, 38 47, 33 44 C28 41, 28 33, 35 29",
+        d: "M34 38 C43 37, 49 45, 48 54 C47 63, 38 68, 30 65 C22 62, 19 51, 25 43 C27 40, 30 38, 34 38",
         color: "#1c1c1f",
+        w: 4.5,
+      },
+      // right face, leaning in
+      {
+        d: "M62 36 C71 37, 77 45, 75 54 C73 63, 63 67, 55 63 C48 60, 46 49, 51 42 C54 38, 58 36, 62 36",
+        color: "#1c1c1f",
+        w: 4.5,
+      },
+      // left one's purple bob — loose thin arcs
+      {
+        d: "M22 46 C18 34, 28 26, 37 28 C33 31, 31 34, 31 38 M37 28 C43 26, 48 30, 49 36",
+        color: "#7d3bed",
         w: 3.5,
       },
+      // right one's green spikes, sticking up
       {
-        d: "M39 47 C37 55, 36 63, 37 72 M38 55 C43 58, 47 61, 50 66 M37 72 C33 78, 31 82, 28 88 M37 72 C40 78, 42 83, 43 89",
-        color: "#1c1c1f",
-        w: 5.5,
-      },
-      // right person
-      {
-        d: "M56 27 C62 27, 66 32, 65 38 C64 44, 57 46, 52 43 C48 40, 48 32, 54 28",
-        color: "#1c1c1f",
+        d: "M53 34 C54 31, 55 29, 56 26 M60 32 C61 29, 61 27, 62 24 M67 33 C68 31, 70 28, 71 26",
+        color: "#2e943d",
         w: 3.5,
       },
+      // happy shut eyes and smiles — thin pen
       {
-        d: "M58 46 C60 54, 61 62, 60 71 M57 54 C53 58, 51 62, 50 66 M60 71 C64 77, 66 82, 69 88 M60 71 C57 78, 55 83, 53 89",
+        d: "M29 50 C30 48, 32 48, 33 50 M39 50 C40 48, 42 48, 43 50 M31 58 C33 60, 36 60, 38 58",
         color: "#1c1c1f",
-        w: 5.5,
+        w: 2.8,
+      },
+      {
+        d: "M58 48 C59 46, 61 46, 62 48 M68 48 C69 46, 71 46, 72 48 M60 56 C63 58, 66 58, 68 56",
+        color: "#1c1c1f",
+        w: 2.8,
+      },
+      // blush, both of them — thinnest
+      {
+        d: "M26 55 C27 55, 28 55, 29 55 M43 54 C44 54, 45 54, 46 54 M57 53 C58 53, 59 53, 60 53 M71 52 C72 52, 73 52, 74 52",
+        color: "#ff7ba9",
+        w: 2.5,
       },
       // the heart — fat marker, a bit lopsided, like always
       {
-        d: "M48 12 C46 7, 39 8, 40 14 C41 19, 45 21, 48 24 C52 20, 56 18, 56 13 C56 7, 50 7, 48 11",
+        d: "M47 18 C45 12, 38 13, 39 19 C40 24, 44 26, 47 30 C51 26, 56 24, 55 18 C54 12, 48 13, 47 17",
         color: "#e63836",
-        w: 6.5,
+        w: 6,
       },
     ],
   },
@@ -99,15 +118,21 @@ export const DRAWINGS: Record<DrawingName, DrawingSpec> = {
         color: "#7d3bed",
         w: 2.8,
       },
-      // body leaning into the groove, arms up, one leg kicked
+      // plump little body, mid-wiggle
       {
-        d: "M50 43 C48 51, 47 59, 50 66 M48 48 C42 43, 36 41, 29 43 M52 48 C59 42, 65 41, 71 44 M50 66 C45 72, 40 77, 34 80 M50 66 C55 73, 57 79, 56 86",
+        d: "M45 42 C37 46, 34 57, 39 65 C44 73, 58 73, 63 65 C68 57, 64 46, 56 42",
         color: "#7d3bed",
         w: 6,
       },
+      // stubby arms up and legs kicking
+      {
+        d: "M41 48 C36 44, 32 42, 27 43 M60 47 C65 43, 69 42, 74 44 M45 71 C43 76, 41 80, 38 83 M58 71 C60 76, 62 80, 65 84",
+        color: "#7d3bed",
+        w: 5,
+      },
       // tail with a happy curl — lighter stroke
       {
-        d: "M51 58 C60 60, 66 55, 64 47 C63 42, 58 43, 60 48",
+        d: "M63 60 C71 60, 76 53, 72 46 C70 42, 65 44, 68 48",
         color: "#7d3bed",
         w: 4,
       },
@@ -225,12 +250,6 @@ export const DRAWINGS: Record<DrawingName, DrawingSpec> = {
         color: "#1c1c1f",
         w: 2.5,
       },
-      // neck and shoulders — marker
-      {
-        d: "M39 54 C39 60, 38 64, 39 69 M26 80 C31 72, 38 69, 43 71 C49 69, 56 72, 60 80",
-        color: "#1c1c1f",
-        w: 5.5,
-      },
     ],
   },
   // someone with a messy bun, already half asleep
@@ -262,12 +281,6 @@ export const DRAWINGS: Record<DrawingName, DrawingSpec> = {
         d: "M49 46 C52 45, 53 48, 50 49 C48 50, 47 47, 49 46",
         color: "#1c1c1f",
         w: 3,
-      },
-      // shoulders, sinking — marker
-      {
-        d: "M40 54 C40 59, 39 63, 40 67 M27 78 C32 70, 39 68, 44 70 C50 68, 57 71, 61 78",
-        color: "#1c1c1f",
-        w: 5.5,
       },
       // zzz, climbing away and growing — three weights
       {

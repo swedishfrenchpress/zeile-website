@@ -1,0 +1,350 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@keyframes cashu-loading {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@utility animate-cashu-loading {
+  animation: cashu-loading 1.4s ease-in-out infinite;
+}
+
+/* Container — shared page-width wrapper. Horizontal padding (px-6 lg:px-10)
+   stays a plain Tailwind utility at each call site; only the invariant,
+   copy-pasted part (centering + max-width) is extracted here. */
+@utility container-page {
+  margin-inline: auto;
+  max-width: var(--max-container-width);
+}
+
+/* Type ramp — DESIGN.md specimen scale.
+   Single source of truth for the editorial type system.
+   See /PRODUCT.md and /DESIGN.md for the brand spec. */
+
+@utility type-wordmark {
+  font-family: var(--font-display);
+  /* 18vw alone would need viewports >= ~356px to clear the 4rem floor;
+     below that "cashu.me" (one unbreakable word) overflows its container.
+     3.25rem keeps it inside the narrowest supported viewport (320px). */
+  font-size: clamp(3.25rem, 18vw, 14rem);
+  font-weight: 600;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+
+@utility type-display-1 {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 10vw, 10.5rem);
+  font-weight: 500;
+  /* Light text on dark backgrounds needs more line-height breathing room
+     (DESIGN.md Typography > Scale); 0.94 let descenders/ascenders across
+     wrapped lines collide (e.g. "phone," over "keep"). */
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+@utility type-display-2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6.2vw, 6.25rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+@utility type-display-3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 3rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+@utility type-subhead {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 1.4vw + 0.5rem, 1.5rem);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+@utility type-lead {
+  font-size: clamp(1.25rem, 1.3vw + 0.7rem, 1.625rem);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.008em;
+  text-wrap: pretty;
+}
+
+@utility type-body-lg {
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+@utility type-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@utility type-button {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Daylight sky theme (default). The page background IS the sky: a near-flat
+   vertical gradient from --sky-top (page top, deeper — zenith) to --sky-bottom
+   (page bottom, paler — horizon). Every neutral is blue-tinted per the
+   No-Pure-Black/White rule; hue sits at ~240 to match the sky.
+   Contrast on sky (WCAG): foreground 15.9:1 · muted-foreground 6.6:1 ·
+   primary #5b46d4 ≥4.5:1 (small text OK). #7a66e8 is display-scale only. */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+  --sky-top: #c9e2f5;
+  --sky-bottom: #dcedf9;
+  --background: #cfe5f7;
+  /* Clouds are pure white + alpha; daylight shows them untouched. */
+  --cloud-filter: none;
+  /* Frosted-glass chrome: hairline, hover hairline, inset highlight + drop. */
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-border-strong: rgba(255, 255, 255, 0.7);
+  --glass-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.55),
+    0 8px 24px -12px rgba(30, 64, 120, 0.28);
+  --foreground: oklch(16% 0.015 260);
+  --muted: oklch(94% 0.02 240);
+  --muted-foreground: oklch(42% 0.03 255);
+  --border: oklch(78% 0.035 240);
+  --input: oklch(78% 0.035 240);
+  --ring: #5b46d4;
+  --primary: #5b46d4;
+  --primary-foreground: oklch(98% 0.005 260);
+  --secondary: oklch(87% 0.035 240);
+  --secondary-foreground: oklch(16% 0.015 260);
+  --accent: oklch(87% 0.035 240);
+  --accent-foreground: oklch(16% 0.015 260);
+  --destructive: oklch(50% 0.19 29.6);
+  --destructive-foreground: oklch(98% 0.005 260);
+  --card: oklch(94% 0.02 240);
+  --card-foreground: oklch(16% 0.015 260);
+  --scan: #16a34a;
+}
+
+/* Night theme, driven by system preference (next-themes) with a manual
+   override in the nav. The sky collapses to a flat near-black (#070708);
+   the same white-alpha cloud PNGs are dimmed to moonlit gray via
+   --cloud-filter. Contrast on night sky (WCAG): foreground 19.0:1 ·
+   muted-foreground 7.5:1 · primary #b4a7f5 9.4:1 · foreground over the
+   densest cloud core 5.4:1 at brightness(0.42) — do not raise past 0.45. */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --sky-top: oklch(13% 0.003 280);
+  --sky-bottom: oklch(13% 0.003 280);
+  --background: oklch(13% 0.003 280);
+  --cloud-filter: brightness(0.42);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-border-strong: rgba(255, 255, 255, 0.22);
+  --glass-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+    0 8px 24px -12px rgba(0, 0, 0, 0.6);
+  --foreground: oklch(98% 0.003 280);
+  --muted: oklch(20% 0.003 280);
+  --muted-foreground: oklch(70% 0.01 280);
+  --border: oklch(25% 0.005 280);
+  --input: oklch(25% 0.005 280);
+  --ring: #b4a7f5;
+  --primary: #b4a7f5;
+  --primary-foreground: oklch(13% 0.003 280);
+  --secondary: oklch(18% 0.005 280);
+  --secondary-foreground: oklch(98% 0.003 280);
+  --accent: oklch(18% 0.005 280);
+  --accent-foreground: oklch(98% 0.003 280);
+  --destructive: oklch(0.627 0.201 29.6);
+  --destructive-foreground: oklch(98% 0.003 280);
+  --card: oklch(15% 0.003 280);
+  --card-foreground: oklch(98% 0.003 280);
+  --scan: #86efac;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-scan: var(--scan);
+  --color-glass-border: var(--glass-border);
+  --color-glass-border-strong: var(--glass-border-strong);
+
+  --font-display:
+    var(--font-manrope), ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans:
+    var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:
+    var(--font-azeret-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    monospace;
+
+  --max-container-width: 1200px;
+
+  --section-y-tight: clamp(4rem, 8vw, 6rem);
+  --section-y-base: clamp(6rem, 12vw, 10rem);
+  --section-y-wide: clamp(8rem, 16vw, 14rem);
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* overscroll/rubber-band areas match the page top */
+  background: var(--sky-top);
+}
+
+body {
+  position: relative;
+  /* The sky: one near-flat gradient across the whole document, deeper at the
+     top (zenith) and palest behind the dense FAQ/footer (horizon). */
+  background: linear-gradient(180deg, var(--sky-top), var(--sky-bottom));
+  color: var(--foreground);
+  /* drifting decorative clouds must never create a horizontal scrollbar */
+  overflow-x: clip;
+  font-family: var(--font-sans);
+  font-feature-settings: "kern", "ss01";
+  font-kerning: normal;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle grain — matte printed ink texture across the whole page. Kept over
+   the sky at reduced strength: it keeps the pale gradient from reading as a
+   stock fintech backdrop and dithers away any gradient banding. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Faint vignette so edges fall away from the content — blue-gray and much
+   lighter than the dark theme's: heavy black corners on a pale sky read as
+   storm-light. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    rgba(58, 90, 132, 0.12) 100%
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @media (min-width: 768px) {
+    body::before {
+      opacity: 0.04;
+    }
+  }
+}
+
+/* Belt-and-braces: any animation that slips past a useReducedMotion()
+   gate (third-party libs, CSS-driven loops) still resolves instantly. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Uniform focus ring across every interactive element.
+   Keyboard users should never see a browser-blue default. */
+:where(a, button, [role="button"], summary, [data-radix-collection-item]):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* FAQ accordion — let the native <details> panel unfold instead of snapping.
+   Driven entirely by ::details-content + interpolate-size, so the markup stays
+   native (keyboard, SEO, no JS). Chromium animates the open/close; engines
+   without these features fall back to the instant native toggle. Reduced-motion
+   users always get the instant toggle (and the global killswitch below). */
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
+  details.accordion-item::details-content {
+    block-size: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      block-size 320ms cubic-bezier(0.25, 1, 0.5, 1),
+      opacity 240ms cubic-bezier(0.25, 1, 0.5, 1),
+      content-visibility 320ms allow-discrete;
+  }
+
+  details.accordion-item[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+}

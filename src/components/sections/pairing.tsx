@@ -1,10 +1,13 @@
 "use client";
 
 import { Section } from "@/components/section";
-import { CodeChip } from "@/components/mockups/code-chip";
+import { PhoneFrame } from "@/components/mockups/phone-frame";
+import {
+  CreatePairScreen,
+  JoinPairScreen,
+} from "@/components/mockups/pairing-screens";
 import {
   easeOutCubic,
-  easeOutQuart,
   REVEAL_DURATION_LG,
   REVEAL_DURATION_MD,
   REVEAL_STAGGER,
@@ -12,24 +15,9 @@ import {
 import { siteConfig } from "@/lib/config";
 import { motion, useReducedMotion } from "framer-motion";
 
-/** a small outlined phone, one on each side of the code — the two of you */
-function PhoneSilhouette({ flip }: { flip?: boolean }) {
-  return (
-    <div
-      aria-hidden
-      className={`hidden shrink-0 sm:block ${flip ? "rotate-6" : "-rotate-6"}`}
-    >
-      <div className="flex h-32 w-[4.25rem] flex-col items-center rounded-[18px] border-2 border-border p-2">
-        <div className="mt-1 h-1 w-6 rounded-full bg-border" />
-        <div className="mt-3 w-full flex-1 rounded-[8px] bg-rose-wash" />
-      </div>
-    </div>
-  );
-}
-
 export function Pairing() {
   const reduceMotion = useReducedMotion() ?? false;
-  const { title, description, sampleCode } = siteConfig.pairing;
+  const { title, description } = siteConfig.pairing;
 
   return (
     <Section
@@ -38,9 +26,9 @@ export function Pairing() {
       hideHeader
       className="container-page px-6 py-[var(--section-y-base)] lg:px-10"
     >
-      {/* Centered "specimen plate": the pairing code is the whole setup
-          story, so it earns the middle of the page as a deliberate breakout —
-          the one mono, one glass moment on the site. */}
+      {/* Centered "specimen plate": the app's real pairing screens, side by
+          side — one phone sharing the code, the other mid-typing it in.
+          The setup story told with the actual UI, recreated in CSS. */}
       <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
         <motion.div
           initial={
@@ -53,9 +41,9 @@ export function Pairing() {
               ? { duration: 0 }
               : { duration: REVEAL_DURATION_LG, ease: easeOutCubic }
           }
-          className="relative flex items-center gap-8"
+          className="relative flex items-start justify-center gap-4 sm:gap-8"
         >
-          {/* warm rose haze so the translucent chip has something to blur */}
+          {/* warm rose haze pooling behind the pair of phones */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 flex items-center justify-center"
@@ -63,30 +51,19 @@ export function Pairing() {
             <div className="size-[420px] rounded-full bg-primary/[0.09] blur-[120px]" />
           </div>
 
-          <PhoneSilhouette />
+          <PhoneFrame
+            label={`zeile's create-pair screen: share this code, ${siteConfig.pairing.sampleCode}`}
+            className="w-[148px] -rotate-3 sm:w-48 md:w-52"
+          >
+            <CreatePairScreen />
+          </PhoneFrame>
 
-          <div className="relative">
-            {!reduceMotion && (
-              <div aria-hidden className="pointer-events-none absolute inset-0">
-                {[0, 1].map((i) => (
-                  <motion.span
-                    key={i}
-                    className="absolute inset-0 rounded-[16px] border border-primary/25"
-                    animate={{ scale: [1, 1.18], opacity: [0.6, 0] }}
-                    transition={{
-                      duration: 2.6,
-                      repeat: Infinity,
-                      ease: easeOutQuart,
-                      delay: i * 1.3,
-                    }}
-                  />
-                ))}
-              </div>
-            )}
-            <CodeChip code={sampleCode} className="relative" />
-          </div>
-
-          <PhoneSilhouette flip />
+          <PhoneFrame
+            label="zeile's join screen: typing the code in"
+            className="mt-6 w-[148px] rotate-3 sm:w-48 md:w-52"
+          >
+            <JoinPairScreen />
+          </PhoneFrame>
         </motion.div>
 
         <motion.h2

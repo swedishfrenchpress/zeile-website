@@ -123,11 +123,13 @@ export function WidgetCard({
 }: WidgetCardProps) {
   const words = note.text?.split(" ") ?? [];
 
+  const compact = size === "small";
+
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-[22px] bg-widget-paper p-5 shadow-[var(--paper-shadow)] sm:p-6",
-        size === "medium" ? "aspect-[2.05/1]" : "aspect-square",
+        "relative overflow-hidden rounded-[22px] border border-black/[0.05] bg-widget-paper shadow-[var(--paper-shadow)] dark:border-white/[0.07]",
+        compact ? "aspect-square rounded-[18px] p-4" : "aspect-[2.05/1] p-5 sm:p-6",
         className
       )}
     >
@@ -142,9 +144,9 @@ export function WidgetCard({
       />
 
       <div className="relative flex h-full flex-col">
-        <div className="flex items-center gap-1.5">
+        <div className={cn("flex items-center gap-1.5", compact && "gap-1")}>
           <motion.span
-            className="inline-flex text-primary"
+            className="inline-flex shrink-0 text-primary"
             initial={animate ? { scale: 0 } : false}
             animate={{ scale: 1 }}
             transition={
@@ -153,37 +155,56 @@ export function WidgetCard({
                 : { duration: 0 }
             }
           >
-            <HeartMark className="size-3.5" />
+            <HeartMark className={compact ? "size-3" : "size-3.5"} />
           </motion.span>
-          <span className="font-display text-sm font-bold text-primary">
+          <span
+            className={cn(
+              "whitespace-nowrap font-display font-bold text-primary",
+              compact ? "text-xs" : "text-sm"
+            )}
+          >
             from {sender}
           </span>
-          <span className="ml-auto text-xs font-medium text-muted-foreground">
+          <span
+            className={cn(
+              "ml-auto font-medium text-muted-foreground",
+              compact ? "text-[10px]" : "text-xs"
+            )}
+          >
             {note.timestamp}
           </span>
         </div>
 
         {note.type === "text" ? (
-          <p className="type-note mt-3 flex-1 text-foreground">
-            {animate
-              ? words.map((word, i) => (
-                  <motion.span
-                    key={`${word}-${i}`}
-                    className="inline-block whitespace-pre"
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.3,
-                      ease: easeOutQuart,
-                      delay: 0.25 + i * 0.06,
-                    }}
-                  >
-                    {word}
-                    {i < words.length - 1 ? " " : ""}
-                  </motion.span>
-                ))
-              : note.text}
-          </p>
+          <div className="flex flex-1 items-center">
+            <p
+              className={cn(
+                "text-foreground",
+                compact
+                  ? "font-display text-[15px] font-semibold leading-snug"
+                  : "type-note"
+              )}
+            >
+              {animate
+                ? words.map((word, i) => (
+                    <motion.span
+                      key={`${word}-${i}`}
+                      className="inline-block whitespace-pre"
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.3,
+                        ease: easeOutQuart,
+                        delay: 0.25 + i * 0.06,
+                      }}
+                    >
+                      {word}
+                      {i < words.length - 1 ? " " : ""}
+                    </motion.span>
+                  ))
+                : note.text}
+            </p>
+          </div>
         ) : (
           <div className="mt-3 flex flex-1 items-center justify-start">
             {/* drawings keep their white-composited card, hairline-framed,

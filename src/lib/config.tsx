@@ -52,7 +52,7 @@ export const siteConfig = {
       { type: "doodle", doodle: "flower", timestamp: "now" },
       {
         type: "text",
-        text: "home at six. i'm cooking ♡",
+        text: "home at six. i'm cooking.",
         timestamp: "now",
       },
     ] as SampleNote[],

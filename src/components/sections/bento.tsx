@@ -37,7 +37,7 @@ function TwoPhones() {
         sender={siteConfig.hero.sender}
         size="small"
         animate={false}
-        className="w-44 rotate-2 !p-4 text-left sm:w-48"
+        className="w-44 rotate-2 text-left sm:w-48"
       />
     </div>
   );

@@ -37,7 +37,7 @@ export function Hero() {
   const note = sampleNotes[noteIndex];
 
   return (
-    <section id="hero" className="relative min-h-[100vh] w-full overflow-hidden">
+    <section id="hero" className="relative w-full overflow-hidden">
       <DoodleField section={SECTION_DOODLES.hero} />
 
       {/* Rose ambient — one low-opacity radial concentrated behind the
@@ -52,7 +52,8 @@ export function Hero() {
         }}
       />
 
-      <div className="container-page relative z-10 px-6 pt-[var(--section-y-wide)] pb-[var(--section-y-tight)] text-center lg:px-10">
+      {/* content centers in the viewport; the sticky header floats above */}
+      <div className="container-page relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-6 py-28 text-center lg:px-10">
         {/* Opacity stays at 1 throughout: this is the LCP candidate, and an
             opacity-0 initial state would keep it unpainted (and CWV-invisible)
             until the delayed fade resolves. Blur+rise still reads as a reveal

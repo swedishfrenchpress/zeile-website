@@ -48,11 +48,11 @@ function HomeScreenWidget({ reduceMotion }: { reduceMotion: boolean }) {
           exactly where it lives in real life */}
       <div className="grid grid-cols-4 gap-4">
         <WidgetCard
-          note={{ type: "text", text: "back at six. walk after?", timestamp: "2m" }}
+          note={{ type: "text", text: "back at six. walk?", timestamp: "2m" }}
           sender={siteConfig.hero.sender}
           size="small"
           animate={false}
-          className="col-span-2 row-span-2 !p-4 text-left"
+          className="col-span-2 row-span-2 text-left"
         />
         {Array.from({ length: 12 }).map((_, i) => (
           <div
@@ -104,10 +104,12 @@ const INK_SWATCHES = [
 function DrawingCanvas({ reduceMotion }: { reduceMotion: boolean }) {
   return (
     <div className="w-full max-w-[320px]">
+      {/* the drawing ground is always canvas white — strokes must read the
+          same in light and dark, exactly like the app's PencilKit exports */}
       <div
         role="img"
         aria-label="The zeile drawing canvas with a hand-drawn flower"
-        className="note-surface relative flex aspect-square items-center justify-center overflow-hidden !bg-canvas-white p-6 dark:!bg-canvas-white"
+        className="relative flex aspect-square items-center justify-center overflow-hidden rounded-note border border-rose-hairline bg-canvas-white p-6 shadow-[var(--paper-shadow)]"
       >
         <svg viewBox="0 0 100 100" fill="none" className="h-full w-full">
           {CANVAS_STROKES.map((stroke, i) => (

@@ -84,8 +84,8 @@ const CAROUSEL: DrawingName[] = [
   "cat",
   "icecream",
   "cheers",
-  "bee",
-  "rainbow",
+  "blowkiss",
+  "sleepy",
 ];
 
 const CAROUSEL_INTERVAL_MS = 3800;
@@ -130,46 +130,34 @@ function DrawingCarousel({ reduceMotion }: { reduceMotion: boolean }) {
             <Drawing
               name={name}
               animate={!reduceMotion}
-              strokeWidth={5}
               className="h-full w-full"
             />
           </motion.div>
         </AnimatePresence>
       </motion.div>
 
-      {/* carousel dots, one per drawing, each wearing its drawing's color —
-          the rainbow dot is the full wheel (zeile supports every color) */}
+      {/* carousel dots, one per drawing, each wearing its drawing's color */}
       <div
         role="tablist"
         aria-label="Example drawings"
         className="mt-5 flex items-center justify-center gap-4"
       >
-        {CAROUSEL.map((drawingName, i) => {
-          const dot = DRAWINGS[drawingName].dot;
-          return (
-            <button
-              key={drawingName}
-              type="button"
-              role="tab"
-              aria-selected={i === index}
-              aria-label={`Show ${DRAWINGS[drawingName].label}`}
-              onClick={() => setIndex(i)}
-              className={cn(
-                "size-4 rounded-full transition-transform duration-200 ease-out-quart hover:scale-110 motion-reduce:hover:scale-100",
-                i === index &&
-                  "ring-2 ring-ring ring-offset-2 ring-offset-background"
-              )}
-              style={
-                dot === "rainbow"
-                  ? {
-                      background:
-                        "conic-gradient(#e63836, #f2851a, #f2c048, #2e943d, #2663eb, #7d3bed, #e63836)",
-                    }
-                  : { backgroundColor: dot }
-              }
-            />
-          );
-        })}
+        {CAROUSEL.map((drawingName, i) => (
+          <button
+            key={drawingName}
+            type="button"
+            role="tab"
+            aria-selected={i === index}
+            aria-label={`Show ${DRAWINGS[drawingName].label}`}
+            onClick={() => setIndex(i)}
+            className={cn(
+              "size-4 rounded-full transition-transform duration-200 ease-out-quart hover:scale-110 motion-reduce:hover:scale-100",
+              i === index &&
+                "ring-2 ring-ring ring-offset-2 ring-offset-background"
+            )}
+            style={{ backgroundColor: DRAWINGS[drawingName].dot }}
+          />
+        ))}
       </div>
     </div>
   );
@@ -283,11 +271,17 @@ export function FeatureHighlight({
     const container = containerRef.current;
     if (!container) return;
 
-    // A zero-height root at the vertical center of the viewport: the callback
-    // fires exactly when the section's bounds straddle that line.
+    // A band around the vertical center of the viewport. The reveal LATCHES:
+    // once the text has appeared it never fades back out — content that
+    // vanishes as you scroll past reads as broken, not choreographed.
     const observer = new IntersectionObserver(
-      ([entry]) => setIsActive(entry.isIntersecting),
-      { rootMargin: "-50% 0px -50% 0px" }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsActive(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "-35% 0px -35% 0px" }
     );
     observer.observe(container);
 

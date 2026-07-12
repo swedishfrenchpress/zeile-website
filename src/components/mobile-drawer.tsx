@@ -17,7 +17,7 @@ import { Menu } from "lucide-react";
 import Link from "next/link";
 
 const links = [
-  { label: "zeile on GitHub", href: siteConfig.links.appRepo, external: true },
+  { label: "GitHub", href: siteConfig.links.appRepo, external: true },
   { label: "contact", href: siteConfig.links.contact, external: false },
   { label: "privacy policy", href: siteConfig.links.privacy, external: false },
 ];

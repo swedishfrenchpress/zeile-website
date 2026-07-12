@@ -48,7 +48,7 @@ export const siteConfig = {
     sender: "Sam",
     /** cycled by the living widget in the hero — drawings first and mostly */
     sampleNotes: [
-      { type: "doodle", doodle: "kiss", timestamp: "now" },
+      { type: "doodle", doodle: "blowkiss", timestamp: "now" },
       { type: "doodle", doodle: "icecream", timestamp: "now" },
       {
         type: "text",
@@ -56,7 +56,7 @@ export const siteConfig = {
         timestamp: "now",
       },
       { type: "doodle", doodle: "cat", timestamp: "now" },
-      { type: "doodle", doodle: "cheers", timestamp: "now" },
+      { type: "doodle", doodle: "sleepy", timestamp: "now" },
     ] as SampleNote[],
   },
   featureHighlight: [
@@ -168,7 +168,7 @@ export const siteConfig = {
       },
       {
         label: "source",
-        links: [{ label: "zeile on GitHub", href: links.appRepo }],
+        links: [{ label: "GitHub", href: links.appRepo }],
       },
       {
         label: "say hi",

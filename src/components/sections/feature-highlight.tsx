@@ -80,11 +80,11 @@ function HomeScreenWidget({ reduceMotion }: { reduceMotion: boolean }) {
 /* ------------------------------------------------------------------ */
 
 const CAROUSEL: DrawingName[] = [
-  "flower",
-  "sun",
-  "star",
-  "coffee",
-  "hi",
+  "kiss",
+  "cat",
+  "icecream",
+  "cheers",
+  "bee",
   "rainbow",
 ];
 

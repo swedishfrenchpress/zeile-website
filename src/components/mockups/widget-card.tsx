@@ -98,7 +98,9 @@ export function WidgetCard({
     <div
       className={cn(
         "relative overflow-hidden rounded-[22px] border border-black/[0.05] bg-widget-paper shadow-[var(--paper-shadow)] dark:border-white/[0.07]",
-        compact ? "aspect-square rounded-[18px] p-4" : "aspect-[2.05/1] p-5 sm:p-6",
+        // both sizes are square — the real widget is a square on the Home
+        // Screen, and the hero shows it true to shape, just bigger
+        compact ? "aspect-square rounded-[18px] p-4" : "aspect-square p-5 sm:p-6",
         className
       )}
     >

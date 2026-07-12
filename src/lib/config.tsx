@@ -48,15 +48,15 @@ export const siteConfig = {
     sender: "Sam",
     /** cycled by the living widget in the hero — drawings first and mostly */
     sampleNotes: [
-      { type: "doodle", doodle: "sun", timestamp: "now" },
-      { type: "doodle", doodle: "flower", timestamp: "now" },
+      { type: "doodle", doodle: "kiss", timestamp: "now" },
+      { type: "doodle", doodle: "icecream", timestamp: "now" },
       {
         type: "text",
         text: "good luck today. you've got this.",
         timestamp: "now",
       },
-      { type: "doodle", doodle: "rainbow", timestamp: "now" },
-      { type: "doodle", doodle: "hi", timestamp: "now" },
+      { type: "doodle", doodle: "cat", timestamp: "now" },
+      { type: "doodle", doodle: "cheers", timestamp: "now" },
     ] as SampleNote[],
   },
   featureHighlight: [
@@ -164,10 +164,7 @@ export const siteConfig = {
     columns: [
       {
         label: "the app",
-        links: [
-          { label: "App Store", href: links.appStore },
-          { label: "iOS 17+", href: links.appRepo },
-        ],
+        links: [{ label: "App Store", href: links.appStore }],
       },
       {
         label: "source",

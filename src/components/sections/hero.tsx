@@ -88,7 +88,7 @@ export function Hero() {
                     delay: REVEAL_STAGGER,
                   }
             }
-            className="w-full max-w-[340px] sm:max-w-[400px] md:max-w-[440px]"
+            className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[340px]"
           >
             {/* the notification banner — static; arriving notes crossfade
                 inside the card below, so nothing on the page ever shifts */}

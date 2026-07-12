@@ -4,129 +4,255 @@ import { easeOutCubic } from "@/lib/animation";
 import { motion } from "framer-motion";
 
 /**
- * The note-drawing library — quick pen sketches as they'd arrive from the
- * app's canvas, shared by the hero widget and the drawing carousel.
+ * The note-drawing library — little scenes as they'd actually arrive from
+ * someone's thumb on the app's canvas: two people kissing under a heart, a
+ * cat mid-dance, an ice cream losing the battle with summer. Shared by the
+ * hero widget and the drawing carousel.
  *
- * Drawings always composite on canvas white, exactly like the app's
- * PencilKit exports — so strokes carry their own fixed colors. The app
- * supports the full color wheel (not just the six preset inks), which is
- * why several of these use custom hues: the golden sun, the brown coffee,
- * the yellow rainbow band.
+ * Hand-drawn recipe: wobbly control points that never quite mirror, stroke
+ * widths that vary within one drawing, tiny overshoots, and a whole-drawing
+ * tilt — nothing symmetric, nothing "perfect". Drawings composite on canvas
+ * white like the app's PencilKit exports, so strokes carry their own fixed
+ * colors — including custom hues beyond the six preset inks (the app
+ * supports the full color wheel).
  */
 
 export type DrawingName =
-  | "flower"
-  | "smiley"
-  | "sun"
-  | "coffee"
+  | "kiss"
+  | "cat"
+  | "icecream"
+  | "cheers"
+  | "bee"
   | "rainbow"
-  | "star"
-  | "hi";
+  | "flower";
+
+interface DrawingPath {
+  d: string;
+  color: string;
+  /** stroke width override — varying widths sell the human hand */
+  w?: number;
+}
 
 export interface DrawingSpec {
   label: string;
   /** the color its carousel dot wears; "rainbow" renders a conic wheel */
   dot: string | "rainbow";
-  paths: { d: string; color: string }[];
+  /** whole-drawing tilt in degrees, like paper turned under a hand */
+  tilt: number;
+  paths: DrawingPath[];
 }
 
 export const DRAWINGS: Record<DrawingName, DrawingSpec> = {
-  flower: {
-    label: "a red flower",
+  // two stick people, heads together, holding hands — heart overhead
+  kiss: {
+    label: "two people kissing under a heart",
     dot: "#e63836",
+    tilt: -2,
     paths: [
+      // left person: head leaning in, body, reaching arm, legs
       {
-        d: "M50 40 C43 18, 59 16, 52 36 C70 22, 80 36, 56 42 C78 48, 70 64, 52 46 C55 68, 39 66, 47 46 C26 56, 20 38, 45 38",
+        d: "M37 28 C43 28, 47 33, 46 39 C45 45, 38 47, 33 44 C28 41, 28 33, 35 29",
+        color: "#1c1c1f",
+        w: 5,
+      },
+      {
+        d: "M39 47 C37 55, 36 63, 37 72 M38 55 C43 58, 47 61, 50 66 M37 72 C33 78, 31 82, 28 88 M37 72 C40 78, 42 83, 43 89",
+        color: "#1c1c1f",
+        w: 5,
+      },
+      // right person: head tilted to meet, body, arm to meet the hand
+      {
+        d: "M56 27 C62 27, 66 32, 65 38 C64 44, 57 46, 52 43 C48 40, 48 32, 54 28",
+        color: "#1c1c1f",
+        w: 5,
+      },
+      {
+        d: "M58 46 C60 54, 61 62, 60 71 M57 54 C53 58, 51 62, 50 66 M60 71 C64 77, 66 82, 69 88 M60 71 C57 78, 55 83, 53 89",
+        color: "#1c1c1f",
+        w: 5,
+      },
+      // the heart — drawn last, a bit lopsided, like always
+      {
+        d: "M48 12 C46 7, 39 8, 40 14 C41 19, 45 21, 48 24 C52 20, 56 18, 56 13 C56 7, 50 7, 48 11",
         color: "#e63836",
-      },
-      {
-        d: "M50 50 C48 64, 52 76, 47 92 M47 74 C40 68, 34 68, 28 72",
-        color: "#2e943d",
+        w: 5.5,
       },
     ],
   },
-  smiley: {
-    label: "a smiley face",
-    dot: "#f2851a",
+  // a purple cat having the time of its life
+  cat: {
+    label: "a cat dancing",
+    dot: "#7d3bed",
+    tilt: 2,
     paths: [
+      // head with crooked ears
       {
-        d: "M50 10 C74 10, 90 28, 89 51 C88 74, 71 90, 49 89 C27 88, 11 71, 12 49 C13 27, 28 11, 50 10 Z",
+        d: "M41 26 C48 20, 58 23, 60 31 C62 39, 54 44, 46 42 C39 40, 37 31, 41 26 M43 25 L39 15 L48 21 M56 24 L61 14 L64 24",
+        color: "#7d3bed",
+        w: 5.5,
+      },
+      // eyes + grin
+      {
+        d: "M47 31 C47 32, 47 32, 47 33 M55 31 C55 32, 55 32, 55 33 M48 37 C50 39, 53 38, 54 36",
+        color: "#7d3bed",
+        w: 4,
+      },
+      // body leaning into the groove, arms up, one leg kicked
+      {
+        d: "M50 43 C48 51, 47 59, 50 66 M48 48 C42 43, 36 41, 29 43 M52 48 C59 42, 65 41, 71 44 M50 66 C45 72, 40 77, 34 80 M50 66 C55 73, 57 79, 56 86",
+        color: "#7d3bed",
+        w: 5.5,
+      },
+      // tail with a happy curl
+      {
+        d: "M51 58 C60 60, 66 55, 64 47 C63 42, 58 43, 60 48",
+        color: "#7d3bed",
+        w: 5,
+      },
+      // a little music note, slightly drunk
+      {
+        d: "M79 20 C79 24, 79 27, 79 30 C77 32, 73 32, 74 29 C75 26, 78 26, 79 28 M79 20 C81 21, 84 22, 85 25",
         color: "#f2851a",
-      },
-      {
-        d: "M37 40 C37 43, 37 45, 37 48 M64 39 C64 42, 64 44, 64 47 M33 62 C40 72, 60 73, 68 61",
-        color: "#1c1c1f",
+        w: 4.5,
       },
     ],
   },
-  sun: {
-    label: "a golden sun",
-    dot: "#f5a623",
+  // an ice cream having a bad (hot) day
+  icecream: {
+    label: "an ice cream melting",
+    dot: "#ff7ba9",
+    tilt: -1.5,
     paths: [
+      // the scoop, going soft
       {
-        d: "M50 33 C60 32, 67 40, 66 49 C65 59, 57 66, 48 65 C39 64, 33 56, 34 47 C35 39, 42 34, 50 33 Z",
-        color: "#f5a623",
+        d: "M38 50 C32 44, 35 32, 45 29 C55 25, 65 31, 66 40 C67 47, 62 52, 56 53 C50 55, 42 55, 38 50",
+        color: "#ff7ba9",
+        w: 6,
       },
+      // drips
       {
-        d: "M50 12 C50 16, 50 19, 50 24 M74 22 C71 25, 69 27, 66 31 M88 48 C84 48, 81 48, 76 49 M74 76 C71 72, 69 70, 66 67 M50 86 C50 82, 50 79, 50 74 M26 76 C29 72, 31 70, 34 67 M12 48 C16 48, 19 48, 24 49 M26 22 C29 25, 31 27, 34 31",
-        color: "#f5a623",
+        d: "M42 53 C42 58, 41 62, 43 66 M53 55 C53 60, 54 64, 52 69 M61 51 C62 56, 63 58, 61 62",
+        color: "#ff7ba9",
+        w: 5,
       },
-    ],
-  },
-  coffee: {
-    label: "a cup of coffee",
-    dot: "#8b5e3c",
-    paths: [
+      // the worried little face
       {
-        d: "M30 46 C31 60, 32 74, 37 79 C43 84, 57 84, 63 79 C68 74, 69 60, 70 46 M25 45 C40 42, 60 42, 75 45",
-        color: "#8b5e3c",
-      },
-      {
-        d: "M71 53 C81 51, 83 62, 69 65",
-        color: "#8b5e3c",
-      },
-      {
-        d: "M42 34 C40 28, 44 24, 42 17 M57 34 C55 28, 59 24, 57 17",
+        d: "M47 38 C47 39, 47 39, 47 40 M56 38 C56 39, 56 39, 56 40 M48 46 C50 44, 53 44, 55 46",
         color: "#1c1c1f",
+        w: 4,
+      },
+      // cone with lazy crosshatch
+      {
+        d: "M41 55 C44 65, 47 75, 50 84 C53 75, 55 65, 58 55 M44 62 C48 60, 53 60, 56 62 M46 71 C49 70, 52 70, 54 71",
+        color: "#c68a4f",
+        w: 5.5,
+      },
+      // the puddle it's becoming
+      {
+        d: "M33 90 C41 87, 57 87, 65 90 C59 93, 39 93, 33 90",
+        color: "#ff7ba9",
+        w: 4.5,
       },
     ],
   },
+  // two glasses mid-clink
+  cheers: {
+    label: "two drinks clinking",
+    dot: "#2e943d",
+    tilt: 1.5,
+    paths: [
+      // left glass, tipping in
+      {
+        d: "M23 44 C25 55, 28 67, 32 76 C38 79, 44 76, 45 71 C42 60, 39 50, 35 41 C31 41, 26 42, 23 44 M26 52 C31 50, 36 51, 40 53",
+        color: "#2e943d",
+        w: 5.5,
+      },
+      // right glass, tipping in harder
+      {
+        d: "M77 43 C74 54, 71 65, 67 74 C61 78, 55 75, 54 69 C57 59, 60 49, 64 40 C68 40, 73 41, 77 43 M62 50 C67 48, 72 49, 75 51",
+        color: "#2e943d",
+        w: 5.5,
+      },
+      // the clink!
+      {
+        d: "M50 33 C50 29, 50 26, 50 22 M42 36 C39 33, 37 31, 34 28 M58 36 C61 33, 64 31, 67 29",
+        color: "#1c1c1f",
+        w: 4.5,
+      },
+    ],
+  },
+  // a bee that took the scenic route
+  bee: {
+    label: "a bee looping around",
+    dot: "#f2c048",
+    tilt: 0,
+    paths: [
+      // plump sideways body
+      {
+        d: "M42 46 C45 38, 57 35, 65 40 C73 45, 72 56, 63 60 C53 64, 42 58, 42 48",
+        color: "#f2c048",
+        w: 5.5,
+      },
+      // two short stripes, staying inside the tummy
+      {
+        d: "M53 40 C52 45, 52 51, 53 58 M60 40 C59 45, 59 50, 60 57",
+        color: "#1c1c1f",
+        w: 3.5,
+      },
+      // small crooked wings above, one always bigger
+      {
+        d: "M50 36 C47 28, 54 25, 55 34 M59 34 C60 25, 67 27, 64 36",
+        color: "#1c1c1f",
+        w: 3.5,
+      },
+      // antenna, waving hello
+      {
+        d: "M44 41 C41 37, 39 34, 35 31",
+        color: "#1c1c1f",
+        w: 3.5,
+      },
+      // the loop-de-loop it flew to get here
+      {
+        d: "M40 57 C28 64, 22 74, 31 77 C40 80, 43 70, 34 69 C25 68, 16 75, 13 84",
+        color: "#1c1c1f",
+        w: 4,
+      },
+    ],
+  },
+  // every color at once (and a puff of cloud)
   rainbow: {
     label: "a rainbow",
     dot: "rainbow",
+    tilt: 0,
     paths: [
-      { d: "M14 78 C14 36, 86 36, 86 78", color: "#e63836" },
-      { d: "M21 78 C21 44, 79 44, 79 78", color: "#f2851a" },
-      { d: "M28 78 C28 52, 72 52, 72 78", color: "#f2c048" },
-      { d: "M35 78 C35 60, 65 60, 65 78", color: "#2e943d" },
-      { d: "M42 78 C42 68, 58 68, 58 78", color: "#2663eb" },
-    ],
-  },
-  star: {
-    label: "a blue star",
-    dot: "#2663eb",
-    paths: [
+      { d: "M15 77 C13 38, 85 34, 86 78", color: "#e63836", w: 6 },
+      { d: "M22 78 C21 46, 78 43, 79 78", color: "#f2851a", w: 5.5 },
+      { d: "M29 77 C28 53, 71 51, 72 78", color: "#f2c048", w: 6 },
+      { d: "M36 78 C35 61, 64 59, 65 77", color: "#2e943d", w: 5 },
+      { d: "M43 78 C42 68, 57 67, 58 78", color: "#2663eb", w: 5.5 },
+      // the puffy cloud the rainbow leans on
       {
-        d: "M50 15 L60 39 L87 42 L66 60 L73 87 L50 72 L28 86 L34 59 L14 41 L41 39 Z",
-        color: "#2663eb",
-      },
-      {
-        d: "M79 16 C79 20, 79 22, 79 26 M74 21 C77 21, 80 21, 84 21",
+        d: "M8 87 C3 81, 9 72, 17 76 C18 67, 31 67, 31 77 C38 75, 41 84, 34 87 C25 90, 13 90, 8 87",
         color: "#1c1c1f",
+        w: 4.5,
       },
     ],
   },
-  hi: {
-    label: "a handwritten hi",
-    dot: "#7d3bed",
+  // a flower, petals refusing to match
+  flower: {
+    label: "a flower",
+    dot: "#e63836",
+    tilt: -2,
     paths: [
       {
-        d: "M30 32 C29 45, 28 58, 28 71 M28 54 C33 45, 43 44, 44 52 C45 58, 44 65, 43 71 M58 50 C57 57, 56 64, 56 71 M57 38 C57 39, 57 40, 57 41",
-        color: "#7d3bed",
+        d: "M50 40 C42 17, 60 15, 52 36 C69 21, 81 35, 56 42 C79 47, 71 65, 52 46 C56 69, 38 67, 47 46 C25 57, 19 37, 45 38",
+        color: "#e63836",
+        w: 5.5,
       },
       {
-        d: "M26 82 C42 78, 62 80, 78 78",
-        color: "#1c1c1f",
+        d: "M50 50 C47 64, 53 76, 47 92 M48 73 C40 67, 34 68, 27 72",
+        color: "#2e943d",
+        w: 5.5,
       },
     ],
   },
@@ -154,20 +280,21 @@ export function Drawing({
       role="img"
       aria-label={`A hand-drawn doodle: ${spec.label}`}
       className={className}
+      style={{ transform: `rotate(${spec.tilt}deg)` }}
     >
       {spec.paths.map((path, i) => (
         <motion.path
           key={i}
           d={path.d}
           stroke={path.color}
-          strokeWidth={strokeWidth}
+          strokeWidth={path.w ?? strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
           initial={animate ? { pathLength: 0 } : false}
           animate={{ pathLength: 1 }}
           transition={
             animate
-              ? { duration: 0.7, ease: easeOutCubic, delay: 0.2 + i * 0.4 }
+              ? { duration: 0.6, ease: easeOutCubic, delay: 0.2 + i * 0.35 }
               : { duration: 0 }
           }
         />

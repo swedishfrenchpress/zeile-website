@@ -150,6 +150,11 @@ export const siteConfig = {
         "The latest note from your person, whether text or doodle, shown with “♥ from <their name>” and when it arrived. Your own sends live in History inside the app.",
     },
   ] as { question: string; answer: ReactNode }[],
+  finalCta: {
+    title: "Go leave the first note.",
+    description:
+      "You've read this far, so there's clearly someone in mind. Make the first move.",
+  },
   footer: {
     tagline: "a tiny note goes a long way.",
     attribution: "Made for exactly two people.",

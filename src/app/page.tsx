@@ -16,6 +16,9 @@ const Pairing = dynamic(() =>
 const BentoGrid = dynamic(() =>
   import("@/components/sections/bento").then((m) => m.BentoGrid)
 );
+const FinalCta = dynamic(() =>
+  import("@/components/sections/final-cta").then((m) => m.FinalCta)
+);
 
 export default function Home() {
   return (
@@ -38,6 +41,7 @@ export default function Home() {
         />
         <BentoGrid />
         <FAQ />
+        <FinalCta />
       </main>
       <Footer />
     </>

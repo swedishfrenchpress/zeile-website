@@ -79,7 +79,7 @@ export function CopyEmail({
       {mounted &&
         createPortal(
           <div
-            className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center px-6"
+            className="pointer-events-none fixed top-6 right-6 z-50 flex justify-end"
             role="status"
             aria-live="polite"
           >
@@ -89,7 +89,7 @@ export function CopyEmail({
                   initial={
                     reduceMotion
                       ? { opacity: 0 }
-                      : { opacity: 0, y: 14, scale: 0.96 }
+                      : { opacity: 0, y: -14, scale: 0.96 }
                   }
                   animate={
                     reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }
@@ -97,16 +97,16 @@ export function CopyEmail({
                   exit={
                     reduceMotion
                       ? { opacity: 0 }
-                      : { opacity: 0, y: 14, scale: 0.96 }
+                      : { opacity: 0, y: -14, scale: 0.96 }
                   }
                   transition={{
                     duration: reduceMotion ? 0.15 : 0.28,
                     ease: easeOutQuart,
                   }}
-                  className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-paper px-4 py-2 shadow-[var(--paper-shadow)]"
+                  className="pointer-events-auto inline-flex items-center gap-3 rounded-full bg-paper px-6 py-3.5 shadow-[var(--paper-shadow)]"
                 >
-                  <CheckMark className="size-4 text-primary" />
-                  <span className="text-sm font-semibold text-foreground">
+                  <CheckMark className="size-5 text-primary" />
+                  <span className="text-base font-semibold text-foreground">
                     Email copied to clipboard.
                   </span>
                 </motion.div>

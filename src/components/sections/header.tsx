@@ -44,8 +44,8 @@ export function Header() {
           title="zeile"
           className="flex shrink-0 items-center gap-2.5 transition-opacity hover:opacity-90"
         >
-          <Logo className="size-7 shrink-0" />
-          <span className="whitespace-nowrap font-display text-lg font-extrabold lowercase leading-none text-primary">
+          <Logo className="size-10 shrink-0" />
+          <span className="whitespace-nowrap font-display text-3xl font-extrabold lowercase leading-none text-primary">
             {siteConfig.name}
           </span>
         </Link>

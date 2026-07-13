@@ -4,7 +4,11 @@ import { Section } from "@/components/section";
 import { Drawing, DRAWINGS } from "@/components/mockups/drawings";
 import type { DrawingName } from "@/components/mockups/drawings";
 import { WidgetCard } from "@/components/mockups/widget-card";
-import { siteConfig } from "@/lib/config";
+import {
+  HomeScreenVideo,
+  type HomeScreenVideoConfig,
+} from "@/components/mockups/home-screen-video";
+import { siteConfig, type FeatureHighlightItem } from "@/lib/config";
 import {
   easeOutCubic,
   REVEAL_DURATION_LG,
@@ -169,6 +173,7 @@ interface FeatureProps {
   title: string;
   description: string;
   media: "widget" | "drawing";
+  video?: HomeScreenVideoConfig;
   isActive: boolean;
   layout: FeatureLayout;
   reduceMotion: boolean;
@@ -178,6 +183,7 @@ function Feature({
   title,
   description,
   media,
+  video,
   isActive,
   layout,
   reduceMotion,
@@ -240,7 +246,15 @@ function Feature({
         )}
       >
         {media === "widget" ? (
-          <HomeScreenWidget reduceMotion={reduceMotion} />
+          video && !reduceMotion ? (
+            <HomeScreenVideo
+              {...video}
+              playMode="in-view-once"
+              ariaLabel="A screen recording of adding the zeile widget to an iPhone Home Screen, where a note from Sam appears"
+            />
+          ) : (
+            <HomeScreenWidget reduceMotion={reduceMotion} />
+          )
         ) : (
           <DrawingCarousel reduceMotion={reduceMotion} />
         )}
@@ -250,7 +264,7 @@ function Feature({
 }
 
 interface FeatureHighlightProps {
-  feature: (typeof siteConfig.featureHighlight)[number];
+  feature: FeatureHighlightItem;
   layoutIndex: number;
   className?: string;
   id?: string;
@@ -304,6 +318,7 @@ export function FeatureHighlight({
         title={feature.title}
         description={feature.description}
         media={feature.media}
+        video={feature.video}
         reduceMotion={reduceMotion}
       />
     </Section>

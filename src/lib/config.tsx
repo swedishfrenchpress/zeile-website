@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { DrawingName } from "@/components/mockups/drawings";
+import type { HomeScreenVideoConfig } from "@/components/mockups/home-screen-video";
 
 // TODO(launch): swap for the real App Store link the day zeile ships.
 // Header, hero badge, and footer all read this one constant.
@@ -21,6 +22,16 @@ export interface SampleNote {
   /** which drawing to render (see mockups/drawings) */
   doodle?: DrawingName;
   timestamp: string;
+}
+
+/** A text + media section (see FeatureHighlight). */
+export interface FeatureHighlightItem {
+  title: string;
+  description: string;
+  media: "widget" | "drawing";
+  direction: "ltr" | "rtl";
+  /** when present (and motion allowed), the widget mockup becomes this video */
+  video?: HomeScreenVideoConfig;
 }
 
 export const siteConfig = {
@@ -66,6 +77,12 @@ export const siteConfig = {
         "No app to open, no inbox to check. Your note shows up on your person's widget the moment you send it, with a quiet ♥ from you.",
       media: "widget" as const,
       direction: "ltr" as const,
+      video: {
+        light: { src: "/videos/add-widget-light.mp4" },
+        dark: { src: "/videos/add-widget-dark.mp4" },
+        poster: "/videos/add-widget-light-poster.jpg",
+        posterDark: "/videos/add-widget-dark-poster.jpg",
+      },
     },
     {
       title: "Or draw it instead.",
@@ -74,7 +91,7 @@ export const siteConfig = {
       media: "drawing" as const,
       direction: "rtl" as const,
     },
-  ],
+  ] satisfies FeatureHighlightItem[],
   pairing: {
     title: "One code. Two phones.",
     description:

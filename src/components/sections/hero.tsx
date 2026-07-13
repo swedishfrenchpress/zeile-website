@@ -53,7 +53,7 @@ export function Hero() {
       />
 
       {/* content centers in the viewport; the sticky header floats above */}
-      <div className="container-page relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-6 py-28 text-center lg:px-10">
+      <div className="container-page relative z-10 flex min-h-[90svh] flex-col items-center justify-center px-6 pt-28 pb-16 text-center lg:px-10">
         {/* Free badge: the site's trust mark, above the headline. Opaque
             paper pill + the one rose dot (One-Rose Rule); the heart stays
             reserved for the widget. */}

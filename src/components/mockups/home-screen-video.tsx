@@ -33,6 +33,9 @@ interface HomeScreenVideoProps extends HomeScreenVideoConfig {
 
 const MEDIA_CLASS = "h-full w-full select-none object-cover object-top";
 
+/** Play the add-widget capture a touch faster than real time so it reads briskly. */
+const PLAYBACK_RATE = 1.5;
+
 function ThemedVideo({
   source,
   poster,
@@ -47,9 +50,16 @@ function ThemedVideo({
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (playMode !== "in-view-once") return;
     const v = ref.current;
     if (!v) return;
+
+    // defaultPlaybackRate covers native loop autoplay; playbackRate covers the
+    // in-view-once path (and any clip already playing). Both are set because
+    // there is no HTML attribute for playback speed.
+    v.defaultPlaybackRate = PLAYBACK_RATE;
+    v.playbackRate = PLAYBACK_RATE;
+
+    if (playMode !== "in-view-once") return;
     v.muted = true; // Safari autoplay policy: belt-and-braces alongside the attr
 
     // A display:none element (the off-theme clip) never intersects, so only the
@@ -60,6 +70,7 @@ function ThemedVideo({
       ([entry]) => {
         if (entry.isIntersecting) {
           v.currentTime = 0;
+          v.playbackRate = PLAYBACK_RATE;
           v.play().catch(() => {});
         } else {
           v.pause();

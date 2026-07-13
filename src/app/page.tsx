@@ -30,7 +30,7 @@ export default function Home() {
           id="features"
           feature={siteConfig.featureHighlight[0]}
           layoutIndex={0}
-          className="pt-[var(--section-y-base)] pb-0"
+          className="pt-[var(--section-y-tight)] pb-0"
         />
         <Pairing />
         <FeatureHighlight

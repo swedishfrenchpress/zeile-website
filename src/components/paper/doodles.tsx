@@ -9,13 +9,20 @@
  * trick; no filters. Marks read as quick pen doodles from the app's
  * drawing canvas, never as icons.
  *
- * Per the app's One-Heart Rule: there is deliberately NO heart in this set.
+ * Hearts: the site's One-Heart Rule was relaxed by the owner (2026-07) —
+ * hearts now appear as decorative doodles here alongside everything else.
+ * The widget mockup's "♥ from <name>" sender mark is still the signature
+ * heart; these margin hearts are casual scribbles, not that sender mark.
  */
 
 export type DoodleVariant =
   | "squiggle"
-  | "star"
-  | "sparkle"
+  | "heart"
+  | "cat"
+  | "negroni"
+  | "moon"
+  | "leaf"
+  | "cup"
   | "flower"
   | "arrow-loop"
   | "spiral"
@@ -61,22 +68,62 @@ export const DOODLE_ASSETS: Record<
       />
     ),
   },
-  // open five-point star, slightly lopsided
-  star: {
+  // a hand-drawn heart outline, one lobe fuller than the other
+  heart: {
     ratio: 1,
     render: (props) => (
       <DoodleSvg
-        d="M51 8 L62 38 L93 41 L68 60 L77 92 L50 74 L24 89 L33 58 L9 39 L40 37 Z"
+        d="M50 84 C34 70, 16 56, 16 38 C16 24, 28 16, 38 22 C44 25, 48 31, 50 38 C52 31, 56 25, 62 22 C72 16, 84 24, 84 38 C84 56, 66 70, 50 84 Z"
         {...props}
       />
     ),
   },
-  // four-arm asterisk sparkle with a gap at the center
-  sparkle: {
+  // a thin sitting cat, pointed ears and a tail curling off to one side
+  cat: {
     ratio: 1,
     render: (props) => (
       <DoodleSvg
-        d="M50 10 C51 24, 51 30, 50 42 M50 60 C49 72, 49 78, 51 90 M11 49 C25 48, 31 48, 42 49 M59 51 C72 52, 79 52, 90 50"
+        d="M30 46 L24 18 L40 32 C46 28, 54 28, 60 32 L76 18 L70 46 C78 58, 79 74, 72 86 L28 86 C21 74, 22 58, 30 46 Z M72 84 C90 84, 92 64, 79 60"
+        {...props}
+      />
+    ),
+  },
+  // a negroni: rocks glass with an orange wheel perched on the rim
+  negroni: {
+    ratio: 1,
+    render: (props) => (
+      <DoodleSvg
+        d="M32 40 L38 82 C39 88, 45 90, 50 90 C55 90, 61 88, 62 82 L68 40 M28 40 C36 35, 64 35, 72 40 C64 45, 36 45, 28 40 Z M55 30 C55 20, 73 20, 73 30 C73 40, 55 40, 55 30 Z"
+        {...props}
+      />
+    ),
+  },
+  // a lopsided crescent moon
+  moon: {
+    ratio: 1,
+    render: (props) => (
+      <DoodleSvg
+        d="M60 14 C38 20, 26 40, 30 62 C34 84, 56 94, 76 84 C58 82, 46 66, 46 48 C46 32, 50 22, 60 14 Z"
+        {...props}
+      />
+    ),
+  },
+  // a single leaf with a wandering center vein
+  leaf: {
+    ratio: 1,
+    render: (props) => (
+      <DoodleSvg
+        d="M50 12 C30 30, 24 58, 50 90 C76 58, 70 30, 50 12 Z M50 22 C50 44, 50 66, 50 82"
+        {...props}
+      />
+    ),
+  },
+  // a steaming coffee cup, handle off the right side
+  cup: {
+    ratio: 1,
+    render: (props) => (
+      <DoodleSvg
+        d="M32 44 L37 82 C38 88, 44 90, 52 90 C60 90, 65 86, 66 80 L70 44 M28 44 C36 39, 64 39, 72 44 C64 49, 36 49, 28 44 Z M70 52 C86 50, 86 72, 69 70 M44 32 C40 26, 48 22, 44 16 M58 32 C54 26, 62 22, 58 16"
         {...props}
       />
     ),

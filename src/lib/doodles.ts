@@ -10,8 +10,8 @@
  *  - doodles live in gutters, beside headings, and at section seams —
  *    never behind running text or interactive targets
  *  - never the same variant twice within one viewport; rotation adds variety
- *  - never a heart (the app's One-Heart Rule: the widget's sender mark is
- *    the only heart on the whole site)
+ *  - hearts are allowed decoratively here (owner relaxed the One-Heart Rule,
+ *    2026-07); the widget's sender mark stays the signature heart
  *  - low opacity always — these are margin scribbles, not illustrations
  *  - `mobile: true` marks the small subset that renders below md
  *
@@ -82,30 +82,31 @@ export const SECTION_DOODLES: Record<string, SectionDoodles> = {
     anchor: 0.02,
     doodles: [
       { variant: "spiral", top: "6%", left: "6%", width: 90, tier: "far", ink: "green", rotate: -11, mobile: true, mobileWidth: 56 },
-      { variant: "sparkle", top: "12%", right: "8%", width: 72, tier: "mid", ink: "blue", rotate: 8, mobile: true, mobileWidth: 44 },
+      { variant: "moon", top: "12%", right: "8%", width: 68, tier: "mid", ink: "blue", rotate: 8, mobile: true, mobileWidth: 44 },
       { variant: "squiggle", top: "46%", left: "3%", width: 150, tier: "mid", ink: "charcoal", rotate: -6 },
-      // the signature: a bold star tucked near the hero widget
-      { variant: "star", top: "58%", right: "12%", width: 96, tier: "near", ink: "orange", rotate: 12 },
+      // the signature: a negroni tucked near the hero widget
+      { variant: "negroni", top: "57%", right: "12%", width: 92, tier: "near", ink: "orange", rotate: 10 },
     ],
   },
   features: {
     anchor: 0.28,
     doodles: [
       { variant: "arrow-loop", top: "4%", right: "5%", width: 130, tier: "mid", ink: "purple", rotate: -8 },
-      { variant: "scrawl", top: "72%", left: "4%", width: 110, tier: "far", ink: "green", rotate: 5 },
+      { variant: "cat", top: "84%", left: "4%", width: 100, tier: "near", ink: "charcoal", rotate: 5, mobile: true, mobileWidth: 62 },
     ],
   },
   pairing: {
     anchor: 0.45,
     doodles: [
-      { variant: "star", top: "2%", left: "7%", width: 64, tier: "far", ink: "blue", rotate: -14 },
-      { variant: "squiggle", top: "70%", right: "5%", width: 120, tier: "mid", ink: "red", rotate: 7, mobile: true, mobileWidth: 72 },
+      { variant: "leaf", top: "2%", left: "7%", width: 60, tier: "far", ink: "green", rotate: -14 },
+      { variant: "heart", top: "40%", right: "9%", width: 58, tier: "mid", ink: "red", rotate: 9 },
+      { variant: "squiggle", top: "70%", right: "5%", width: 120, tier: "mid", ink: "charcoal", rotate: 7, mobile: true, mobileWidth: 72 },
     ],
   },
   "feature-2": {
     anchor: 0.6,
     doodles: [
-      { variant: "sparkle", top: "0%", right: "10%", width: 60, tier: "mid", ink: "charcoal", rotate: 10 },
+      { variant: "cup", top: "0%", right: "9%", width: 74, tier: "mid", ink: "charcoal", rotate: 10 },
       { variant: "spiral", top: "66%", left: "5%", width: 84, tier: "far", ink: "orange", rotate: 9, flip: true },
     ],
   },
@@ -119,8 +120,8 @@ export const SECTION_DOODLES: Record<string, SectionDoodles> = {
   faq: {
     anchor: 0.92,
     doodles: [
-      { variant: "sparkle", top: "6%", right: "6%", width: 56, tier: "far", ink: "purple", rotate: -9 },
-      { variant: "star", top: "70%", left: "5%", width: 72, tier: "far", ink: "orange", rotate: 8 },
+      { variant: "heart", top: "6%", right: "6%", width: 54, tier: "far", ink: "red", rotate: -9 },
+      { variant: "cat", top: "68%", left: "5%", width: 80, tier: "far", ink: "blue", rotate: 8 },
     ],
   },
   footer: {

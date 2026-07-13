@@ -21,7 +21,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const title = "zeile — leave a little note";
+const title = "zeile · leave a little note";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),

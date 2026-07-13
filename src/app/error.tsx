@@ -41,7 +41,7 @@ export default function Error({
         Something melted.
       </h1>
       <p className="mt-5 max-w-[44ch] type-lead text-foreground/75">
-        This page didn&apos;t load. The app itself is fine — try again, or
+        This page didn&apos;t load. The app itself is fine. Try again, or
         head back home.
       </p>
 

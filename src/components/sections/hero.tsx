@@ -54,6 +54,28 @@ export function Hero() {
 
       {/* content centers in the viewport; the sticky header floats above */}
       <div className="container-page relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-6 py-28 text-center lg:px-10">
+        {/* Free badge: the site's trust mark, above the headline. Opaque
+            paper pill + the one rose dot (One-Rose Rule); the heart stays
+            reserved for the widget. */}
+        <motion.div
+          initial={reduceMotion ? false : { y: 16, filter: "blur(8px)" }}
+          animate={{ y: 0, filter: "blur(0px)" }}
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { duration: REVEAL_DURATION_MD, ease: easeOutCubic, delay: 0 }
+          }
+          className="mb-8 sm:mb-10"
+        >
+          <span className="inline-flex items-center gap-2.5 rounded-full bg-paper px-5 py-2.5 shadow-[var(--paper-shadow)]">
+            <span aria-hidden className="size-2.5 rounded-full bg-primary" />
+            <span className="text-base font-semibold sm:text-lg">
+              <span className="text-foreground">100% free</span>
+              <span className="text-muted-foreground"> · no subscriptions</span>
+            </span>
+          </span>
+        </motion.div>
+
         {/* Opacity stays at 1 throughout: this is the LCP candidate, and an
             opacity-0 initial state would keep it unpainted (and CWV-invisible)
             until the delayed fade resolves. Blur+rise still reads as a reveal
@@ -90,17 +112,6 @@ export function Hero() {
             }
             className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[340px]"
           >
-            {/* the notification banner — static; arriving notes crossfade
-                inside the card below, so nothing on the page ever shifts */}
-            <div className="mb-3 flex justify-center" aria-hidden>
-              <div className="inline-flex items-center gap-2 rounded-full bg-paper px-4 py-1.5 shadow-[var(--paper-shadow)]">
-                <span className="size-2 rounded-full bg-primary" />
-                <span className="text-xs font-semibold text-muted-foreground">
-                  zeile · a note from {sender}
-                </span>
-              </div>
-            </div>
-
             <WidgetCard
               note={note}
               sender={sender}

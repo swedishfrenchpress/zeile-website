@@ -1,11 +1,12 @@
 import { Subpage, SubpageSection } from "@/components/subpage";
+import { CopyEmail } from "@/components/ui/copy-email";
 import { siteConfig } from "@/lib/config";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Contact · zeile",
   description:
-    "Questions, bugs, or just saying hi — how to reach the person behind zeile.",
+    "Questions, bugs, or just saying hi: how to reach the person behind zeile.",
   alternates: { canonical: "/contact" },
 };
 
@@ -23,12 +24,10 @@ export default function ContactPage() {
       <SubpageSection heading="Say hi">
         <p>
           Reach me directly at{" "}
-          <a
-            href={`mailto:${siteConfig.links.email}`}
+          <CopyEmail
+            email={siteConfig.links.email}
             className="text-primary underline underline-offset-4"
-          >
-            {siteConfig.links.email}
-          </a>{" "}
+          />{" "}
           and I&apos;ll get back to you.
         </p>
       </SubpageSection>
@@ -46,7 +45,7 @@ export default function ContactPage() {
             rel="noreferrer noopener"
             className="text-primary underline underline-offset-4"
           >
-            → View the source on GitHub
+            View the source on GitHub
           </a>
         </p>
       </SubpageSection>

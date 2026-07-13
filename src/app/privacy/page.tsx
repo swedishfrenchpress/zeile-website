@@ -1,4 +1,5 @@
 import { Subpage, SubpageSection } from "@/components/subpage";
+import { CopyEmail } from "@/components/ui/copy-email";
 import { siteConfig } from "@/lib/config";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -6,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy policy · zeile",
   description:
-    "How zeile handles your information: no accounts, no analytics, no tracking — notes sync through Apple's iCloud to reach your one person.",
+    "How zeile handles your information: no accounts, no analytics, no tracking. Notes sync through Apple's iCloud to reach your one person.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -29,7 +30,7 @@ export default function PrivacyPage() {
       <SubpageSection heading="Data collection">
         <p>
           zeile does not collect, store, or process any personal data on
-          servers of our own — we don&apos;t run any. There are no accounts,
+          servers of our own. We don&apos;t run any. There are no accounts,
           no sign-ups, no analytics, and no tracking.
         </p>
       </SubpageSection>
@@ -37,8 +38,8 @@ export default function PrivacyPage() {
       <SubpageSection heading="What we don't collect">
         <ul>
           <li>
-            Personal information (name, email, phone number — there&apos;s no
-            account to attach them to)
+            Personal information like a name, email, or phone number
+            (there&apos;s no account to attach it to)
           </li>
           <li>Location data</li>
           <li>Usage analytics or tracking data</li>
@@ -53,13 +54,13 @@ export default function PrivacyPage() {
           notes and doodles you send sync through Apple&apos;s iCloud
           (CloudKit) so they can reach your paired device, and they arrive
           with a push notification through Apple&apos;s notification service.
-          All of this runs on Apple&apos;s infrastructure — we never see your
+          All of this runs on Apple&apos;s infrastructure. We never see your
           notes on servers of our own, because we don&apos;t have any.
         </p>
         <p>
           One honest caveat: notes are protected by your pairing code and are
           <strong> not end-to-end encrypted</strong>. Think of zeile like a
-          postcard, not a vault — please don&apos;t send anything sensitive.
+          postcard, not a vault. Please don&apos;t send anything sensitive.
         </p>
       </SubpageSection>
 
@@ -120,7 +121,7 @@ export default function PrivacyPage() {
         <p>
           Since we don&apos;t collect any personal data beyond the notes you
           choose to send to your person, these rights are largely not
-          applicable — but we&apos;re happy to confirm this in writing if
+          applicable, but we&apos;re happy to confirm this in writing if
           requested.
         </p>
       </SubpageSection>
@@ -145,13 +146,11 @@ export default function PrivacyPage() {
 
       <SubpageSection heading="Questions?">
         <p>
-          Write to us any time —{" "}
-          <a
-            href={`mailto:${siteConfig.links.email}`}
+          Write to us any time:{" "}
+          <CopyEmail
+            email={siteConfig.links.email}
             className="text-primary underline underline-offset-4"
-          >
-            {siteConfig.links.email}
-          </a>{" "}
+          />{" "}
           or via the{" "}
           <Link
             href="/contact"

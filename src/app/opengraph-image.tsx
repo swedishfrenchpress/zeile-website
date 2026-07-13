@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 export const size = { width: 1200, height: 640 };
 export const contentType = "image/png";
-export const alt = "zeile — leave a little note";
+export const alt = "zeile · leave a little note";
 
 // The share card: the app icon's rose gradient carrying a giant lowercase
 // wordmark and the one-line pitch. Satori renders a small CSS subset —

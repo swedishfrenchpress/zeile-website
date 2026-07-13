@@ -27,7 +27,7 @@ export const siteConfig = {
   name: "zeile",
   description: "Leave a little note.",
   tagline:
-    "zeile pairs you with one person. Send a quick note or doodle — it lands right on their Home Screen.",
+    "zeile pairs you with one person. Send a quick note or doodle, and it lands right on their Home Screen.",
   // TODO(domain): confirm the production domain before launch.
   url: "https://zeile.app",
   cta: "Get the app",
@@ -63,14 +63,14 @@ export const siteConfig = {
     {
       title: "It lives on their Home Screen.",
       description:
-        "No app to open, no inbox to check. Your note shows up on your person's widget the moment you send it — with a quiet ♥ from you. The only heart in the whole app.",
+        "No app to open, no inbox to check. Your note shows up on your person's widget the moment you send it, with a quiet ♥ from you.",
       media: "widget" as const,
       direction: "ltr" as const,
     },
     {
       title: "Or draw it instead.",
       description:
-        "Some things don't need words. Sketch in any color you can think of — the whole wheel, not just a few inks — and send. Your doodle arrives crisp on a little white card, right next to their apps.",
+        "Some things don't need words. Sketch in any color you can think of (the whole wheel, not just a few inks) and send. Your doodle arrives crisp on a little white card, right next to their apps.",
       media: "drawing" as const,
       direction: "rtl" as const,
     },
@@ -78,7 +78,7 @@ export const siteConfig = {
   pairing: {
     title: "One code. Two phones.",
     description:
-      "Setup is the whole of it: one of you creates a code, the other types it in. No account, no phone number, no contact list. Just you two.",
+      "Setup is quick. One of you creates a code, the other types it in. No account to make, no phone number, no contact list to share. Just the two of you.",
     sampleCode: "K7RM24QZ",
   },
   bento: [
@@ -86,14 +86,14 @@ export const siteConfig = {
       id: "audience-of-one",
       title: "An audience of one.",
       content:
-        "zeile is you and your person. No feed, no followers, no likes, no streaks. Nothing to perform, nothing to keep up — just the small good feeling of being thought of.",
+        "zeile is just you and your person. No feed, no followers, no likes or streaks to chase, and nothing to perform. Just the small good feeling of being thought of.",
       fullWidth: true,
     },
     {
       id: "write-or-draw",
       title: "Write it or draw it.",
       content:
-        "A short note or a quick doodle — whatever the moment calls for.",
+        "A short note or a quick doodle, whichever fits the moment.",
       screenshot: {
         // Drop simulator captures in public/images/screens/ under these
         // names and the placeholder swaps itself for the real thing.
@@ -108,7 +108,7 @@ export const siteConfig = {
       id: "no-signup",
       title: "Nothing to sign up for.",
       content:
-        "No account, no email, no password. Pair once and start sending.",
+        "No email, no password, nothing to verify. Pair once and you're sending.",
       screenshot: {
         src: "/images/screens/screen-history-light.png",
         srcDark: "/images/screens/screen-history-dark.png",
@@ -122,7 +122,12 @@ export const siteConfig = {
     {
       question: "Do we both need the app?",
       answer:
-        "Yes — zeile is for two. You each install it, pair once, and add the widget to your Home Screens. It's iPhone-only, iOS 17 and up.",
+        "Yes, zeile is for two. You each install it, pair once, and add the widget to your Home Screens. It's iPhone-only, iOS 17 and up.",
+    },
+    {
+      question: "Is zeile free?",
+      answer:
+        "Yes, completely. zeile is free to download and free to use. There's no premium version to upgrade to, no subscription, and nothing locked behind a paywall. It's open source too, so you can see exactly what it does.",
     },
     {
       question: "How does pairing work?",
@@ -131,30 +136,18 @@ export const siteConfig = {
     },
     {
       question: "Is there an Android version?",
-      answer: (
-        <>
-          Not yet — zeile is iOS-only for now. If your person is on Android,{" "}
-          <a
-            href={links.appRepo}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="underline underline-offset-4 transition-colors hover:text-primary"
-          >
-            tell us on GitHub
-          </a>{" "}
-          — it helps us decide what to build next.
-        </>
-      ),
+      answer:
+        "No, and I'd rather be honest about why. zeile syncs your notes and doodles through iCloud and Apple's CloudKit, and there's no way to run that on Android. The other half of it: I'm just one person who built zeile on the side, and an Android version is more time and effort than I can take on right now. Sorry. I know that's not the answer you were hoping for.",
     },
     {
       question: "Are my notes private?",
       answer:
-        "Your notes only ever go to your paired person — there's no feed, no public anything. They sync through Apple's iCloud (CloudKit) and are not end-to-end encrypted, so think of zeile like a postcard, not a vault. Don't send anything sensitive.",
+        "Your notes only ever go to your paired person. There's no feed and nothing public. They sync through Apple's iCloud (CloudKit) and are not end-to-end encrypted, so think of zeile like a postcard, not a vault. Don't send anything sensitive.",
     },
     {
       question: "What does the widget show?",
       answer:
-        "The latest note from your person — text or doodle — with “♥ from <their name>” and when it arrived. Your own sends live in History inside the app.",
+        "The latest note from your person, whether text or doodle, shown with “♥ from <their name>” and when it arrived. Your own sends live in History inside the app.",
     },
   ] as { question: string; answer: ReactNode }[],
   footer: {

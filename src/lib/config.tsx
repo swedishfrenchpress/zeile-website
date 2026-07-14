@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 import type { DrawingName } from "@/components/mockups/drawings";
 import type { DrawingVideoConfig } from "@/components/mockups/drawing-video";
@@ -198,8 +199,29 @@ export const siteConfig = {
     },
     {
       question: "Are my notes private?",
-      answer:
-        "Your notes are meant only for you and your paired person. zeile has no feed or public profile. They sync through Apple’s iCloud (CloudKit), where your pair code is the only secret protecting them. They aren’t end-to-end encrypted. Think of zeile like a postcard, not a vault. Don’t send anything sensitive.",
+      answer: (
+        <>
+          <p>
+            Your notes are meant only for you and your paired person. zeile has
+            no feed or public profile. They sync through zeile’s shared public
+            CloudKit database, and zeile uses your pair code to separate your
+            notes from other pairs. A pair code isn’t an encryption key, and
+            notes aren’t end-to-end encrypted. Think of zeile like a postcard,
+            not a vault. Don’t send anything sensitive.
+          </p>
+          <p className="mt-3">
+            Want the full picture? Our{" "}
+            <Link
+              href={links.privacy}
+              className="text-primary underline underline-offset-4"
+            >
+              privacy policy
+            </Link>{" "}
+            explains exactly how zeile stores your data, how long notes are
+            kept, and what the developer can access.
+          </p>
+        </>
+      ),
     },
     {
       question: "What does the widget show?",

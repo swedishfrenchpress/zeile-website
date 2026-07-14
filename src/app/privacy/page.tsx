@@ -7,9 +7,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy policy · zeile",
   description:
-    "How zeile handles your information: no accounts, no analytics, no tracking. Notes sync through Apple's iCloud to reach your one person.",
+    "How zeile stores and handles notes, doodles, pairing data, and device information using Apple CloudKit.",
   alternates: { canonical: "/privacy" },
 };
+
+const externalLinkClass = "text-primary underline underline-offset-4";
 
 export default function PrivacyPage() {
   return (
@@ -18,129 +20,193 @@ export default function PrivacyPage() {
       intro={
         <p>
           This Privacy Policy explains how zeile (&ldquo;we,&rdquo;
-          &ldquo;our,&rdquo; or &ldquo;us&rdquo;) handles your information. We
-          are committed to protecting your privacy and being transparent about
-          our data practices.
+          &ldquo;our,&rdquo; or &ldquo;us&rdquo;) stores and handles your
+          information when you use the app.
           <span className="mt-3 block text-sm text-muted-foreground">
-            Last updated: July 12, 2026
+            Last updated: July 15, 2026
           </span>
         </p>
       }
     >
-      <SubpageSection heading="Data collection">
+      <SubpageSection heading="The short version">
         <p>
-          zeile does not collect, store, or process any personal data on
-          servers of our own. We don&apos;t run any. There are no accounts,
-          no sign-ups, no analytics, and no tracking.
+          zeile has no accounts, advertising, analytics, or tracking. It uses
+          Apple&apos;s CloudKit service to store the information needed to pair
+          two people and deliver their notes and doodles. This data is stored
+          in zeile&apos;s shared public CloudKit database and is not end-to-end
+          encrypted.
         </p>
       </SubpageSection>
 
-      <SubpageSection heading="What we don't collect">
+      <SubpageSection heading="Where your data is stored">
+        <p>
+          zeile uses Apple&apos;s CloudKit service. Notes, doodles, and pairing
+          data are stored in zeile&apos;s shared CloudKit public database—not in
+          either person&apos;s personal, private iCloud database. zeile does not
+          operate its own servers.
+        </p>
+        <p>
+          &ldquo;Public database&rdquo; is a technical CloudKit term. It does
+          not mean zeile publishes your notes in a public feed, on a profile,
+          or on a searchable webpage. It means the database is shared at the
+          app level rather than giving every pair its own private database.
+        </p>
+      </SubpageSection>
+
+      <SubpageSection heading="How pairs are separated">
+        <p>
+          Each note includes your pair code, which zeile uses to retrieve the
+          right pair&apos;s notes. One person must approve the second person
+          before the pair is connected, and the normal pairing flow locks
+          after two people are connected.
+        </p>
+        <p>
+          This separation happens in the application; it is not cryptographic
+          access control. A pair code is not an encryption key, and notes are
+          not end-to-end encrypted. A technically capable person with access
+          to zeile&apos;s CloudKit interface could potentially access public
+          database records outside the normal app experience.
+        </p>
+      </SubpageSection>
+
+      <SubpageSection heading="What zeile stores">
+        <p>
+          To provide pairing, notifications, history, and the Home Screen
+          widget, zeile may store:
+        </p>
+        <ul>
+          <li>Your note text or doodle</li>
+          <li>Your chosen display name</li>
+          <li>The pair code associated with the note</li>
+          <li>The note type and creation time</li>
+          <li>
+            Technical device identifiers used to distinguish the two paired
+            devices
+          </li>
+          <li>Pairing and approval status</li>
+        </ul>
+        <p>
+          zeile does not collect your email address, phone number, location,
+          advertising identifier, or usage analytics.
+        </p>
+      </SubpageSection>
+
+      <SubpageSection heading="Data stored on your device">
+        <p>
+          The latest received note may be cached locally in zeile&apos;s App
+          Group storage so the Home Screen widget can display it without
+          downloading it again. Unpairing clears the connection and widget
+          data from that device.
+        </p>
+      </SubpageSection>
+
+      <SubpageSection heading="Who can access the database">
+        <p>
+          Apple operates the CloudKit infrastructure. zeile&apos;s developer
+          also has administrative access to the app&apos;s public CloudKit
+          database and can inspect or delete records when necessary to
+          operate, troubleshoot, secure, or maintain the service.
+        </p>
+        <p>
+          Apple explains its public database model in the documentation for the{" "}
+          <Link
+            href="https://developer.apple.com/documentation/cloudkit/ckcontainer/publicclouddatabase"
+            className={externalLinkClass}
+          >
+            public CloudKit database
+          </Link>{" "}
+          and its guide to{" "}
+          <Link
+            href="https://developer.apple.com/documentation/cloudkit/handling-an-icloud-container-s-data"
+            className={externalLinkClass}
+          >
+            CloudKit data management
+          </Link>
+          .
+        </p>
+      </SubpageSection>
+
+      <SubpageSection heading="How long notes are kept">
+        <p>zeile applies two limits to note and doodle records:</p>
         <ul>
           <li>
-            Personal information like a name, email, or phone number
-            (there&apos;s no account to attach it to)
+            Notes become eligible for permanent deletion when they reach 90
+            days old.
           </li>
-          <li>Location data</li>
-          <li>Usage analytics or tracking data</li>
-          <li>Advertising identifiers</li>
-          <li>Any data that could identify you personally</li>
+          <li>
+            If a pair has more than 100 notes, everything outside the newest
+            100 becomes eligible for permanent deletion.
+          </li>
         </ul>
-      </SubpageSection>
-
-      <SubpageSection heading="How the app works">
         <p>
-          You pair with exactly one person using an 8-character code. The
-          notes and doodles you send sync through Apple&apos;s iCloud
-          (CloudKit) so they can reach your paired device, and they arrive
-          with a push notification through Apple&apos;s notification service.
-          All of this runs on Apple&apos;s infrastructure. We never see your
-          notes on servers of our own, because we don&apos;t have any.
+          An automated cleanup runs once per day and permanently deletes
+          records that pass either limit. Deletion may therefore happen during
+          the next daily cleanup rather than at the exact moment a note reaches
+          a limit.
         </p>
         <p>
-          One honest caveat: notes are protected by your pairing code and are
-          <strong> not end-to-end encrypted</strong>. Think of zeile like a
-          postcard, not a vault. Please don&apos;t send anything sensitive.
+          These limits apply to notes and doodles. Pairing records—including
+          pair codes, display names, device identifiers, and connection
+          status—are stored separately and are not currently included in the
+          automatic 90-day or 100-note cleanup.
+        </p>
+        <p>
+          Unpairing does not immediately delete the pair&apos;s existing
+          CloudKit records. Note and doodle records remain subject to the
+          retention policy above.
+        </p>
+      </SubpageSection>
+
+      <SubpageSection heading="Sensitive information">
+        <p>
+          Because zeile is not end-to-end encrypted storage, do not use it for
+          passwords, financial information, medical information, private keys,
+          or anything else that could cause harm if disclosed. Think of zeile
+          like a postcard, not a vault.
         </p>
       </SubpageSection>
 
       <SubpageSection heading="Third-party services">
-        <p>Our app relies on Apple services to work:</p>
+        <p>zeile relies on Apple services to work:</p>
         <ul>
           <li>
             <strong>App distribution:</strong> the Apple App Store for iOS
             distribution
           </li>
           <li>
-            <strong>Sync &amp; notifications:</strong> Apple iCloud (CloudKit)
-            and the Apple Push Notification service, used solely to deliver
-            notes between your two paired devices
+            <strong>Storage and sync:</strong> Apple iCloud and CloudKit to
+            store and deliver notes, doodles, and pairing data
+          </li>
+          <li>
+            <strong>Notifications:</strong> the Apple Push Notification
+            service to notify the paired device of a new note
           </li>
         </ul>
         <p>
-          These services have their own privacy policies, and we encourage you
-          to review them. We do not share any user data with anyone else.
+          Apple handles information under its own privacy policies. zeile does
+          not sell your data or share it with advertisers or data brokers.
         </p>
       </SubpageSection>
 
-      <SubpageSection heading="Your rights (EU GDPR)">
+      <SubpageSection heading="Your choices and rights">
         <p>
-          Under the General Data Protection Regulation (GDPR), you have the
-          following rights:
+          Depending on where you live, you may have rights to access, correct,
+          delete, restrict, or receive a copy of personal data associated with
+          you, and to object to certain processing. You may also have the right
+          to complain to your local data protection authority.
         </p>
-        <ul>
-          <li>
-            <strong>Right to be informed:</strong> you have the right to know
-            how your data is processed
-          </li>
-          <li>
-            <strong>Right of access:</strong> you can request information
-            about any data we hold about you
-          </li>
-          <li>
-            <strong>Right to rectification:</strong> you can request
-            correction of any inaccurate data
-          </li>
-          <li>
-            <strong>Right to erasure:</strong> you can request deletion of any
-            data we hold about you
-          </li>
-          <li>
-            <strong>Right to restrict processing:</strong> you can request
-            limitation of data processing
-          </li>
-          <li>
-            <strong>Right to data portability:</strong> you can request your
-            data in a portable format
-          </li>
-          <li>
-            <strong>Right to object:</strong> you can object to data
-            processing
-          </li>
-        </ul>
         <p>
-          Since we don&apos;t collect any personal data beyond the notes you
-          choose to send to your person, these rights are largely not
-          applicable, but we&apos;re happy to confirm this in writing if
-          requested.
+          Because zeile has no user accounts, our ability to identify records
+          as yours may be limited. Contact us if you want to make a request or
+          have a question about your data.
         </p>
       </SubpageSection>
 
       <SubpageSection heading="Changes to this policy">
         <p>
-          We may update this Privacy Policy from time to time. We will notify
-          users of any material changes by updating the &ldquo;Last
-          updated&rdquo; date at the top of this policy. We encourage you to
-          review this policy periodically.
-        </p>
-      </SubpageSection>
-
-      <SubpageSection heading="Legal basis">
-        <p>
-          We don&apos;t process personal data on our own behalf; the notes you
-          send exist solely so they can be delivered to your paired device.
-          We maintain this privacy policy to be transparent about our
-          practices and to comply with best practices for mobile applications.
+          We may update this Privacy Policy from time to time. We will show
+          material changes by updating the &ldquo;Last updated&rdquo; date at
+          the top of this policy. We encourage you to review it periodically.
         </p>
       </SubpageSection>
 

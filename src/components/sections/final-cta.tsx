@@ -89,7 +89,7 @@ export function FinalCta() {
                     delay: REVEAL_STAGGER * 2,
                   }
             }
-            className="mt-5 max-w-[46ch] type-lead text-balance text-foreground/75"
+            className="mt-5 max-w-[46ch] whitespace-pre-line type-lead text-balance text-foreground/75"
           >
             {description}
           </motion.p>

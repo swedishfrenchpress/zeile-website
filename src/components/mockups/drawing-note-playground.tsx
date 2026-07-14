@@ -199,7 +199,7 @@ export function DrawingNotePlayground({
 
   return (
     <div className="relative w-full text-left">
-      <div className="mx-auto flex w-full max-w-[560px] min-w-0 flex-col gap-4">
+      <div className="mx-auto flex w-full max-w-[500px] min-w-0 flex-col gap-4">
         <h3 className="type-subhead text-foreground">{promptLabel}</h3>
 
         <div className="relative aspect-square overflow-hidden rounded-note border border-rose-hairline bg-canvas-white shadow-[var(--paper-shadow)] focus-within:border-primary focus-within:shadow-[var(--paper-shadow),0_0_16px_0_var(--rose-glow)]">

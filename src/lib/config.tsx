@@ -214,7 +214,7 @@ export const siteConfig = {
   finalCta: {
     title: "Go leave the first note.",
     description:
-      "You've read this far, so there's clearly someone in mind. Make the first move.",
+      "You've read this far, so there's clearly someone in mind.\nMake the first move.",
     promptLabel: "Draw a little something.",
     canvasPlaceholder: "Draw a little doodle…",
     localDisclosure: "Just a preview. Nothing leaves this page.",

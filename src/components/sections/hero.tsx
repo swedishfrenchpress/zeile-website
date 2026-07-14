@@ -19,7 +19,7 @@ import { siteConfig } from "@/lib/config";
 import { SECTION_DOODLES } from "@/lib/doodles";
 
 const emptySubscribe = () => () => {};
-const HERO_VIDEO_PLAYBACK_RATE = 7;
+const HERO_VIDEO_PLAYBACK_RATE = 9;
 
 function HeroMediaSequence({
   theme,
@@ -40,10 +40,11 @@ function HeroMediaSequence({
           viewBox="0 0 620 700"
           preserveAspectRatio="none"
           fill="none"
-          className="pointer-events-none absolute inset-0 z-0 h-full w-full text-foreground/15"
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-visible text-foreground/15"
         >
           <motion.path
-            d="M102 590 C28 515 28 300 105 120 C190 8 430 18 540 140 C628 238 625 490 520 600 C440 674 220 690 112 615"
+            d="M310 638 C270 600 62 469 62 272 C62 132 204 74 310 194 C416 74 558 132 558 272 C558 469 350 600 310 638"
+            transform="translate(110 -24) rotate(14 310 350)"
             stroke="currentColor"
             strokeWidth={5}
             strokeLinecap="round"

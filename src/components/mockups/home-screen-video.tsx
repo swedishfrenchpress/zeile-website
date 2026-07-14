@@ -34,7 +34,7 @@ interface HomeScreenVideoProps extends HomeScreenVideoConfig {
 const MEDIA_CLASS = "h-full w-full select-none object-cover object-top";
 
 /** Play the add-widget capture a touch faster than real time so it reads briskly. */
-const PLAYBACK_RATE = 1.5;
+const PLAYBACK_RATE = 2;
 
 function ThemedVideo({
   source,

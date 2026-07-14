@@ -9,10 +9,7 @@
  * trick; no filters. Marks read as quick pen doodles from the app's
  * drawing canvas, never as icons.
  *
- * Hearts: the site's One-Heart Rule was relaxed by the owner (2026-07) —
- * hearts now appear as decorative doodles here alongside everything else.
- * The widget mockup's "♥ from <name>" sender mark is still the signature
- * heart; these margin hearts are casual scribbles, not that sender mark.
+ * Hearts appear alongside the rest of the decorative doodle vocabulary.
  */
 
 export type DoodleVariant =

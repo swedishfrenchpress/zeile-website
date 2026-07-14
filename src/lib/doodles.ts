@@ -10,8 +10,7 @@
  *  - doodles live in gutters, beside headings, and at section seams —
  *    never behind running text or interactive targets
  *  - never the same variant twice within one viewport; rotation adds variety
- *  - hearts are allowed decoratively here (owner relaxed the One-Heart Rule,
- *    2026-07); the widget's sender mark stays the signature heart
+ *  - hearts share the same restraint and placement rules as every other mark
  *  - low opacity always — these are margin scribbles, not illustrations
  *  - `mobile: true` marks the small subset that renders below md
  *

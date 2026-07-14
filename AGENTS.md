@@ -15,8 +15,6 @@ Tailwind v4 (CSS-first config — no tailwind.config.js; all tokens live in
 
 - **One Rose Rule**: zeile Rose (`--rose`, #D63864 light / #FB5481 dark) is
   the ONLY accent. Decorative doodles use the ink palette; never rose.
-- **One-Heart Rule**: exactly one heart on the site — the widget mockup's
-  "♥ from <name>" sender mark. Never decoration, never looping.
 - **Anti-glass**: surfaces are opaque note paper (`note-surface` utility) +
   one soft shadow + a rose glow. The pairing code chip is the only
   translucent element.

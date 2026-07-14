@@ -1,6 +1,7 @@
 "use client";
 
 import { Section } from "@/components/section";
+import { DrawingNotePlayground } from "@/components/mockups/drawing-note-playground";
 import { AppStoreBadge } from "@/components/ui/app-store-badge";
 import {
   easeOutCubic,
@@ -10,13 +11,20 @@ import {
 import { siteConfig } from "@/lib/config";
 import { motion, useReducedMotion } from "framer-motion";
 
-// The closing bookend: after the FAQ, one last quiet nudge to download.
-// Echoes the hero's "Leave a little note." headline so the page comes full
-// circle. Opaque note-paper card (anti-glass), rose only as the ambient
-// glow, and no heart — that stays reserved for the widget mockup.
 export function FinalCta() {
   const reduceMotion = useReducedMotion() ?? false;
-  const { title, description } = siteConfig.finalCta;
+  const {
+    title,
+    description,
+    promptLabel,
+    canvasPlaceholder,
+    localDisclosure,
+    inkLabel,
+    brushLabel,
+    eraserLabel,
+    undoLabel,
+    clearLabel,
+  } = siteConfig.finalCta;
 
   return (
     <Section
@@ -36,55 +44,85 @@ export function FinalCta() {
             ? { duration: 0 }
             : { duration: REVEAL_DURATION_MD, ease: easeOutCubic }
         }
-        className="note-surface relative mx-auto flex max-w-3xl flex-col items-center overflow-hidden rounded-card px-8 py-16 text-center sm:px-12 sm:py-20"
+        className="relative mx-auto flex max-w-5xl flex-col items-center text-center"
       >
-        {/* warm rose haze pooling behind the card's contents */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 flex items-center justify-center"
+          className="pointer-events-none absolute inset-x-0 top-1/3 flex items-center justify-center"
         >
-          <div className="size-[420px] rounded-full bg-primary/[0.09] blur-[120px]" />
+          <div className="size-[520px] rounded-full bg-primary/[0.09] blur-[140px]" />
         </div>
 
-        <motion.h2
-          initial={
-            reduceMotion ? false : { opacity: 0, y: 16, filter: "blur(8px)" }
-          }
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={
-            reduceMotion
-              ? { duration: 0 }
-              : {
-                  duration: REVEAL_DURATION_MD,
-                  ease: easeOutCubic,
-                  delay: REVEAL_STAGGER,
-                }
-          }
-          className="relative type-display-2 text-balance text-foreground"
-        >
-          {title}
-        </motion.h2>
+        <div className="relative flex flex-col items-center">
+          <motion.h2
+            initial={
+              reduceMotion ? false : { opacity: 0, y: 16, filter: "blur(8px)" }
+            }
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : {
+                    duration: REVEAL_DURATION_MD,
+                    ease: easeOutCubic,
+                    delay: REVEAL_STAGGER,
+                  }
+            }
+            className="type-display-2 text-balance text-foreground"
+          >
+            {title}
+          </motion.h2>
 
-        <motion.p
+          <motion.p
+            initial={
+              reduceMotion ? false : { opacity: 0, y: 16, filter: "blur(8px)" }
+            }
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : {
+                    duration: REVEAL_DURATION_MD,
+                    ease: easeOutCubic,
+                    delay: REVEAL_STAGGER * 2,
+                  }
+            }
+            className="mt-5 max-w-[46ch] type-lead text-balance text-foreground/75"
+          >
+            {description}
+          </motion.p>
+        </div>
+
+        <motion.div
           initial={
-            reduceMotion ? false : { opacity: 0, y: 16, filter: "blur(8px)" }
+            reduceMotion ? false : { opacity: 0, y: 18, filter: "blur(8px)" }
           }
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={
             reduceMotion
               ? { duration: 0 }
               : {
                   duration: REVEAL_DURATION_MD,
                   ease: easeOutCubic,
-                  delay: REVEAL_STAGGER * 2,
+                  delay: REVEAL_STAGGER * 3,
                 }
           }
-          className="relative mt-5 max-w-[46ch] type-lead text-balance text-foreground/75"
+          className="relative mt-12 w-full"
         >
-          {description}
-        </motion.p>
+          <DrawingNotePlayground
+            promptLabel={promptLabel}
+            canvasPlaceholder={canvasPlaceholder}
+            localDisclosure={localDisclosure}
+            inkLabel={inkLabel}
+            brushLabel={brushLabel}
+            eraserLabel={eraserLabel}
+            undoLabel={undoLabel}
+            clearLabel={clearLabel}
+          />
+        </motion.div>
 
         <motion.div
           initial={
@@ -98,10 +136,10 @@ export function FinalCta() {
               : {
                   duration: REVEAL_DURATION_MD,
                   ease: easeOutCubic,
-                  delay: REVEAL_STAGGER * 3,
+                  delay: REVEAL_STAGGER * 4,
                 }
           }
-          className="relative mt-10 flex justify-center"
+          className="relative mt-12 flex justify-center"
         >
           <AppStoreBadge href={siteConfig.links.appStore} />
         </motion.div>

@@ -11,11 +11,8 @@ import { AnimatePresence, motion } from "framer-motion";
  * A pixel-faithful CSS recreation of the zeile home-screen widget — the
  * app's "front door" (ZeileWidgetView). Blush widget paper, a soft rose
  * bloom in the top-left by the heart, "♥ from <name>" in the rounded voice,
- * and the note (text or drawing) as the hero.
- *
- * The heart here is THE one heart on the entire site (the app's One-Heart
- * Rule: it marks a note that came from your person — never decoration).
- * It pops once when the widget first appears, and never again.
+ * and the note (text or drawing) as the hero. The sender heart pops once
+ * when an animated widget first appears, then stays still.
  *
  * The card itself never moves or re-mounts: arriving notes crossfade in
  * place inside a fixed-height body, so cycling causes zero layout shift.

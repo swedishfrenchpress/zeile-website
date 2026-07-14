@@ -15,8 +15,18 @@ import {
   REVEAL_DURATION_SM,
 } from "@/lib/animation";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  type PanInfo,
+} from "framer-motion";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from "react";
 
 interface FeatureLayout {
   textClass: string;
@@ -93,23 +103,76 @@ const CAROUSEL: DrawingName[] = [
 ];
 
 const CAROUSEL_INTERVAL_MS = 3800;
+const SWIPE_OFFSET_THRESHOLD = 48;
+const SWIPE_VELOCITY_THRESHOLD = 420;
+
+const drawingVariants = {
+  enter: (direction: number) => ({ opacity: 0, x: direction * 20 }),
+  center: { opacity: 1, x: 0 },
+  exit: (direction: number) => ({ opacity: 0, x: direction * -20 }),
+};
 
 function DrawingCarousel({ reduceMotion }: { reduceMotion: boolean }) {
   const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [inView, setInView] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const dotRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const name = CAROUSEL[index];
 
-  // Auto-advance only while on screen and motion is welcome; a manual dot
-  // click restarts the timer (index is a dependency). Reduced motion keeps
-  // the dots fully usable — it just never advances on its own.
+  // Once a visitor takes control, the carousel stays under their control.
   useEffect(() => {
-    if (reduceMotion || !inView) return;
+    if (reduceMotion || !inView || hasInteracted) return;
     const timer = setInterval(
-      () => setIndex((i) => (i + 1) % CAROUSEL.length),
+      () => {
+        setDirection(1);
+        setIndex((current) => (current + 1) % CAROUSEL.length);
+      },
       CAROUSEL_INTERVAL_MS
     );
     return () => clearInterval(timer);
-  }, [reduceMotion, inView, index]);
+  }, [reduceMotion, inView, hasInteracted]);
+
+  const selectDrawing = (nextIndex: number) => {
+    const normalized = (nextIndex + CAROUSEL.length) % CAROUSEL.length;
+    if (normalized !== index) {
+      setDirection(normalized > index ? 1 : -1);
+      setIndex(normalized);
+    }
+    setHasInteracted(true);
+  };
+
+  const stepDrawing = (step: -1 | 1) => {
+    setDirection(step);
+    setIndex((current) => (current + step + CAROUSEL.length) % CAROUSEL.length);
+    setHasInteracted(true);
+  };
+
+  const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const hasSwipeIntent =
+      Math.abs(info.offset.x) >= SWIPE_OFFSET_THRESHOLD ||
+      Math.abs(info.velocity.x) >= SWIPE_VELOCITY_THRESHOLD;
+
+    if (hasSwipeIntent) {
+      stepDrawing(info.offset.x < 0 ? 1 : -1);
+    }
+  };
+
+  const handleDotKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    let nextIndex: number | null = null;
+
+    if (event.key === "ArrowRight") nextIndex = (index + 1) % CAROUSEL.length;
+    if (event.key === "ArrowLeft") {
+      nextIndex = (index - 1 + CAROUSEL.length) % CAROUSEL.length;
+    }
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = CAROUSEL.length - 1;
+    if (nextIndex === null) return;
+
+    event.preventDefault();
+    selectDrawing(nextIndex);
+    dotRefs.current[nextIndex]?.focus();
+  };
 
   return (
     <div className="w-full max-w-[320px]">
@@ -117,18 +180,27 @@ function DrawingCarousel({ reduceMotion }: { reduceMotion: boolean }) {
           same in light and dark, exactly like the app's PencilKit exports.
           Fixed square stage: drawings crossfade in place, nothing reflows. */}
       <motion.div
-        className="relative aspect-square overflow-hidden rounded-note border border-rose-hairline bg-canvas-white shadow-[var(--paper-shadow)]"
+        id="drawing-carousel-panel"
+        role="tabpanel"
+        aria-label={DRAWINGS[name].label}
+        className="relative aspect-square touch-pan-y overflow-hidden rounded-note border border-rose-hairline bg-canvas-white shadow-[var(--paper-shadow)]"
+        drag={reduceMotion ? false : "x"}
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.12}
+        onDragEnd={handleDragEnd}
         onViewportEnter={() => setInView(true)}
         onViewportLeave={() => setInView(false)}
         viewport={{ margin: "-80px" }}
       >
-        <AnimatePresence initial={false}>
+        <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={name}
             className="absolute inset-0 flex items-center justify-center p-6"
-            initial={reduceMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reduceMotion ? undefined : { opacity: 0 }}
+            custom={direction}
+            variants={reduceMotion ? undefined : drawingVariants}
+            initial={reduceMotion ? false : "enter"}
+            animate={reduceMotion ? undefined : "center"}
+            exit={reduceMotion ? undefined : "exit"}
             transition={{ duration: 0.35, ease: easeOutCubic }}
           >
             <Drawing
@@ -144,23 +216,35 @@ function DrawingCarousel({ reduceMotion }: { reduceMotion: boolean }) {
       <div
         role="tablist"
         aria-label="Example drawings"
-        className="mt-5 flex items-center justify-center gap-4"
+        onKeyDown={handleDotKeyDown}
+        className="mt-3 flex items-center justify-center gap-1"
       >
         {CAROUSEL.map((drawingName, i) => (
-          <button
+          <motion.button
             key={drawingName}
+            ref={(element) => {
+              dotRefs.current[i] = element;
+            }}
             type="button"
             role="tab"
             aria-selected={i === index}
+            aria-controls="drawing-carousel-panel"
             aria-label={`Show ${DRAWINGS[drawingName].label}`}
-            onClick={() => setIndex(i)}
-            className={cn(
-              "size-4 rounded-full transition-transform duration-200 ease-out-quart hover:scale-110 motion-reduce:hover:scale-100",
-              i === index &&
-                "ring-2 ring-ring ring-offset-2 ring-offset-background"
-            )}
-            style={{ backgroundColor: DRAWINGS[drawingName].dot }}
-          />
+            tabIndex={i === index ? 0 : -1}
+            onClick={() => selectDrawing(i)}
+            whileTap={reduceMotion ? undefined : { scale: 0.86 }}
+            className="group inline-flex size-10 items-center justify-center rounded-full"
+          >
+            <span
+              aria-hidden
+              className={cn(
+                "size-4 rounded-full transition-transform duration-200 ease-out-quart group-hover:scale-110 motion-reduce:transition-none",
+                i === index &&
+                  "ring-2 ring-ring ring-offset-2 ring-offset-background"
+              )}
+              style={{ backgroundColor: DRAWINGS[drawingName].dot }}
+            />
+          </motion.button>
         ))}
       </div>
     </div>

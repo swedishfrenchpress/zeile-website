@@ -1,12 +1,19 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { createPortal } from "react-dom";
 import { easeOutQuart } from "@/lib/animation";
 import { cn } from "@/lib/utils";
 
 const TOAST_MS = 2200;
+const emptySubscribe = () => () => {};
 
 /** A clean rounded check, drawn in the one rose accent. */
 function CheckMark({ className }: { className?: string }) {
@@ -41,11 +48,14 @@ export function CopyEmail({
   className?: string;
 }) {
   const reduceMotion = useReducedMotion() ?? false;
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
   const [copied, setCopied] = useState(false);
   const timer = useRef<number | null>(null);
 
-  useEffect(() => setMounted(true), []);
   useEffect(
     () => () => {
       if (timer.current) window.clearTimeout(timer.current);
@@ -107,7 +117,7 @@ export function CopyEmail({
                 >
                   <CheckMark className="size-5 text-primary" />
                   <span className="text-base font-semibold text-foreground">
-                    Email copied to clipboard.
+                    Copied. Your move.
                   </span>
                 </motion.div>
               )}

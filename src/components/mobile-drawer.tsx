@@ -2,7 +2,7 @@
 
 import { Icons } from "@/components/icons";
 import { Logo } from "@/components/logo";
-import { AppStoreBadge } from "@/components/ui/app-store-badge";
+import { DownloadCtas } from "@/components/ui/download-ctas";
 import {
   Drawer,
   DrawerContent,
@@ -34,7 +34,7 @@ export function MobileDrawer() {
       <DrawerContent>
         <DrawerTitle className="sr-only">Menu</DrawerTitle>
         <DrawerDescription className="sr-only">
-          Navigation links and the App Store download
+          Navigation links and zeile download options
         </DrawerDescription>
         <DrawerHeader className="px-6">
           <Link
@@ -65,10 +65,7 @@ export function MobileDrawer() {
           ))}
         </nav>
         <DrawerFooter className="gap-3">
-          <AppStoreBadge
-            href={siteConfig.links.appStore}
-            className="w-full justify-center"
-          />
+          <DownloadCtas />
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

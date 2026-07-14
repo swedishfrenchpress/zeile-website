@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 
 const NAV_ICONS = [
   { label: "View source on GitHub", href: siteConfig.links.appRepo, icon: Icons.github },
-  { label: "Get zeile on the App Store", href: siteConfig.links.appStore, icon: Icons.apple },
+  { label: "Try the zeile beta on TestFlight", href: siteConfig.links.testFlight, icon: Icons.apple },
 ];
 
 export function Header() {
@@ -71,7 +71,9 @@ export function Header() {
             <ThemeToggle className="-m-2.5 inline-flex items-center justify-center p-2.5" />
           </div>
           <a
-            href={siteConfig.links.appStore}
+            href={siteConfig.links.testFlight}
+            target="_blank"
+            rel="noreferrer noopener"
             className={cn(buttonVariants({ variant: "primary", size: "sm" }))}
           >
             {siteConfig.cta}

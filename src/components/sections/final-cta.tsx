@@ -2,7 +2,7 @@
 
 import { Section } from "@/components/section";
 import { DrawingNotePlayground } from "@/components/mockups/drawing-note-playground";
-import { AppStoreBadge } from "@/components/ui/app-store-badge";
+import { DownloadCtas } from "@/components/ui/download-ctas";
 import {
   easeOutCubic,
   REVEAL_DURATION_MD,
@@ -141,7 +141,7 @@ export function FinalCta() {
           }
           className="relative mt-12 flex justify-center"
         >
-          <AppStoreBadge href={siteConfig.links.appStore} />
+          <DownloadCtas />
         </motion.div>
       </motion.div>
     </Section>

@@ -6,7 +6,7 @@ import { useState, useSyncExternalStore } from "react";
 import { DrawingVideo } from "@/components/mockups/drawing-video";
 import { WidgetCard } from "@/components/mockups/widget-card";
 import { DoodleField } from "@/components/paper/doodle-field";
-import { AppStoreBadge } from "@/components/ui/app-store-badge";
+import { DownloadCtas } from "@/components/ui/download-ctas";
 import {
   easeOutCubic,
   easeOutQuart,
@@ -281,12 +281,9 @@ export function Hero() {
                       delay: REVEAL_STAGGER * 2,
                     }
               }
-              className="order-3 flex w-full max-w-xs justify-center justify-self-center sm:w-auto sm:max-w-none min-[900px]:order-none min-[900px]:mt-8 min-[900px]:justify-start min-[900px]:justify-self-auto"
+              className="order-3 flex w-full max-w-xs justify-center justify-self-center sm:max-w-none min-[900px]:order-none min-[900px]:mt-8 min-[900px]:justify-self-auto"
             >
-              <AppStoreBadge
-                href={siteConfig.links.appStore}
-                className="w-full justify-center sm:w-auto"
-              />
+              <DownloadCtas className="min-[900px]:justify-start" />
             </motion.div>
           </div>
 

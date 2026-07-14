@@ -4,11 +4,13 @@ import type { DrawingVideoConfig } from "@/components/mockups/drawing-video";
 import type { HomeScreenVideoConfig } from "@/components/mockups/home-screen-video";
 
 // TODO(launch): swap for the real App Store link the day zeile ships.
-// Header, hero badge, and footer all read this one constant.
+// Every disabled App Store badge reads this one constant.
 export const APP_STORE_URL = "#";
+export const TESTFLIGHT_URL = "https://testflight.apple.com/join/4ZXFHq4U";
 
 const links = {
   appStore: APP_STORE_URL,
+  testFlight: TESTFLIGHT_URL,
   appRepo: "https://github.com/swedishfrenchpress/zeile",
   siteRepo: "https://github.com/swedishfrenchpress/zeile-website",
   email: "erikcativo@pm.me",
@@ -42,7 +44,7 @@ export const siteConfig = {
     "zeile pairs you with one person. Send a quick note or doodle, and it lands right on their Home Screen.",
   // TODO(domain): confirm the production domain before launch.
   url: "https://zeile.app",
-  cta: "Get the app",
+  cta: "Try the beta",
   keywords: [
     "zeile",
     "widget",
@@ -231,7 +233,7 @@ export const siteConfig = {
     columns: [
       {
         label: "the app",
-        links: [{ label: "App Store", href: links.appStore }],
+        links: [{ label: "TestFlight beta", href: links.testFlight }],
       },
       {
         label: "source",

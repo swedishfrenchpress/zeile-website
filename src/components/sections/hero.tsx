@@ -69,9 +69,10 @@ export function Hero() {
         >
           <span className="inline-flex items-center gap-2.5 rounded-full bg-paper px-5 py-2.5 shadow-[var(--paper-shadow)]">
             <span aria-hidden className="size-2.5 rounded-full bg-primary" />
-            <span className="text-base font-semibold sm:text-lg">
+            <span className="text-xs font-bold uppercase tracking-[0.11em] sm:text-sm">
               <span className="text-foreground">100% free</span>
-              <span className="text-muted-foreground"> · no subscriptions</span>
+              <span className="text-foreground/35"> · </span>
+              <span className="text-foreground/55">no subscriptions</span>
             </span>
           </span>
         </motion.div>

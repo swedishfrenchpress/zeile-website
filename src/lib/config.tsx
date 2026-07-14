@@ -97,6 +97,18 @@ export const siteConfig = {
     description:
       "Setup is quick. One of you creates a code, the other types it in. No account to make, no phone number, no contact list to share. Just the two of you.",
     sampleCode: "K7RM24QZ",
+    screenshot: {
+      src: "/images/screens/screen-pairing-light.png",
+      srcDark: "/images/screens/screen-pairing-dark.png",
+      alt: "The zeile pairing screen where a person enters an 8-character code",
+      ready: true,
+    },
+    onboardingVideo: {
+      light: { src: "/videos/pair-light-mode.mp4" },
+      dark: { src: "/videos/pair-dark-mode.mp4" },
+      poster: "/images/screens/pair-onboarding-light-poster.jpg",
+      posterDark: "/images/screens/pair-onboarding-dark-poster.jpg",
+    },
   },
   bento: [
     {

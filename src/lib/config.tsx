@@ -197,7 +197,7 @@ export const siteConfig = {
     {
       question: "Are my notes private?",
       answer:
-        "Your notes only ever go to your paired person. There's no feed and nothing public. They sync through Apple's iCloud (CloudKit) and are not end-to-end encrypted, so think of zeile like a postcard, not a vault. Don't send anything sensitive.",
+        "Your notes are meant only for you and your paired person. zeile has no feed or public profile. They sync through Apple’s iCloud (CloudKit), where your pair code is the only secret protecting them. They aren’t end-to-end encrypted. Think of zeile like a postcard, not a vault. Don’t send anything sensitive.",
     },
     {
       question: "What does the widget show?",

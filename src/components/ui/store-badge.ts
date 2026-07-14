@@ -1,7 +1,7 @@
-// Shared wrapper styling for the App Store badge — the hero CTA. An opaque
-// zeile-rose fill (the app's .borderedProminent voice), sized generously
-// (h-20) so the primary action reads as the biggest tap target on the page.
+// Shared wrapper styling for the App Store badge — the hero CTA. The inline
+// SVG supplies the opaque, hand-drawn rose surface while this class preserves
+// the generous tap target and keeps the content optically grouped.
 // Never glass: the only translucent surface on the site is the pairing
 // code chip.
 export const storeBadgeClass =
-  "group inline-flex h-20 items-center gap-4 rounded-card bg-primary px-8 text-primary-foreground shadow-[var(--paper-shadow)] transition-[background-color,translate,box-shadow] duration-[250ms] ease-out-quart hover:bg-primary/90 hover:-translate-y-0.5 active:scale-[0.98] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100";
+  "group relative isolate inline-flex h-18 min-w-[236px] items-center gap-3.5 px-7 text-primary-foreground transition-[translate,scale] duration-[250ms] ease-out-quart hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.985] dark:text-background motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100";

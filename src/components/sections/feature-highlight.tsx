@@ -215,7 +215,12 @@ function Feature({
   const animateState = reduceMotion || isActive ? "visible" : "hidden";
 
   return (
-    <div className="grid grid-cols-12 items-center gap-x-6 gap-y-10 lg:gap-x-10">
+    <div
+      className={cn(
+        "grid grid-cols-12 items-center gap-x-6 gap-y-10 lg:gap-x-10",
+        media === "widget" && "lg:items-start"
+      )}
+    >
       <motion.div
         className={cn("col-span-12 lg:row-start-1", layout.textClass)}
         initial={reduceMotion ? "visible" : "hidden"}

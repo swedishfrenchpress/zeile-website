@@ -163,7 +163,12 @@ export const siteConfig = {
         src: "/images/screens/screen-history-light.png",
         srcDark: "/images/screens/screen-history-dark.png",
         alt: "The zeile history screen listing sent and received notes",
-        ready: false,
+        ready: true,
+      },
+      trustNote: {
+        title: "Syncs through iCloud.",
+        description:
+          "Notes and doodles use Apple CloudKit. No zeile account or servers of our own.",
       },
       fullWidth: false,
     },

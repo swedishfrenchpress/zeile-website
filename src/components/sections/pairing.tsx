@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
-function PhoneMockup({
+function PairingPreview({
   children,
   label,
   className,
@@ -27,18 +27,16 @@ function PhoneMockup({
       role="img"
       aria-label={label}
       className={cn(
-        "relative overflow-hidden rounded-[42px] border-[5px] border-[#171517] bg-[#171517] shadow-[0_26px_48px_-20px_rgb(0_0_0/0.55)] ring-1 ring-white/20 dark:ring-white/10",
+        "relative aspect-[1320/2868] overflow-hidden rounded-note border border-border bg-background shadow-[var(--paper-shadow)]",
         className
       )}
     >
-      <div className="relative aspect-[1320/2868] w-full overflow-hidden rounded-[35px] bg-black">
-        {children}
-      </div>
+      {children}
     </div>
   );
 }
 
-function OnboardingPhone({ reduceMotion }: { reduceMotion: boolean }) {
+function OnboardingPreview({ reduceMotion }: { reduceMotion: boolean }) {
   const { onboardingVideo } = siteConfig.pairing;
 
   if (reduceMotion) {
@@ -107,7 +105,7 @@ export function Pairing() {
       hideHeader
       className="container-page px-6 py-[var(--section-y-base)] lg:px-10"
     >
-      {/* A two-person handoff: one phone creates the code, the other joins. */}
+      {/* A two-person handoff: one person creates the code, the other joins. */}
       <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
         <motion.div
           initial={
@@ -122,7 +120,7 @@ export function Pairing() {
           }
           className="relative flex items-center justify-center -space-x-5 sm:-space-x-9 md:-space-x-12"
         >
-          {/* warm rose haze pooling behind the pair of phones */}
+          {/* warm rose haze pooling behind the pair of screens */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 flex items-center justify-center"
@@ -130,14 +128,14 @@ export function Pairing() {
             <div className="size-[420px] rounded-full bg-primary/[0.09] blur-[120px]" />
           </div>
 
-          <PhoneMockup
+          <PairingPreview
             label="A person setting up zeile and creating a pairing code"
             className="z-0 w-[148px] -rotate-[6deg] sm:w-[205px] md:w-[248px]"
           >
-            <OnboardingPhone reduceMotion={reduceMotion} />
-          </PhoneMockup>
+            <OnboardingPreview reduceMotion={reduceMotion} />
+          </PairingPreview>
 
-          <PhoneMockup
+          <PairingPreview
             label={siteConfig.pairing.screenshot.alt}
             className="z-10 mt-8 w-[148px] rotate-[6deg] sm:mt-12 sm:w-[205px] md:w-[248px]"
           >
@@ -159,7 +157,7 @@ export function Pairing() {
               className="hidden h-full w-full object-cover dark:block"
               draggable={false}
             />
-          </PhoneMockup>
+          </PairingPreview>
         </motion.div>
 
         <motion.h2

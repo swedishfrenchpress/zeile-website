@@ -15,11 +15,10 @@ export function FAQ() {
           Questions, answered.
         </h2>
         <div className="flex flex-col gap-3">
-          {siteConfig.faqs.map((faq, index) => (
+          {siteConfig.faqs.map((faq) => (
             <AccordionItem
-              key={index}
+              key={faq.question}
               question={faq.question}
-              defaultOpen={index === 0}
               className="note-surface border-b-0 px-6"
             >
               {faq.answer}

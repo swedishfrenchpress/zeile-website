@@ -8,10 +8,35 @@ import { easeInOutCubic } from "@/lib/animation";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { Cloud } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const CARD_MIN_HEIGHTS = ["min-h-[420px]", "min-h-[420px]", "min-h-[420px]"];
 const NOTE_CYCLE_MS = 5200;
+
+function ICloudTrustNote({
+  note,
+}: {
+  note: { title: string; description: string };
+}) {
+  return (
+    <div className="flex items-start gap-3 rounded-[18px] border border-black/[0.05] bg-widget-paper p-4 text-left shadow-[var(--paper-shadow),0_10px_28px_-18px_var(--rose-glow)] dark:border-white/[0.07]">
+      <Cloud
+        aria-hidden="true"
+        className="mt-0.5 size-7 shrink-0 text-primary"
+        strokeWidth={2.25}
+      />
+      <div className="min-w-0">
+        <p className="font-display text-sm font-extrabold leading-tight text-foreground">
+          {note.title}
+        </p>
+        <p className="mt-1.5 text-xs leading-relaxed text-foreground/65">
+          {note.description}
+        </p>
+      </div>
+    </div>
+  );
+}
 
 /** your phone → their Home Screen: one send, one receive, nobody else */
 function TwoPhones({
@@ -182,10 +207,18 @@ export function BentoGrid() {
                     sender={sender}
                     size="medium"
                     animate={!reduceMotion}
-                    showSenderMark={false}
-                    showTimestamp={false}
                     className="w-full max-w-[280px] text-left"
                   />
+                ) : item.id === "no-signup" ? (
+                  <div className="relative mx-auto w-full max-w-[390px] pt-24 transition-transform duration-500 group-hover:-translate-y-1 sm:pt-16 motion-reduce:group-hover:translate-y-0">
+                    <ScreenshotPlaceholder
+                      screenshot={item.screenshot!}
+                      className="mx-auto max-w-[240px] rotate-1"
+                    />
+                    <div className="absolute top-0 left-0 w-[240px] max-w-[calc(100%-1rem)] -rotate-2">
+                      <ICloudTrustNote note={item.trustNote!} />
+                    </div>
+                  </div>
                 ) : item.screenshot ? (
                   <ScreenshotPlaceholder
                     screenshot={item.screenshot}

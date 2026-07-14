@@ -321,7 +321,7 @@ export function DrawingNotePlayground({
               />
             )}
           </span>
-          <label className="flex min-w-0 flex-1 flex-col gap-2">
+          <label className="flex min-h-11 min-w-0 flex-1 flex-col justify-center gap-2">
             <span className="sr-only">{brushLabel}</span>
             <input
               type="range"

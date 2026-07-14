@@ -89,7 +89,7 @@ export function CopyEmail({
       {mounted &&
         createPortal(
           <div
-            className="pointer-events-none fixed top-6 right-6 z-50 flex justify-end"
+            className="pointer-events-none fixed top-[max(1.5rem,env(safe-area-inset-top))] right-[max(1.5rem,env(safe-area-inset-right))] left-[max(1.5rem,env(safe-area-inset-left))] z-50 flex justify-end"
             role="status"
             aria-live="polite"
           >
@@ -113,7 +113,7 @@ export function CopyEmail({
                     duration: reduceMotion ? 0.15 : 0.28,
                     ease: easeOutQuart,
                   }}
-                  className="pointer-events-auto inline-flex items-center gap-3 rounded-full bg-paper px-6 py-3.5 shadow-[var(--paper-shadow)]"
+                  className="pointer-events-auto inline-flex max-w-full items-center gap-3 rounded-full bg-paper px-6 py-3.5 shadow-[var(--paper-shadow)]"
                 >
                   <CheckMark className="size-5 text-primary" />
                   <span className="text-base font-semibold text-foreground">

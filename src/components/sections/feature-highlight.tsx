@@ -233,7 +233,7 @@ function DrawingCarousel({ reduceMotion }: { reduceMotion: boolean }) {
             tabIndex={i === index ? 0 : -1}
             onClick={() => selectDrawing(i)}
             whileTap={reduceMotion ? undefined : { scale: 0.86 }}
-            className="group inline-flex size-10 items-center justify-center rounded-full"
+            className="group inline-flex size-11 items-center justify-center rounded-full"
           >
             <span
               aria-hidden

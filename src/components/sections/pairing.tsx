@@ -118,7 +118,7 @@ export function Pairing() {
               ? { duration: 0 }
               : { duration: REVEAL_DURATION_LG, ease: easeOutCubic }
           }
-          className="relative flex items-center justify-center -space-x-5 sm:-space-x-9 md:-space-x-12"
+          className="relative flex items-center justify-center -space-x-4 min-[375px]:-space-x-5 sm:-space-x-9 md:-space-x-12"
         >
           {/* warm rose haze pooling behind the pair of screens */}
           <div
@@ -130,14 +130,14 @@ export function Pairing() {
 
           <PairingPreview
             label="A person setting up zeile and creating a pairing code"
-            className="z-0 w-[148px] -rotate-[6deg] sm:w-[205px] md:w-[248px]"
+            className="z-0 w-[128px] -rotate-[6deg] min-[375px]:w-[148px] sm:w-[205px] md:w-[248px]"
           >
             <OnboardingPreview reduceMotion={reduceMotion} />
           </PairingPreview>
 
           <PairingPreview
             label={siteConfig.pairing.screenshot.alt}
-            className="z-10 mt-8 w-[148px] rotate-[6deg] sm:mt-12 sm:w-[205px] md:w-[248px]"
+            className="z-10 mt-8 w-[128px] rotate-[6deg] min-[375px]:w-[148px] sm:mt-12 sm:w-[205px] md:w-[248px]"
           >
             <Image
               src={siteConfig.pairing.screenshot.src}

@@ -18,7 +18,7 @@ export function Footer() {
             "radial-gradient(70% 90% at 50% 100%, var(--rose-wash), transparent 75%)",
         }}
       />
-      <div className="container-page relative z-10 flex flex-col px-6 pt-[var(--section-y-tight)] pb-10 lg:px-10">
+      <div className="container-page relative z-10 flex flex-col px-6 pt-[var(--section-y-tight)] pb-[max(2.5rem,env(safe-area-inset-bottom))] lg:px-10">
         {/* Utility columns. md collapse: multi-item grids (bento, this) break at md;
             two-panel text+media sections break at lg. */}
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8 lg:gap-12">
@@ -32,7 +32,7 @@ export function Footer() {
                   const isInternal = link.href.startsWith("/");
                   const isPlaceholder = link.href === "#";
                   const linkClass =
-                    "-mx-1 inline-block px-1 py-1.5 text-base text-foreground/85 transition-colors hover:text-primary";
+                    "-mx-1 inline-block px-1 py-2.5 text-base text-foreground/85 transition-colors hover:text-primary";
                   return (
                     <li key={link.label}>
                       {isInternal ? (

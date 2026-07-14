@@ -30,12 +30,12 @@ export function Header() {
   }, []);
 
   return (
-    <header className="sticky top-4 z-50 flex justify-center px-4 lg:px-6">
+    <header className="sticky top-[max(1rem,env(safe-area-inset-top))] z-50 flex justify-center px-3 sm:px-4 lg:px-6">
       {/* Opaque note paper, never glass (the app's anti-glassmorphism rule):
           the pill reads as a small paper object riding over the page. */}
       <div
         className={cn(
-          "flex w-full max-w-5xl flex-nowrap items-center justify-between gap-6 rounded-card border border-border bg-paper px-6 py-3 shadow-[var(--paper-shadow)] transition-[border-color,box-shadow] duration-500 ease-out-quart lg:px-8",
+          "flex w-full max-w-5xl flex-nowrap items-center justify-between gap-2 rounded-card border border-border bg-paper px-4 py-3 shadow-[var(--paper-shadow)] transition-[border-color,box-shadow] duration-500 ease-out-quart sm:gap-6 sm:px-6 lg:px-8",
           isScrolled && "border-rose-hairline"
         )}
       >

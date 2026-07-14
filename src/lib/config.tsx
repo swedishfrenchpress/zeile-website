@@ -90,7 +90,7 @@ export const siteConfig = {
   },
   featureHighlight: [
     {
-      title: "It lives on their Home Screen.",
+      title: "Right there with your person.",
       description:
         "No app to open, no inbox to check. Your note shows up on your person's widget the moment you send it.",
       media: "widget" as const,
@@ -103,7 +103,7 @@ export const siteConfig = {
       },
     },
     {
-      title: "Or draw it instead.",
+      title: "Draw it instead.",
       description:
         "Some things don't need words. Sketch in any color you can think of (the whole wheel, not just a few inks) and send. Your doodle arrives crisp on a little white card, right next to their apps.",
       media: "drawing" as const,
@@ -131,7 +131,7 @@ export const siteConfig = {
   bento: [
     {
       id: "audience-of-one",
-      title: "An audience of one.",
+      title: "Made for two.",
       content:
         "zeile is just you and your person. No feed, no followers, no likes or streaks to chase, and nothing to perform. Just the small good feeling of being thought of.",
       composeScreenshot: {

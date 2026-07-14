@@ -104,7 +104,7 @@ function TwoPhones({
         image={widgetImage}
         showSenderMark={false}
         showTimestamp={false}
-        className="w-44 rotate-2 text-left sm:w-48"
+        className="w-44 rotate-2 text-left sm:w-48 lg:w-56"
       />
     </div>
   );

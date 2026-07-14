@@ -47,7 +47,7 @@ function HomeScreenWidget({ reduceMotion }: { reduceMotion: boolean }) {
   return (
     <div
       role="img"
-      aria-label="The zeile widget on an iPhone Home Screen, showing a note from Sam"
+      aria-label="The zeile widget on an iPhone Home Screen, showing a note from Erik"
       className="w-full max-w-[320px] rounded-[28px] border border-border bg-background p-5"
     >
       {/* a quiet 4-column icon grid; the small widget takes a 2×2 slot,
@@ -250,7 +250,7 @@ function Feature({
             <HomeScreenVideo
               {...video}
               playMode="in-view-once"
-              ariaLabel="A screen recording of adding the zeile widget to an iPhone Home Screen, where a note from Sam appears"
+              ariaLabel="A screen recording of adding the zeile widget to an iPhone Home Screen, where a note from Erik appears"
             />
           ) : (
             <HomeScreenWidget reduceMotion={reduceMotion} />

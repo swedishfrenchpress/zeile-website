@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { DrawingName } from "@/components/mockups/drawings";
+import type { DrawingVideoConfig } from "@/components/mockups/drawing-video";
 import type { HomeScreenVideoConfig } from "@/components/mockups/home-screen-video";
 
 // TODO(launch): swap for the real App Store link the day zeile ships.
@@ -55,9 +56,26 @@ export const siteConfig = {
   links,
   hero: {
     headline: "Leave a little note.",
-    /** the person whose notes arrive on the hero widget */
-    sender: "Sam",
-    /** cycled by the living widget in the hero — drawings first and mostly */
+    drawingVideo: {
+      light: { src: "/videos/drawing-light.mp4" },
+      dark: { src: "/videos/drawing-dark.mp4" },
+      poster: "/images/screens/drawing-light-poster.jpg",
+      posterDark: "/images/screens/drawing-dark-poster.jpg",
+      finalPoster: "/images/screens/drawing-light-final-poster.png",
+      finalPosterDark: "/images/screens/drawing-dark-final-poster.png",
+      alt: "A screen recording of drawing and sending a doodle in zeile",
+    } satisfies DrawingVideoConfig,
+    finalWidgetImage: {
+      src: "/images/screens/hero-widget-light.jpg",
+      srcDark: "/images/screens/hero-widget-dark.jpg",
+      alt: "A hand-drawn black cat holding a note",
+      altDark: "A hand-drawn orange cat holding a green note",
+      width: 632,
+      height: 632,
+    },
+    /** the person whose notes arrive on the living widget */
+    sender: "Erik",
+    /** cycled by the living widget — drawings first and mostly */
     sampleNotes: [
       { type: "doodle", doodle: "blowkiss", timestamp: "now" },
       { type: "doodle", doodle: "icecream", timestamp: "now" },
@@ -74,7 +92,7 @@ export const siteConfig = {
     {
       title: "It lives on their Home Screen.",
       description:
-        "No app to open, no inbox to check. Your note shows up on your person's widget the moment you send it, with a quiet ♥ from you.",
+        "No app to open, no inbox to check. Your note shows up on your person's widget the moment you send it.",
       media: "widget" as const,
       direction: "ltr" as const,
       video: {
@@ -116,6 +134,17 @@ export const siteConfig = {
       title: "An audience of one.",
       content:
         "zeile is just you and your person. No feed, no followers, no likes or streaks to chase, and nothing to perform. Just the small good feeling of being thought of.",
+      composeScreenshot: {
+        src: "/images/screens/screen-compose-light.png",
+        srcDark: "/images/screens/screen-compose-dark.png",
+        alt: "The zeile drawing composer with its canvas and color palette",
+      },
+      widgetImage: {
+        src: "/images/drawings/cat-serving-cake.png",
+        alt: "A hand-drawn cat serving a birthday cake",
+        width: 1074,
+        height: 1026,
+      },
       fullWidth: true,
     },
     {
@@ -123,14 +152,6 @@ export const siteConfig = {
       title: "Write it or draw it.",
       content:
         "A short note or a quick doodle, whichever fits the moment.",
-      screenshot: {
-        // Drop simulator captures in public/images/screens/ under these
-        // names and the placeholder swaps itself for the real thing.
-        src: "/images/screens/screen-compose-light.png",
-        srcDark: "/images/screens/screen-compose-dark.png",
-        alt: "The zeile compose screen with a note being written",
-        ready: false,
-      },
       fullWidth: false,
     },
     {
@@ -156,7 +177,7 @@ export const siteConfig = {
     {
       question: "Is zeile free?",
       answer:
-        "Yes, completely. zeile is free to download and free to use. There's no premium version to upgrade to, no subscription, and nothing locked behind a paywall. It's open source too, so you can see exactly what it does.",
+        "Yes, completely. zeile is free to download and free to use. There's no premium version to upgrade to, no subscription, and nothing locked behind a paywall.",
     },
     {
       question: "How does pairing work?",
@@ -175,8 +196,14 @@ export const siteConfig = {
     },
     {
       question: "What does the widget show?",
-      answer:
-        "The latest note from your person, whether text or doodle, shown with “♥ from <their name>” and when it arrived. Your own sends live in History inside the app.",
+      answer: (
+        <>
+          The latest note from your person, whether text or doodle, shown with
+          {" “♥ from "}
+          <span className="font-semibold italic">their name</span>
+          {".” Your own sends live in History inside the app."}
+        </>
+      ),
     },
   ] as { question: string; answer: ReactNode }[],
   finalCta: {

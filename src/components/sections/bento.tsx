@@ -1,6 +1,6 @@
 "use client";
 
-import { ComposeMockup } from "@/components/mockups/compose-mockup";
+import Image from "next/image";
 import { ScreenshotPlaceholder } from "@/components/mockups/screenshot-placeholder";
 import { WidgetCard } from "@/components/mockups/widget-card";
 import { Section } from "@/components/section";
@@ -8,15 +8,54 @@ import { easeInOutCubic } from "@/lib/animation";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const CARD_MIN_HEIGHTS = ["min-h-[420px]", "min-h-[420px]", "min-h-[420px]"];
+const NOTE_CYCLE_MS = 5200;
 
 /** your phone → their Home Screen: one send, one receive, nobody else */
-function TwoPhones() {
+function TwoPhones({
+  composeScreenshot,
+  widgetImage,
+}: {
+  composeScreenshot: {
+    src: string;
+    srcDark: string;
+    alt: string;
+  };
+  widgetImage: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
+}) {
   return (
     <div className="flex w-full flex-col items-center justify-center gap-6 sm:flex-row sm:items-center sm:gap-10">
-      <ComposeMockup className="w-52 -rotate-2 sm:w-56" />
+      <div
+        role="img"
+        aria-label={composeScreenshot.alt}
+        className="w-52 overflow-hidden rounded-[26px] border border-border bg-background shadow-[var(--paper-shadow)] -rotate-2 sm:w-60"
+      >
+        <Image
+          src={composeScreenshot.src}
+          alt=""
+          width={1320}
+          height={1981}
+          sizes="(min-width: 640px) 240px, 208px"
+          className="h-auto w-full select-none dark:hidden"
+          draggable={false}
+        />
+        <Image
+          src={composeScreenshot.srcDark}
+          alt=""
+          width={1320}
+          height={1981}
+          sizes="(min-width: 640px) 240px, 208px"
+          className="hidden h-auto w-full select-none dark:block"
+          draggable={false}
+        />
+      </div>
       {/* the hand-drawn hop from your phone to theirs */}
       <svg
         aria-hidden
@@ -33,10 +72,13 @@ function TwoPhones() {
         />
       </svg>
       <WidgetCard
-        note={{ type: "text", text: "thinking of you.", timestamp: "now" }}
+        note={{ type: "doodle", doodle: "cat", timestamp: "" }}
         sender={siteConfig.hero.sender}
         size="small"
         animate={false}
+        image={widgetImage}
+        showSenderMark={false}
+        showTimestamp={false}
         className="w-44 rotate-2 text-left sm:w-48"
       />
     </div>
@@ -46,6 +88,19 @@ function TwoPhones() {
 export function BentoGrid() {
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion() ?? false;
+  const { sampleNotes, sender } = siteConfig.hero;
+  const [noteIndex, setNoteIndex] = useState(0);
+
+  useEffect(() => {
+    if (reduceMotion || sampleNotes.length < 2) return;
+    const timer = setInterval(
+      () => setNoteIndex((i) => (i + 1) % sampleNotes.length),
+      NOTE_CYCLE_MS
+    );
+    return () => clearInterval(timer);
+  }, [reduceMotion, sampleNotes.length]);
+
+  const note = sampleNotes[noteIndex];
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -106,13 +161,31 @@ export function BentoGrid() {
             >
               <div className="flex min-w-0 flex-col">
                 <h3 className="type-display-3 text-foreground">{item.title}</h3>
-                <p className="mt-4 max-w-[52ch] type-body-lg text-foreground/70">
+                <p
+                  className={cn(
+                    "mt-4 type-body-lg text-foreground/70",
+                    item.fullWidth ? "max-w-[65ch]" : "max-w-[52ch]"
+                  )}
+                >
                   {item.content}
                 </p>
               </div>
               <div className="mt-8 flex items-center justify-center">
                 {item.id === "audience-of-one" ? (
-                  <TwoPhones />
+                  <TwoPhones
+                    composeScreenshot={item.composeScreenshot!}
+                    widgetImage={item.widgetImage!}
+                  />
+                ) : item.id === "write-or-draw" ? (
+                  <WidgetCard
+                    note={note}
+                    sender={sender}
+                    size="medium"
+                    animate={!reduceMotion}
+                    showSenderMark={false}
+                    showTimestamp={false}
+                    className="w-full max-w-[280px] text-left"
+                  />
                 ) : item.screenshot ? (
                   <ScreenshotPlaceholder
                     screenshot={item.screenshot}

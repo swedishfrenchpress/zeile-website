@@ -10,10 +10,8 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
 import { siteConfig } from "@/lib/config";
-import { Menu } from "lucide-react";
 import Link from "next/link";
 
 const links = [
@@ -22,15 +20,15 @@ const links = [
   { label: "privacy policy", href: siteConfig.links.privacy, external: false },
 ];
 
-export function MobileDrawer() {
+export function MobileDrawer({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
   return (
-    <Drawer>
-      <DrawerTrigger
-        aria-label="Open menu"
-        className="inline-flex h-11 w-11 items-center justify-center -mr-2"
-      >
-        <Menu className="size-6" />
-      </DrawerTrigger>
+    <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent>
         <DrawerTitle className="sr-only">Menu</DrawerTitle>
         <DrawerDescription className="sr-only">

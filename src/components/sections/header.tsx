@@ -2,7 +2,7 @@
 
 import { Icons } from "@/components/icons";
 import { Logo } from "@/components/logo";
-import { MobileDrawer } from "@/components/mobile-drawer";
+import { MobileDrawerTrigger } from "@/components/mobile-drawer-trigger";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/lib/config";
@@ -82,7 +82,7 @@ export function Header() {
 
         <div className="flex items-center gap-1 lg:hidden">
           <ThemeToggle className="inline-flex h-11 w-11 items-center justify-center" />
-          <MobileDrawer />
+          <MobileDrawerTrigger />
         </div>
       </div>
     </header>

@@ -2,9 +2,11 @@
 
 import { cn } from "@/lib/utils";
 import { easeOutQuart } from "@/lib/animation";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
 import { useTheme } from "next-themes";
 import { useState, useSyncExternalStore } from "react";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 const emptySubscribe = () => () => {};
 
@@ -15,7 +17,7 @@ const emptySubscribe = () => () => {};
  */
 export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
-  const reduceMotion = useReducedMotion() ?? false;
+  const reduceMotion = useHydratedReducedMotion();
   const [flourishKey, setFlourishKey] = useState(0);
   // The active theme is unknowable server-side; render a blank icon slot
   // until hydrated so SSR and the first client render agree.
@@ -46,7 +48,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       {mounted ? (
         <span className="relative block size-6" aria-hidden="true">
           <AnimatePresence initial={false} mode="wait">
-            <motion.span
+            <m.span
               key={isDark ? "moon" : "sun"}
               className="absolute inset-0"
               initial={
@@ -76,7 +78,7 @@ export function ThemeToggle({ className }: { className?: string }) {
                   strokeLinejoin="round"
                 />
               </svg>
-            </motion.span>
+            </m.span>
           </AnimatePresence>
         </span>
       ) : (
@@ -84,14 +86,14 @@ export function ThemeToggle({ className }: { className?: string }) {
       )}
 
       {mounted && flourishKey > 0 && !reduceMotion ? (
-        <motion.svg
+        <m.svg
           key={flourishKey}
           aria-hidden="true"
           viewBox="0 0 40 40"
           fill="none"
           className="pointer-events-none absolute left-1/2 top-1/2 -z-10 size-10 -translate-x-1/2 -translate-y-1/2 overflow-visible text-[var(--doodle-charcoal)]"
         >
-          <motion.path
+          <m.path
             d="M6 23 C4 11 13 4 24 6 C35 8 38 20 32 29 C27 37 14 36 8 29"
             stroke="currentColor"
             strokeWidth="1.8"
@@ -103,7 +105,7 @@ export function ThemeToggle({ className }: { className?: string }) {
               opacity: { duration: 0.2, delay: 0.26 },
             }}
           />
-        </motion.svg>
+        </m.svg>
       ) : null}
     </button>
   );

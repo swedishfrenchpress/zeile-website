@@ -1,12 +1,10 @@
 "use client";
 
 import { DoodleField } from "@/components/paper/doodle-field";
-import { easeInOutCubic } from "@/lib/animation";
 import { SECTION_DOODLES } from "@/lib/doodles";
 import { cn } from "@/lib/utils";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { forwardRef, useRef } from "react";
-import type { ReactNode, RefObject } from "react";
+import { forwardRef } from "react";
+import type { ReactNode } from "react";
 
 interface SectionProps {
   id?: string;
@@ -35,41 +33,30 @@ const Section = forwardRef<HTMLElement, SectionProps>(
     },
     forwardedRef
   ) => {
-    const internalRef = useRef<HTMLElement>(null);
-    const ref = (forwardedRef as RefObject<HTMLElement>) || internalRef;
-
-    const { scrollYProgress } = useScroll({
-      target: ref,
-      offset: ["start end", "end start"],
-    });
-
-    const opacity = useTransform(scrollYProgress, [0, 0.05, 0.1], [0, 0, 1], {
-      ease: easeInOutCubic,
-    });
-    const y = useTransform(scrollYProgress, [0, 0.05, 0.1], [30, 30, 0], {
-      ease: easeInOutCubic,
-    });
-
     const hasHeaderContent = !!(subtitle || description || headerSlot);
 
     const renderSubtitle = (extra?: string) =>
       subtitle && (
-        <motion.h2
-          className={cn("type-display-2 text-foreground", extra)}
-          style={{ opacity, y }}
+        <h2
+          className={cn(
+            "type-display-2 text-foreground",
+            extra
+          )}
         >
           {subtitle}
-        </motion.h2>
+        </h2>
       );
 
     const renderDescription = (extra?: string) =>
       description && (
-        <motion.p
-          className={cn("type-lead text-foreground/75", extra)}
-          style={{ opacity, y }}
+        <p
+          className={cn(
+            "type-lead text-foreground/75",
+            extra
+          )}
         >
           {description}
-        </motion.p>
+        </p>
       );
 
     const centeredAlignment =
@@ -80,7 +67,7 @@ const Section = forwardRef<HTMLElement, SectionProps>(
           : "text-center";
 
     return (
-      <section id={id} ref={ref} className="relative">
+      <section id={id} ref={forwardedRef} className="relative">
         {id && <DoodleField section={SECTION_DOODLES[id]} />}
         <div className={cn("relative z-10", className)}>
           {!hideHeader && hasHeaderContent && variant === "centered" && (

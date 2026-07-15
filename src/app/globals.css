@@ -218,7 +218,9 @@
   --input: color-mix(in srgb, var(--ink) 22%, transparent);
   --ring: var(--rose);
   --primary: var(--rose);
-  --primary-foreground: #ffffff;
+  /* Bright rose needs dark ink for WCAG AA on normal-size button labels
+     (5.88:1 versus 3.14:1 with white). */
+  --primary-foreground: #161314;
   --secondary: var(--paper);
   --secondary-foreground: var(--foreground);
   --accent: color-mix(in srgb, var(--rose) 14%, var(--background));
@@ -340,6 +342,12 @@ body::before {
 /* Belt-and-braces: any animation that slips past a useReducedMotion()
    gate (third-party libs, CSS-driven loops) still resolves instantly. */
 @media (prefers-reduced-motion: reduce) {
+  .blur-reveal {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
   *,
   *::before,
   *::after {

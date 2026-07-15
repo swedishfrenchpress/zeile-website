@@ -1,7 +1,10 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 import { Eraser, RotateCcw, Trash2 } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
 import {
   useRef,
   useState,
@@ -42,6 +45,9 @@ interface DrawingNotePlaygroundProps {
   promptLabel: string;
   canvasPlaceholder: string;
   localDisclosure: string;
+  conversionPrompt: string;
+  conversionAction: string;
+  conversionHref: string;
   inkLabel: string;
   brushLabel: string;
   eraserLabel: string;
@@ -104,12 +110,16 @@ export function DrawingNotePlayground({
   promptLabel,
   canvasPlaceholder,
   localDisclosure,
+  conversionPrompt,
+  conversionAction,
+  conversionHref,
   inkLabel,
   brushLabel,
   eraserLabel,
   undoLabel,
   clearLabel,
 }: DrawingNotePlaygroundProps) {
+  const reduceMotion = useHydratedReducedMotion();
   const [strokes, setStrokes] = useState<Stroke[]>([]);
   const [ink, setInk] = useState<string>(INKS[0].value);
   const [brushWidth, setBrushWidth] = useState(DEFAULT_BRUSH_WIDTH);
@@ -376,7 +386,42 @@ export function DrawingNotePlayground({
           </button>
         </div>
 
-        <p className="text-sm text-muted-foreground">{localDisclosure}</p>
+        <div className="flex flex-col gap-2">
+          <p className="text-sm text-muted-foreground">{localDisclosure}</p>
+          <AnimatePresence initial={false}>
+            {strokes.length > 0 ? (
+              <m.p
+                aria-live="polite"
+                initial={
+                  reduceMotion
+                    ? false
+                    : { opacity: 0, y: 6, filter: "blur(4px)" }
+                }
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={
+                  reduceMotion
+                    ? { opacity: 0 }
+                    : { opacity: 0, y: -4, filter: "blur(3px)" }
+                }
+                transition={{
+                  duration: reduceMotion ? 0 : 0.28,
+                  ease: [0.25, 1, 0.5, 1],
+                }}
+                className="type-subhead text-foreground"
+              >
+                {conversionPrompt}{" "}
+                <a
+                  href={conversionHref}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="text-primary underline decoration-primary/40 underline-offset-4 transition-colors hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
+                  {conversionAction}
+                </a>
+              </m.p>
+            ) : null}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );

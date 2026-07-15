@@ -9,16 +9,19 @@ import {
   REVEAL_STAGGER,
 } from "@/lib/animation";
 import { siteConfig } from "@/lib/config";
-import { motion, useReducedMotion } from "framer-motion";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
+import * as m from "framer-motion/m";
 
 export function FinalCta() {
-  const reduceMotion = useReducedMotion() ?? false;
+  const reduceMotion = useHydratedReducedMotion();
   const {
     title,
     description,
     promptLabel,
     canvasPlaceholder,
     localDisclosure,
+    conversionPrompt,
+    conversionAction,
     inkLabel,
     brushLabel,
     eraserLabel,
@@ -33,9 +36,14 @@ export function FinalCta() {
       hideHeader
       className="container-page px-6 py-[var(--section-y-base)] lg:px-10"
     >
-      <motion.div
+      <m.div
         initial={
           reduceMotion ? false : { opacity: 0, y: 24, filter: "blur(8px)" }
+        }
+        animate={
+          reduceMotion
+            ? { opacity: 1, y: 0, filter: "blur(0px)" }
+            : undefined
         }
         whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
         viewport={{ once: true, margin: "-100px" }}
@@ -44,7 +52,7 @@ export function FinalCta() {
             ? { duration: 0 }
             : { duration: REVEAL_DURATION_MD, ease: easeOutCubic }
         }
-        className="relative mx-auto flex max-w-5xl flex-col items-center text-center"
+        className="blur-reveal relative mx-auto flex max-w-5xl flex-col items-center text-center"
       >
         <div
           aria-hidden
@@ -54,9 +62,14 @@ export function FinalCta() {
         </div>
 
         <div className="relative flex flex-col items-center">
-          <motion.h2
+          <m.h2
             initial={
               reduceMotion ? false : { opacity: 0, y: 16, filter: "blur(8px)" }
+            }
+            animate={
+              reduceMotion
+                ? { opacity: 1, y: 0, filter: "blur(0px)" }
+                : undefined
             }
             whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-100px" }}
@@ -69,14 +82,19 @@ export function FinalCta() {
                     delay: REVEAL_STAGGER,
                   }
             }
-            className="type-display-2 text-balance text-foreground"
+            className="blur-reveal type-display-2 text-balance text-foreground"
           >
             {title}
-          </motion.h2>
+          </m.h2>
 
-          <motion.p
+          <m.p
             initial={
               reduceMotion ? false : { opacity: 0, y: 16, filter: "blur(8px)" }
+            }
+            animate={
+              reduceMotion
+                ? { opacity: 1, y: 0, filter: "blur(0px)" }
+                : undefined
             }
             whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             viewport={{ once: true, margin: "-100px" }}
@@ -89,15 +107,20 @@ export function FinalCta() {
                     delay: REVEAL_STAGGER * 2,
                   }
             }
-            className="mt-5 max-w-[46ch] whitespace-pre-line type-lead text-balance text-foreground/75"
+            className="blur-reveal mt-5 max-w-[46ch] whitespace-pre-line type-lead text-balance text-foreground/75"
           >
             {description}
-          </motion.p>
+          </m.p>
         </div>
 
-        <motion.div
+        <m.div
           initial={
             reduceMotion ? false : { opacity: 0, y: 18, filter: "blur(8px)" }
+          }
+          animate={
+            reduceMotion
+              ? { opacity: 1, y: 0, filter: "blur(0px)" }
+              : undefined
           }
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-80px" }}
@@ -110,23 +133,31 @@ export function FinalCta() {
                   delay: REVEAL_STAGGER * 3,
                 }
           }
-          className="relative mt-12 w-full"
+          className="blur-reveal relative mt-12 w-full"
         >
           <DrawingNotePlayground
             promptLabel={promptLabel}
             canvasPlaceholder={canvasPlaceholder}
             localDisclosure={localDisclosure}
+            conversionPrompt={conversionPrompt}
+            conversionAction={conversionAction}
+            conversionHref={siteConfig.links.testFlight}
             inkLabel={inkLabel}
             brushLabel={brushLabel}
             eraserLabel={eraserLabel}
             undoLabel={undoLabel}
             clearLabel={clearLabel}
           />
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={
             reduceMotion ? false : { opacity: 0, y: 16, filter: "blur(8px)" }
+          }
+          animate={
+            reduceMotion
+              ? { opacity: 1, y: 0, filter: "blur(0px)" }
+              : undefined
           }
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-100px" }}
@@ -139,11 +170,11 @@ export function FinalCta() {
                   delay: REVEAL_STAGGER * 4,
                 }
           }
-          className="relative mt-12 flex justify-center"
+          className="blur-reveal relative mt-12 flex justify-center"
         >
           <DownloadCtas />
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </Section>
   );
 }

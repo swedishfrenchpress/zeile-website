@@ -7,7 +7,9 @@ import { Section } from "@/components/section";
 import { easeInOutCubic } from "@/lib/animation";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
+import { useScroll, useTransform } from "framer-motion";
+import * as m from "framer-motion/m";
 import { Cloud } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -112,7 +114,7 @@ function TwoPhones({
 
 export function BentoGrid() {
   const ref = useRef<HTMLElement>(null);
-  const reduceMotion = useReducedMotion() ?? false;
+  const reduceMotion = useHydratedReducedMotion();
   const { sampleNotes, sender } = siteConfig.hero;
   const [noteIndex, setNoteIndex] = useState(0);
 
@@ -174,12 +176,12 @@ export function BentoGrid() {
           const minHeight =
             CARD_MIN_HEIGHTS[index] ?? CARD_MIN_HEIGHTS[CARD_MIN_HEIGHTS.length - 1];
           return (
-            <motion.div
+            <m.div
               key={item.id}
-              style={motions[index]}
+              style={motions[index] as unknown as React.CSSProperties}
               className={cn(
                 // opaque note paper, never glass — the app's signature surface
-                "note-surface group relative grid grid-cols-1 grid-rows-[auto_1fr] overflow-hidden p-6 sm:p-8",
+                "blur-reveal note-surface group relative grid grid-cols-1 grid-rows-[auto_1fr] overflow-hidden p-6 sm:p-8",
                 minHeight,
                 item.fullWidth && "md:col-span-2"
               )}
@@ -226,7 +228,7 @@ export function BentoGrid() {
                   />
                 ) : null}
               </div>
-            </motion.div>
+            </m.div>
           );
         })}
       </div>

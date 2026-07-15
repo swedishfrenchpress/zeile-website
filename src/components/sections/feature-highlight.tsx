@@ -17,16 +17,16 @@ import {
 import { cn } from "@/lib/utils";
 import {
   AnimatePresence,
-  motion,
-  useReducedMotion,
   type PanInfo,
 } from "framer-motion";
+import * as m from "framer-motion/m";
 import {
   useEffect,
   useRef,
   useState,
   type KeyboardEvent,
 } from "react";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 interface FeatureLayout {
   textClass: string;
@@ -179,7 +179,7 @@ function DrawingCarousel({ reduceMotion }: { reduceMotion: boolean }) {
       {/* the drawing ground is always canvas white — strokes must read the
           same in light and dark, exactly like the app's PencilKit exports.
           Fixed square stage: drawings crossfade in place, nothing reflows. */}
-      <motion.div
+      <m.div
         id="drawing-carousel-panel"
         role="tabpanel"
         aria-label={DRAWINGS[name].label}
@@ -193,7 +193,7 @@ function DrawingCarousel({ reduceMotion }: { reduceMotion: boolean }) {
         viewport={{ margin: "-80px" }}
       >
         <AnimatePresence initial={false} custom={direction}>
-          <motion.div
+          <m.div
             key={name}
             className="absolute inset-0 flex items-center justify-center p-6"
             custom={direction}
@@ -208,9 +208,9 @@ function DrawingCarousel({ reduceMotion }: { reduceMotion: boolean }) {
               animate={!reduceMotion}
               className="h-full w-full"
             />
-          </motion.div>
+          </m.div>
         </AnimatePresence>
-      </motion.div>
+      </m.div>
 
       {/* carousel dots, one per drawing, each wearing its drawing's color */}
       <div
@@ -220,7 +220,7 @@ function DrawingCarousel({ reduceMotion }: { reduceMotion: boolean }) {
         className="mt-3 flex items-center justify-center gap-1"
       >
         {CAROUSEL.map((drawingName, i) => (
-          <motion.button
+          <m.button
             key={drawingName}
             ref={(element) => {
               dotRefs.current[i] = element;
@@ -244,7 +244,7 @@ function DrawingCarousel({ reduceMotion }: { reduceMotion: boolean }) {
               )}
               style={{ backgroundColor: DRAWINGS[drawingName].dot }}
             />
-          </motion.button>
+          </m.button>
         ))}
       </div>
     </div>
@@ -305,27 +305,27 @@ function Feature({
         media === "widget" && "lg:items-start"
       )}
     >
-      <motion.div
-        className={cn("col-span-12 lg:row-start-1", layout.textClass)}
+      <m.div
+        className={cn("blur-reveal col-span-12 lg:row-start-1", layout.textClass)}
         initial={reduceMotion ? "visible" : "hidden"}
         animate={animateState}
         variants={textVariants}
       >
         <div className="flex max-w-xl flex-col gap-6">
-          <motion.h2
-            className="type-display-2 text-foreground"
+          <m.h2
+            className="blur-reveal type-display-2 text-foreground"
             variants={itemVariants}
           >
             {title}
-          </motion.h2>
-          <motion.p
-            className="type-lead text-foreground/75 max-w-[50ch]"
+          </m.h2>
+          <m.p
+            className="blur-reveal type-lead max-w-[50ch] text-foreground/75"
             variants={itemVariants}
           >
             {description}
-          </motion.p>
+          </m.p>
         </div>
-      </motion.div>
+      </m.div>
 
       <div
         className={cn(
@@ -366,7 +366,7 @@ export function FeatureHighlight({
   id,
 }: FeatureHighlightProps) {
   const layout = LAYOUTS[layoutIndex] ?? LAYOUTS[LAYOUTS.length - 1];
-  const reduceMotion = useReducedMotion() ?? false;
+  const reduceMotion = useHydratedReducedMotion();
   const [isActive, setIsActive] = useState(false);
   const containerRef = useRef<HTMLElement>(null);
 
@@ -374,9 +374,6 @@ export function FeatureHighlight({
     const container = containerRef.current;
     if (!container) return;
 
-    // A band around the vertical center of the viewport. The reveal LATCHES:
-    // once the text has appeared it never fades back out — content that
-    // vanishes as you scroll past reads as broken, not choreographed.
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -388,9 +385,7 @@ export function FeatureHighlight({
     );
     observer.observe(container);
 
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (

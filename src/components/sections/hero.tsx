@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
 import { useTheme } from "next-themes";
 import { useState, useSyncExternalStore } from "react";
 import { DrawingVideo } from "@/components/mockups/drawing-video";
@@ -17,6 +18,7 @@ import {
 } from "@/lib/animation";
 import { siteConfig } from "@/lib/config";
 import { SECTION_DOODLES } from "@/lib/doodles";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 const emptySubscribe = () => () => {};
 const HERO_VIDEO_PLAYBACK_RATE = 9;
@@ -42,7 +44,7 @@ function HeroMediaSequence({
           fill="none"
           className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-visible text-foreground/15"
         >
-          <motion.path
+          <m.path
             d="M310 638 C270 600 62 469 62 272 C62 132 204 74 310 194 C416 74 558 132 558 272 C558 469 350 600 310 638"
             transform="translate(110 -24) rotate(14 310 350)"
             stroke="currentColor"
@@ -71,7 +73,7 @@ function HeroMediaSequence({
       )}
 
       <div className="absolute top-0 left-1/2 z-10 w-[210px] -translate-x-1/2 sm:w-[250px] min-[900px]:w-[clamp(240px,34svh,300px)] lg:w-[clamp(250px,34svh,310px)]">
-        <motion.div
+        <m.div
           initial={false}
           animate={
             reduceMotion
@@ -96,12 +98,12 @@ function HeroMediaSequence({
             onPlaybackUnavailable={() => setPlaybackComplete(true)}
             className="max-w-none shadow-[var(--paper-shadow)]"
           />
-        </motion.div>
+        </m.div>
       </div>
 
       <AnimatePresence initial={false}>
         {complete && (
-          <motion.div
+          <m.div
             key="completed-widget"
             initial={
               reduceMotion
@@ -124,7 +126,7 @@ function HeroMediaSequence({
               animate={!reduceMotion}
               className="w-full text-left"
             />
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>
@@ -154,7 +156,7 @@ function HeroMedia({ reduceMotion }: { reduceMotion: boolean }) {
 }
 
 export function Hero() {
-  const reduceMotion = useReducedMotion() ?? false;
+  const reduceMotion = useHydratedReducedMotion();
   const { headline } = siteConfig.hero;
 
   return (
@@ -174,7 +176,7 @@ export function Hero() {
         <div className="grid items-center gap-8 sm:gap-10 min-[900px]:grid-cols-[minmax(0,0.86fr)_minmax(430px,1.14fr)] min-[900px]:gap-4 lg:grid-cols-[minmax(0,0.82fr)_minmax(500px,1.18fr)] lg:gap-6 xl:gap-10">
           <div className="contents min-[900px]:flex min-[900px]:min-w-0 min-[900px]:flex-col">
             <div className="order-1 flex min-w-0 flex-col items-center text-center min-[900px]:order-none min-[900px]:items-start min-[900px]:text-left">
-              <motion.div
+              <m.div
                 initial={reduceMotion ? false : { y: 16, filter: "blur(8px)" }}
                 animate={{ y: 0, filter: "blur(0px)" }}
                 transition={
@@ -186,7 +188,7 @@ export function Hero() {
                         delay: 0,
                       }
                 }
-                className="mb-6 sm:mb-8 min-[900px]:mb-7"
+                className="mb-6 motion-reduce:!transform-none motion-reduce:!filter-none sm:mb-8 min-[900px]:mb-7"
               >
                 <span className="relative isolate inline-flex -rotate-1 items-center gap-2 px-4 py-3 sm:gap-2.5 sm:px-5">
                   <svg
@@ -232,9 +234,9 @@ export function Hero() {
                     <span className="text-foreground/60">no subscriptions</span>
                   </span>
                 </span>
-              </motion.div>
+              </m.div>
 
-              <motion.h1
+              <m.h1
                 initial={reduceMotion ? false : { filter: "blur(10px)" }}
                 animate={{ filter: "blur(0px)" }}
                 transition={
@@ -246,12 +248,12 @@ export function Hero() {
                         delay: 0,
                       }
                 }
-                className="max-w-[9ch] font-display text-[clamp(2.75rem,11vw,4.5rem)] font-extrabold leading-[1.04] tracking-[-0.025em] text-foreground min-[900px]:text-[clamp(4rem,6.5vw,6rem)]"
+                className="max-w-[9ch] font-display text-[clamp(2.75rem,11vw,4.5rem)] font-extrabold leading-[1.04] tracking-[-0.025em] text-foreground motion-reduce:!filter-none min-[900px]:text-[clamp(4rem,6.5vw,6rem)]"
               >
                 {headline}
-              </motion.h1>
+              </m.h1>
 
-              <motion.p
+              <m.p
                 initial={reduceMotion ? false : { y: 16, filter: "blur(8px)" }}
                 animate={{ y: 0, filter: "blur(0px)" }}
                 transition={
@@ -263,13 +265,13 @@ export function Hero() {
                         delay: REVEAL_STAGGER,
                       }
                 }
-                className="mt-6 max-w-[42ch] type-lead text-foreground/75 sm:mt-8 min-[900px]:mt-7"
+                className="mt-6 max-w-[42ch] type-lead text-foreground/75 motion-reduce:!transform-none motion-reduce:!filter-none sm:mt-8 min-[900px]:mt-7"
               >
                 {siteConfig.tagline}
-              </motion.p>
+              </m.p>
             </div>
 
-            <motion.div
+            <m.div
               initial={reduceMotion ? false : { y: 16, filter: "blur(8px)" }}
               animate={{ y: 0, filter: "blur(0px)" }}
               transition={
@@ -281,13 +283,13 @@ export function Hero() {
                       delay: REVEAL_STAGGER * 2,
                     }
               }
-              className="order-3 flex w-full max-w-xs justify-center justify-self-center sm:max-w-none min-[900px]:order-none min-[900px]:mt-8 min-[900px]:justify-self-auto"
+              className="order-3 flex w-full max-w-xs justify-center justify-self-center motion-reduce:!transform-none motion-reduce:!filter-none sm:max-w-none min-[900px]:order-none min-[900px]:mt-8 min-[900px]:justify-self-auto"
             >
               <DownloadCtas className="min-[900px]:justify-start" />
-            </motion.div>
+            </m.div>
           </div>
 
-          <motion.div
+          <m.div
             initial={reduceMotion ? false : { y: 16, filter: "blur(8px)" }}
             animate={{ y: 0, filter: "blur(0px)" }}
             transition={
@@ -299,10 +301,10 @@ export function Hero() {
                     delay: REVEAL_STAGGER,
                   }
             }
-            className="order-2 min-w-0 min-[900px]:order-none"
+            className="order-2 min-w-0 motion-reduce:!transform-none motion-reduce:!filter-none min-[900px]:order-none"
           >
             <HeroMedia reduceMotion={reduceMotion} />
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

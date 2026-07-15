@@ -4,7 +4,8 @@ import { DOODLE_ASSETS } from "@/components/paper/doodles";
 import { DRIFT_RANGE, RISE_RANGE, TIERS } from "@/lib/doodles";
 import type { DoodlePlacement, SectionDoodles } from "@/lib/doodles";
 import { cn } from "@/lib/utils";
-import { motion, useTransform, type MotionValue } from "framer-motion";
+import { useTransform, type MotionValue } from "framer-motion";
+import * as m from "framer-motion/m";
 import { useScrollField } from "./scroll-provider";
 
 interface DoodleInstanceProps {
@@ -39,7 +40,7 @@ function DoodleInstance({
   const mobileWidth = placement.mobileWidth ?? placement.width;
 
   return (
-    <motion.div
+    <m.div
       className={cn(
         "absolute w-[var(--doodle-w-mobile)] md:w-[var(--doodle-w)]",
         !placement.mobile && "hidden md:block"
@@ -62,7 +63,7 @@ function DoodleInstance({
       {asset.render({
         className: cn("h-auto w-full select-none", placement.flip && "-scale-x-100"),
       })}
-    </motion.div>
+    </m.div>
   );
 }
 

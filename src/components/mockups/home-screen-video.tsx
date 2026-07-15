@@ -1,7 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import Image from "next/image";
+import { useTheme } from "next-themes";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { cn } from "@/lib/utils";
+
+const emptySubscribe = () => () => {};
 
 export interface HomeScreenVideoSource {
   /** H.264 mp4 — universal support, incl. iOS Safari muted autoplay */
@@ -48,6 +52,7 @@ function ThemedVideo({
   className?: string;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const v = ref.current;
@@ -62,10 +67,9 @@ function ThemedVideo({
     if (playMode !== "in-view-once") return;
     v.muted = true; // Safari autoplay policy: belt-and-braces alongside the attr
 
-    // A display:none element (the off-theme clip) never intersects, so only the
-    // visible theme's video plays; the hidden one never loads past its metadata.
-    // Toggling the theme flips display, which fires the observer and hands the
-    // reveal to the newly visible clip. Re-entering the viewport replays it.
+    // Only the active theme's clip is mounted. The observer keeps preload="none"
+    // meaningful by deferring its transfer until the phone is actually in view;
+    // changing theme remounts this element with the matching source.
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -84,29 +88,45 @@ function ThemedVideo({
   }, [playMode]);
 
   return (
-    <video
-      ref={ref}
-      className={cn(MEDIA_CLASS, className)}
-      poster={poster}
-      muted
-      playsInline
-      preload="metadata"
-      autoPlay={playMode === "loop"}
-      loop={playMode === "loop"}
-      aria-hidden
-      tabIndex={-1}
-      draggable={false}
-    >
-      {source.srcWebm ? <source src={source.srcWebm} type="video/webm" /> : null}
-      <source src={source.src} type="video/mp4" />
-    </video>
+    <>
+      <Image
+        src={poster}
+        alt=""
+        width={1320}
+        height={2868}
+        sizes="300px"
+        className={cn(
+          MEDIA_CLASS,
+          "pointer-events-none absolute inset-0 z-10 transition-opacity duration-200",
+          isPlaying && "opacity-0"
+        )}
+        draggable={false}
+      />
+      <video
+        ref={ref}
+        className={cn(MEDIA_CLASS, className)}
+        muted
+        playsInline
+        preload="none"
+        autoPlay={playMode === "loop"}
+        loop={playMode === "loop"}
+        onPlaying={() => setIsPlaying(true)}
+        aria-hidden
+        tabIndex={-1}
+        draggable={false}
+      >
+        {source.srcWebm ? (
+          <source src={source.srcWebm} type="video/webm" />
+        ) : null}
+        <source src={source.src} type="video/mp4" />
+      </video>
+    </>
   );
 }
 
 /**
  * The zeile widget being added to a real iPhone Home Screen — a screen recording
- * that swaps between a light-mode and dark-mode capture with the site theme,
- * mirroring ScreenshotPlaceholder's `dark:hidden` / `hidden dark:block` pattern.
+ * that mounts only the light-mode or dark-mode capture matching the site theme.
  * Reduced-motion callers render <HomeScreenWidget> instead of this.
  */
 export function HomeScreenVideo({
@@ -118,6 +138,18 @@ export function HomeScreenVideo({
   ariaLabel,
   className,
 }: HomeScreenVideoProps) {
+  const { resolvedTheme } = useTheme();
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+  const theme = mounted
+    ? resolvedTheme === "dark"
+      ? "dark"
+      : "light"
+    : undefined;
+
   return (
     <div
       role="img"
@@ -126,22 +158,39 @@ export function HomeScreenVideo({
       // visible — the "Add Widget" button sits near the bottom of the sheet. The
       // frame's aspect matches the capture, so object-cover never letterboxes.
       className={cn(
-        "aspect-[1320/2868] w-full max-w-[300px] overflow-hidden rounded-[40px] border border-border bg-background shadow-[var(--paper-shadow)]",
+        "relative aspect-[1320/2868] w-full max-w-[300px] overflow-hidden rounded-[40px] border border-border bg-background shadow-[var(--paper-shadow)]",
         className
       )}
     >
-      <ThemedVideo
-        source={light}
-        poster={poster}
-        playMode={playMode}
-        className="dark:hidden"
-      />
-      <ThemedVideo
-        source={dark}
-        poster={posterDark ?? poster}
-        playMode={playMode}
-        className="hidden dark:block"
-      />
+      {!theme ? (
+        <>
+          <Image
+            src={poster}
+            alt=""
+            width={1320}
+            height={2868}
+            sizes="300px"
+            className={`${MEDIA_CLASS} dark:hidden`}
+            draggable={false}
+          />
+          <Image
+            src={posterDark ?? poster}
+            alt=""
+            width={1320}
+            height={2868}
+            sizes="300px"
+            className={`hidden ${MEDIA_CLASS} dark:block`}
+            draggable={false}
+          />
+        </>
+      ) : (
+        <ThemedVideo
+          key={theme}
+          source={theme === "dark" ? dark : light}
+          poster={theme === "dark" ? (posterDark ?? poster) : poster}
+          playMode={playMode}
+        />
+      )}
     </div>
   );
 }

@@ -4,7 +4,7 @@ export const easeInOutCubic = cubicBezier(0.645, 0.045, 0.355, 1);
 export const easeOutCubic = cubicBezier(0, 0, 0.58, 1);
 export const easeOutQuart = cubicBezier(0.25, 1, 0.5, 1);
 
-// Duration presets for the shared "blur reveal" entrance recipe
+// Duration presets for the hero's "blur reveal" entrance recipe
 // (opacity/y + filter: blur -> sharp). Pick by the element's visual
 // weight within its reveal group: smaller/supporting elements settle
 // FASTER than the primary element they follow.

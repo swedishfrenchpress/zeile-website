@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Nunito } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { MotionProvider } from "@/components/motion-provider";
 import { ScrollProvider } from "@/components/paper/scroll-provider";
 import { ConsoleGreeting } from "@/components/console-greeting";
 import { siteConfig } from "@/lib/config";
@@ -63,6 +64,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${nunito.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
@@ -72,7 +74,9 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
         >
-          <ScrollProvider>{children}</ScrollProvider>
+          <MotionProvider>
+            <ScrollProvider>{children}</ScrollProvider>
+          </MotionProvider>
           <ConsoleGreeting />
         </ThemeProvider>
       </body>

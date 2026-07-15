@@ -5,7 +5,8 @@ import { Drawing } from "@/components/mockups/drawings";
 import type { SampleNote } from "@/lib/config";
 import { easeOutCubic, easeOutQuart } from "@/lib/animation";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
 
 /**
  * A pixel-faithful CSS recreation of the zeile home-screen widget — the
@@ -106,7 +107,7 @@ export function WidgetCard({
       >
         {animate
           ? words.map((word, i) => (
-              <motion.span
+              <m.span
                 key={`${word}-${i}`}
                 className="inline-block whitespace-pre"
                 initial={{ opacity: 0, y: 6 }}
@@ -119,7 +120,7 @@ export function WidgetCard({
               >
                 {word}
                 {i < words.length - 1 ? " " : ""}
-              </motion.span>
+              </m.span>
             ))
           : note.text}
       </p>
@@ -160,7 +161,7 @@ export function WidgetCard({
           <div className={cn("flex items-center gap-1.5", compact && "gap-1")}>
             {showSenderMark && (
               <>
-                <motion.span
+                <m.span
                   className="inline-flex shrink-0 text-primary"
                   initial={animate ? { scale: 0 } : false}
                   animate={{ scale: 1 }}
@@ -176,7 +177,7 @@ export function WidgetCard({
                   }
                 >
                   <HeartMark className={compact ? "size-3" : "size-3.5"} />
-                </motion.span>
+                </m.span>
                 <span
                   className={cn(
                     "whitespace-nowrap font-display font-bold text-primary",
@@ -208,7 +209,7 @@ export function WidgetCard({
           )}
         >
           <AnimatePresence initial={false}>
-            <motion.div
+            <m.div
               key={noteKey}
               className={cn(
                 "absolute inset-0 flex items-center",
@@ -221,7 +222,7 @@ export function WidgetCard({
               transition={{ duration: 0.4, ease: easeOutCubic }}
             >
               {body}
-            </motion.div>
+            </m.div>
           </AnimatePresence>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import * as m from "framer-motion/m";
 import {
   useCallback,
   useEffect,
@@ -11,6 +12,7 @@ import {
 import { createPortal } from "react-dom";
 import { easeOutQuart } from "@/lib/animation";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 const TOAST_MS = 2200;
 const emptySubscribe = () => () => {};
@@ -47,7 +49,7 @@ export function CopyEmail({
   email: string;
   className?: string;
 }) {
-  const reduceMotion = useReducedMotion() ?? false;
+  const reduceMotion = useHydratedReducedMotion();
   const mounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
@@ -95,7 +97,7 @@ export function CopyEmail({
           >
             <AnimatePresence>
               {copied && (
-                <motion.div
+                <m.div
                   initial={
                     reduceMotion
                       ? { opacity: 0 }
@@ -119,7 +121,7 @@ export function CopyEmail({
                   <span className="text-base font-semibold text-foreground">
                     Copied. Your move.
                   </span>
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
           </div>,

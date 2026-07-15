@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTheme } from "next-themes";
 import { Section } from "@/components/section";
 import {
   easeOutCubic,
@@ -10,8 +11,12 @@ import {
 } from "@/lib/animation";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
-import { motion, useReducedMotion } from "framer-motion";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
+import * as m from "framer-motion/m";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { ReactNode } from "react";
+
+const emptySubscribe = () => () => {};
 
 function PairingPreview({
   children,
@@ -36,10 +41,82 @@ function PairingPreview({
   );
 }
 
+function PairingVideo({
+  src,
+  poster,
+}: {
+  src: string;
+  poster: string;
+}) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: "160px 0px", threshold: 0.2 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <>
+      <Image
+        src={poster}
+        alt=""
+        width={1320}
+        height={2868}
+        sizes="(min-width: 768px) 250px, 46vw"
+        className={cn(
+          "pointer-events-none absolute inset-0 z-10 h-full w-full object-cover transition-opacity duration-200",
+          isPlaying && "opacity-0"
+        )}
+        draggable={false}
+      />
+      <video
+        ref={ref}
+        className="h-full w-full object-cover"
+        muted
+        playsInline
+        preload="none"
+        loop
+        onPlaying={() => setIsPlaying(true)}
+        aria-hidden
+        tabIndex={-1}
+      >
+        <source src={src} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </>
+  );
+}
+
 function OnboardingPreview({ reduceMotion }: { reduceMotion: boolean }) {
   const { onboardingVideo } = siteConfig.pairing;
+  const { resolvedTheme } = useTheme();
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+  const theme = mounted
+    ? resolvedTheme === "dark"
+      ? "dark"
+      : "light"
+    : undefined;
 
-  if (reduceMotion) {
+  if (reduceMotion || !theme) {
     return (
       <>
         <Image
@@ -64,38 +141,22 @@ function OnboardingPreview({ reduceMotion }: { reduceMotion: boolean }) {
     );
   }
 
+  const activeVideo =
+    theme === "dark"
+      ? { src: onboardingVideo.dark.src, poster: onboardingVideo.posterDark }
+      : { src: onboardingVideo.light.src, poster: onboardingVideo.poster };
+
   return (
-    <>
-      <video
-        className="h-full w-full object-cover dark:hidden"
-        poster={onboardingVideo.poster}
-        muted
-        playsInline
-        preload="metadata"
-        autoPlay
-        loop
-        aria-hidden
-      >
-        <source src={onboardingVideo.light.src} type="video/mp4" />
-      </video>
-      <video
-        className="hidden h-full w-full object-cover dark:block"
-        poster={onboardingVideo.posterDark}
-        muted
-        playsInline
-        preload="metadata"
-        autoPlay
-        loop
-        aria-hidden
-      >
-        <source src={onboardingVideo.dark.src} type="video/mp4" />
-      </video>
-    </>
+    <PairingVideo
+      key={theme}
+      src={activeVideo.src}
+      poster={activeVideo.poster}
+    />
   );
 }
 
 export function Pairing() {
-  const reduceMotion = useReducedMotion() ?? false;
+  const reduceMotion = useHydratedReducedMotion();
   const { title, description } = siteConfig.pairing;
 
   return (
@@ -107,9 +168,14 @@ export function Pairing() {
     >
       {/* A two-person handoff: one person creates the code, the other joins. */}
       <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-        <motion.div
+        <m.div
           initial={
             reduceMotion ? false : { opacity: 0, y: 24, filter: "blur(8px)" }
+          }
+          animate={
+            reduceMotion
+              ? { opacity: 1, y: 0, filter: "blur(0px)" }
+              : undefined
           }
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-100px" }}
@@ -118,7 +184,7 @@ export function Pairing() {
               ? { duration: 0 }
               : { duration: REVEAL_DURATION_LG, ease: easeOutCubic }
           }
-          className="relative flex items-center justify-center -space-x-4 min-[375px]:-space-x-5 sm:-space-x-9 md:-space-x-12"
+          className="blur-reveal relative flex items-center justify-center -space-x-4 min-[375px]:-space-x-5 sm:-space-x-9 md:-space-x-12"
         >
           {/* warm rose haze pooling behind the pair of screens */}
           <div
@@ -158,11 +224,16 @@ export function Pairing() {
               draggable={false}
             />
           </PairingPreview>
-        </motion.div>
+        </m.div>
 
-        <motion.h2
+        <m.h2
           initial={
             reduceMotion ? false : { opacity: 0, y: 16, filter: "blur(8px)" }
+          }
+          animate={
+            reduceMotion
+              ? { opacity: 1, y: 0, filter: "blur(0px)" }
+              : undefined
           }
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-100px" }}
@@ -175,14 +246,19 @@ export function Pairing() {
                   delay: REVEAL_STAGGER,
                 }
           }
-          className="mt-12 type-display-2 text-balance text-foreground"
+          className="blur-reveal mt-12 type-display-2 text-balance text-foreground"
         >
           {title}
-        </motion.h2>
+        </m.h2>
 
-        <motion.p
+        <m.p
           initial={
             reduceMotion ? false : { opacity: 0, y: 16, filter: "blur(8px)" }
+          }
+          animate={
+            reduceMotion
+              ? { opacity: 1, y: 0, filter: "blur(0px)" }
+              : undefined
           }
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-100px" }}
@@ -195,10 +271,10 @@ export function Pairing() {
                   delay: REVEAL_STAGGER * 2,
                 }
           }
-          className="mt-5 max-w-[44ch] type-lead text-balance text-foreground/75"
+          className="blur-reveal mt-5 max-w-[44ch] type-lead text-balance text-foreground/75"
         >
           {description}
-        </motion.p>
+        </m.p>
       </div>
     </Section>
   );

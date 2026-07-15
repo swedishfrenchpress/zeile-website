@@ -152,9 +152,9 @@ export const siteConfig = {
     },
     {
       id: "write-or-draw",
-      title: "Write it or draw it.",
+      title: "The latest note stays close.",
       content:
-        "A short note or a quick doodle, whichever fits the moment.",
+        "The widget keeps the newest thing your person sent right on the Home Screen. Your own sends stay in History, so a small note never turns into another inbox.",
       fullWidth: false,
     },
     {
@@ -169,9 +169,9 @@ export const siteConfig = {
         ready: true,
       },
       trustNote: {
-        title: "Syncs through iCloud.",
+        title: "Stored in Apple CloudKit.",
         description:
-          "Notes and doodles use Apple CloudKit. No zeile account or servers of our own.",
+          "Notes, doodles, and pairing data are stored in zeile’s shared public CloudKit database—not your personal iCloud. No zeile account or servers of our own.",
       },
       fullWidth: false,
     },
@@ -242,6 +242,8 @@ export const siteConfig = {
     promptLabel: "Draw a little something.",
     canvasPlaceholder: "Draw a little doodle…",
     localDisclosure: "Just a preview. Nothing leaves this page.",
+    conversionPrompt: "Made one you like?",
+    conversionAction: "Try the beta and send it for real.",
     inkLabel: "Ink",
     brushLabel: "Brush size",
     eraserLabel: "Eraser",

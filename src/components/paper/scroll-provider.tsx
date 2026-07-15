@@ -1,8 +1,9 @@
 "use client";
 
-import { useScroll, useReducedMotion, type MotionValue } from "framer-motion";
+import { useScroll, type MotionValue } from "framer-motion";
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 
 interface ScrollFieldContextValue {
   /** whole-document scroll progress, 0–1 — the single global motion source */
@@ -19,7 +20,7 @@ export function useScrollField() {
 
 export function ScrollProvider({ children }: { children: ReactNode }) {
   const { scrollYProgress } = useScroll();
-  const reduceMotion = useReducedMotion() ?? false;
+  const reduceMotion = useHydratedReducedMotion();
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {

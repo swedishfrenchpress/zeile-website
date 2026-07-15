@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useEffectEvent, useRef } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export interface DrawingVideoConfig {
@@ -32,6 +32,7 @@ export function DrawingVideo({
   className?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [playingSource, setPlayingSource] = useState<string | null>(null);
   const notifyPlaybackUnavailable = useEffectEvent(() => {
     onPlaybackUnavailable?.();
   });
@@ -56,7 +57,7 @@ export function DrawingVideo({
       role="img"
       aria-label={video.alt}
       className={cn(
-        "aspect-[83/180] w-full max-w-[260px] overflow-hidden rounded-[40px] bg-background",
+        "relative aspect-[83/180] w-full max-w-[260px] overflow-hidden rounded-[40px] bg-background",
         className
       )}
     >
@@ -113,22 +114,36 @@ export function DrawingVideo({
           />
         </>
       ) : (
-        <video
-          ref={videoRef}
-          className="h-full w-full object-cover"
-          poster={poster}
-          muted
-          playsInline
-          preload="metadata"
-          autoPlay
-          onEnded={onEnded}
-          onError={() => onPlaybackUnavailable?.()}
-          aria-hidden
-          tabIndex={-1}
-        >
-          <source src={source.src} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        <>
+          <Image
+            src={poster}
+            alt=""
+            width={498}
+            height={1080}
+            sizes={imageSizes}
+            className={cn(
+              "pointer-events-none absolute inset-0 z-10 h-full w-full object-cover transition-opacity duration-200",
+              playingSource === source.src && "opacity-0"
+            )}
+            draggable={false}
+          />
+          <video
+            ref={videoRef}
+            className="h-full w-full object-cover"
+            muted
+            playsInline
+            preload="metadata"
+            autoPlay
+            onPlaying={() => setPlayingSource(source.src)}
+            onEnded={onEnded}
+            onError={() => onPlaybackUnavailable?.()}
+            aria-hidden
+            tabIndex={-1}
+          >
+            <source src={source.src} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </>
       )}
     </div>
   );

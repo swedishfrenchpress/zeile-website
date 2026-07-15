@@ -1,7 +1,7 @@
 "use client";
 
 import { easeOutCubic } from "@/lib/animation";
-import { motion } from "framer-motion";
+import * as m from "framer-motion/m";
 
 /**
  * The note-drawing library — little scenes as they'd actually arrive from
@@ -341,7 +341,7 @@ export function Drawing({ name, animate = false, className }: DrawingProps) {
       {spec.paths.map((path, i) => {
         const delay = 0.2 + i * 0.3;
         return (
-          <motion.path
+          <m.path
             key={i}
             d={path.d}
             stroke={path.color}

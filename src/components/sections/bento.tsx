@@ -19,7 +19,7 @@ const NOTE_CYCLE_MS = 5200;
 function ICloudTrustNote({
   note,
 }: {
-  note: { title: string; description: string };
+  note: { title: string; description?: string };
 }) {
   return (
     <div className="flex items-start gap-3 rounded-[18px] border border-black/[0.05] bg-widget-paper p-4 text-left shadow-[var(--paper-shadow),0_10px_28px_-18px_var(--rose-glow)] dark:border-white/[0.07]">
@@ -32,9 +32,11 @@ function ICloudTrustNote({
         <p className="font-display text-sm font-extrabold leading-tight text-foreground">
           {note.title}
         </p>
-        <p className="mt-1.5 text-xs leading-relaxed text-foreground/65">
-          {note.description}
-        </p>
+        {note.description && (
+          <p className="mt-1.5 text-xs leading-relaxed text-foreground/65">
+            {note.description}
+          </p>
+        )}
       </div>
     </div>
   );

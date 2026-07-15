@@ -170,8 +170,6 @@ export const siteConfig = {
       },
       trustNote: {
         title: "Stored in Apple CloudKit.",
-        description:
-          "Notes, doodles, and pairing data are stored in zeile’s shared public CloudKit database—not your personal iCloud. No zeile account or servers of our own.",
       },
       fullWidth: false,
     },

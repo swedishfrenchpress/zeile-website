@@ -5,7 +5,8 @@ import type { DrawingVideoConfig } from "@/components/mockups/drawing-video";
 import type { HomeScreenVideoConfig } from "@/components/mockups/home-screen-video";
 
 // TODO(launch): swap for the real App Store link the day zeile ships.
-// Every disabled App Store badge reads this one constant.
+// While this is "#", DownloadCtas shows only TestFlight + a quiet
+// "App Store, soon." line (one live door). A real URL restores both badges.
 export const APP_STORE_URL = "#";
 export const TESTFLIGHT_URL = "https://testflight.apple.com/join/4ZXFHq4U";
 
@@ -43,8 +44,7 @@ export const siteConfig = {
   description: "Leave a little note.",
   tagline:
     "zeile pairs you with one person. Send a quick note or doodle, and it lands right on their Home Screen.",
-  // TODO(domain): confirm the production domain before launch.
-  url: "https://zeile.app",
+  url: "https://www.zeileapp.com",
   cta: "Try the beta",
   keywords: [
     "zeile",

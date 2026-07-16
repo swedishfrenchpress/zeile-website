@@ -283,7 +283,7 @@ export function Hero() {
                       delay: REVEAL_STAGGER * 2,
                     }
               }
-              className="order-3 flex w-full max-w-xs justify-center justify-self-center motion-reduce:!transform-none motion-reduce:!filter-none sm:max-w-none min-[900px]:order-none min-[900px]:mt-8 min-[900px]:justify-self-auto"
+              className="order-3 flex w-full max-w-sm justify-center justify-self-center motion-reduce:!transform-none motion-reduce:!filter-none sm:max-w-none min-[900px]:order-none min-[900px]:mt-8 min-[900px]:justify-self-auto"
             >
               <DownloadCtas className="min-[900px]:justify-start" />
             </m.div>

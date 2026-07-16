@@ -32,13 +32,15 @@ export const metadata: Metadata = {
   keywords: siteConfig.keywords,
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
-  // OG/Twitter images come from src/app/opengraph-image.tsx (file convention).
+  // OG/Twitter images: src/app/opengraph-image.jpg + twitter-image.jpg
+  // (file convention — Next injects width/height/type/alt automatically).
   openGraph: {
     title,
     description: siteConfig.tagline,
     url: siteConfig.url,
     siteName: siteConfig.name,
     type: "website",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",

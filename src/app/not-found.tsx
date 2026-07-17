@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Drawing } from "@/components/mockups/drawings";
 import { buttonVariants } from "@/components/ui/button";
-import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 
 export const metadata = {
@@ -35,21 +34,13 @@ export default function NotFound() {
         should be.
       </p>
 
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+      <div className="mt-10">
         <Link
           href="/"
           className={cn(buttonVariants({ variant: "primary", size: "lg" }))}
         >
           back to zeile
         </Link>
-        <a
-          href={siteConfig.links.appRepo}
-          target="_blank"
-          rel="noreferrer noopener"
-          className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
-        >
-          GitHub
-        </a>
       </div>
     </main>
   );

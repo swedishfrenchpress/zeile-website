@@ -1,6 +1,6 @@
 # zeile-website
 
-The marketing site for [zeile](https://github.com/swedishfrenchpress/zeile) —
+The marketing site for zeile —
 a tiny two-person note & doodle app that lives on your Home Screen.
 
 Built with Next.js (App Router) · Tailwind CSS v4 · framer-motion.

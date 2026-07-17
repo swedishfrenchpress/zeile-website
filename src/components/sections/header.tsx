@@ -11,8 +11,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const NAV_ICONS = [
-  { label: "View source on GitHub", href: siteConfig.links.appRepo, icon: Icons.github },
-  { label: "Try the zeile beta on TestFlight", href: siteConfig.links.testFlight, icon: Icons.apple },
+  {
+    label: "Try the zeile beta on TestFlight",
+    href: siteConfig.links.testFlight,
+    icon: Icons.apple,
+  },
 ];
 
 export function Header() {

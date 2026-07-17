@@ -13,8 +13,6 @@ export const TESTFLIGHT_URL = "https://testflight.apple.com/join/4ZXFHq4U";
 const links = {
   appStore: APP_STORE_URL,
   testFlight: TESTFLIGHT_URL,
-  appRepo: "https://github.com/swedishfrenchpress/zeile",
-  siteRepo: "https://github.com/swedishfrenchpress/zeile-website",
   email: "erikcativo@pm.me",
   contact: "/contact",
   privacy: "/privacy",
@@ -258,15 +256,12 @@ export const siteConfig = {
         links: [{ label: "TestFlight beta", href: links.testFlight }],
       },
       {
-        label: "source",
-        links: [{ label: "GitHub", href: links.appRepo }],
+        label: "say hi",
+        links: [{ label: "contact", href: links.contact }],
       },
       {
-        label: "say hi",
-        links: [
-          { label: "contact", href: links.contact },
-          { label: "privacy policy", href: links.privacy },
-        ],
+        label: "the details",
+        links: [{ label: "privacy policy", href: links.privacy }],
       },
     ],
   },

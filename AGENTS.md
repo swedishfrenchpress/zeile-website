@@ -6,8 +6,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # zeile-website
 
-Marketing site for **zeile** — a tiny two-person note/doodle iOS app
-(github.com/swedishfrenchpress/zeile). Single page, Next.js App Router,
+Marketing site for **zeile** — a tiny two-person note/doodle iOS app.
+Single page, Next.js App Router,
 Tailwind v4 (CSS-first config — no tailwind.config.js; all tokens live in
 `src/app/globals.css`), framer-motion, next-themes (`data-theme`).
 

@@ -10,7 +10,7 @@ export function ConsoleGreeting() {
     if (w.__zeileGreeted) return;
     w.__zeileGreeted = true;
     console.info(
-      "%czeile%c\n// psst, leave a little note.\n// source: github.com/swedishfrenchpress/zeile",
+      "%czeile%c\n// psst, leave a little note.\n// made for exactly two people.",
       "font-family: ui-rounded, ui-monospace, monospace; font-size: 14px; color: #fb5481; font-weight: 800;",
       "font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #8a8a93;"
     );

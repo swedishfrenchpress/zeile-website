@@ -1,6 +1,5 @@
 "use client";
 
-import { Icons } from "@/components/icons";
 import { Logo } from "@/components/logo";
 import { DownloadCtas } from "@/components/ui/download-ctas";
 import {
@@ -15,9 +14,8 @@ import { siteConfig } from "@/lib/config";
 import Link from "next/link";
 
 const links = [
-  { label: "GitHub", href: siteConfig.links.appRepo, external: true },
-  { label: "contact", href: siteConfig.links.contact, external: false },
-  { label: "privacy policy", href: siteConfig.links.privacy, external: false },
+  { label: "contact", href: siteConfig.links.contact },
+  { label: "privacy policy", href: siteConfig.links.privacy },
 ];
 
 export function MobileDrawer({
@@ -48,18 +46,13 @@ export function MobileDrawer({
         </DrawerHeader>
         <nav className="flex flex-col gap-1 px-6 py-2">
           {links.map((link) => (
-            <a
+            <Link
               key={link.label}
               href={link.href}
-              target={link.external ? "_blank" : undefined}
-              rel={link.external ? "noreferrer noopener" : undefined}
               className="flex items-center justify-between rounded-none py-3 text-base text-foreground/90 transition-colors hover:text-foreground"
             >
               <span>{link.label}</span>
-              {link.external && (
-                <Icons.github className="size-4 text-muted-foreground" />
-              )}
-            </a>
+            </Link>
           ))}
         </nav>
         <DrawerFooter className="gap-3">

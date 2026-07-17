@@ -31,24 +31,6 @@ export default function ContactPage() {
           and I&apos;ll get back to you.
         </p>
       </SubpageSection>
-
-      <SubpageSection heading="Open source">
-        <p>
-          zeile is free and open source. Curious how it works, or want to
-          build something of your own? Dive into the code, open an issue, or
-          fork it and make it your own.
-        </p>
-        <p>
-          <a
-            href={siteConfig.links.appRepo}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="text-primary underline underline-offset-4"
-          >
-            View the source on GitHub
-          </a>
-        </p>
-      </SubpageSection>
     </Subpage>
   );
 }

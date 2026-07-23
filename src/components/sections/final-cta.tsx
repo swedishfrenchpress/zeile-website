@@ -141,7 +141,7 @@ export function FinalCta() {
             localDisclosure={localDisclosure}
             conversionPrompt={conversionPrompt}
             conversionAction={conversionAction}
-            conversionHref={siteConfig.links.testFlight}
+            conversionHref={siteConfig.links.appStore}
             inkLabel={inkLabel}
             brushLabel={brushLabel}
             eraserLabel={eraserLabel}

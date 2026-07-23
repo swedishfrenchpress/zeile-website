@@ -10,10 +10,6 @@
 const storeBadgeMotion =
   "transition-[scale,filter] duration-[280ms] ease-out-quart active:scale-[0.98] motion-reduce:active:scale-100";
 
-/** Default size — secondary / App Store when live. */
+/** Primary download CTA — deliberately generous for a one-tap install. */
 export const storeBadgeClass =
-  `group relative isolate inline-flex h-18 min-w-[236px] items-center gap-3.5 px-7 text-primary-foreground ${storeBadgeMotion} dark:text-background`;
-
-/** Primary CTA size — TestFlight (beta) / main download door. */
-export const storeBadgePrimaryClass =
   `group relative isolate inline-flex h-[5.5rem] min-w-[280px] items-center gap-4 px-8 text-primary-foreground ${storeBadgeMotion} dark:text-background sm:min-w-[300px] sm:px-9`;

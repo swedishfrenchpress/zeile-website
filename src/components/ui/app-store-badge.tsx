@@ -7,29 +7,7 @@ interface AppStoreBadgeProps {
   className?: string;
 }
 
-export function ScribbledBadgeBackdrop({
-  disabled = false,
-}: {
-  disabled?: boolean;
-}) {
-  if (disabled) {
-    return (
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 260 84"
-        preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-visible [filter:drop-shadow(0_4px_5px_rgb(0_0_0/0.06))]"
-      >
-        <path
-          d="M14 10 C43 3 80 6 117 4 C164 2 217 3 246 10 C254 23 253 56 246 71 C217 79 177 77 136 80 C91 82 43 79 12 71 C5 57 7 25 14 10 Z"
-          fill="var(--muted)"
-          stroke="var(--border)"
-          strokeWidth="1.5"
-        />
-      </svg>
-    );
-  }
-
+export function ScribbledBadgeBackdrop() {
   return (
     <svg
       aria-hidden="true"
@@ -61,48 +39,8 @@ export function ScribbledBadgeBackdrop({
   );
 }
 
-// App Store badge — used by DownloadCtas only when APP_STORE_URL is a real
-// link. The "#" placeholder path is a fallback if this component is rendered
-// pre-launch; DownloadCtas demotes App Store to quiet text instead.
+// App Store badge — the live download destination for zeile.
 export function AppStoreBadge({ href, className }: AppStoreBadgeProps) {
-  const isPlaceholder = href === "#";
-
-  if (isPlaceholder) {
-    return (
-      <button
-        type="button"
-        disabled
-        aria-label="Download zeile on the App Store — coming soon"
-        title="App Store release coming soon"
-        className={cn(
-          storeBadgeClass,
-          "cursor-not-allowed text-muted-foreground active:scale-100 dark:text-muted-foreground",
-          className
-        )}
-      >
-        <ScribbledBadgeBackdrop disabled />
-        <Icons.apple
-          className="relative z-10 size-9 -translate-y-px flex-shrink-0 fill-current"
-          aria-hidden="true"
-        />
-        <span className="relative z-10 flex flex-col items-start gap-1 leading-none">
-          <span className="type-button text-xs leading-none">
-            Download on the
-          </span>
-          <span className="type-button text-[1.45rem] font-extrabold leading-none tracking-[-0.015em]">
-            App Store
-          </span>
-        </span>
-        <span
-          aria-hidden="true"
-          className="absolute -top-2 -right-1 z-20 -rotate-6 rounded-[7px] border border-rose-hairline bg-paper px-3 py-1 font-display text-xs font-extrabold leading-none text-primary shadow-[var(--paper-shadow)]"
-        >
-          soooon...
-        </span>
-      </button>
-    );
-  }
-
   return (
     <a
       href={href}
@@ -113,14 +51,14 @@ export function AppStoreBadge({ href, className }: AppStoreBadgeProps) {
     >
       <ScribbledBadgeBackdrop />
       <Icons.apple
-        className="relative z-10 size-9 -translate-y-px flex-shrink-0 fill-current transition-transform duration-[280ms] ease-out-quart group-hover:scale-[1.06] group-active:scale-100 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+        className="relative z-10 size-11 -translate-y-px flex-shrink-0 fill-current transition-transform duration-[280ms] ease-out-quart group-hover:scale-[1.06] group-active:scale-100 motion-reduce:transition-none motion-reduce:group-hover:scale-100 sm:size-12"
         aria-hidden="true"
       />
       <span className="relative z-10 flex flex-col items-start gap-1 leading-none transition-transform duration-[280ms] ease-out-quart group-hover:translate-x-px motion-reduce:transition-none motion-reduce:group-hover:translate-x-0">
-        <span className="type-button text-xs leading-none">
+        <span className="type-button text-sm leading-none sm:text-[0.9375rem]">
           Download on the
         </span>
-        <span className="type-button text-[1.45rem] font-extrabold leading-none tracking-[-0.015em]">
+        <span className="type-button text-[1.75rem] font-extrabold leading-none tracking-[-0.02em] sm:text-[1.9rem]">
           App Store
         </span>
       </span>

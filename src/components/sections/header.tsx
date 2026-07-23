@@ -12,8 +12,8 @@ import { useEffect, useState } from "react";
 
 const NAV_ICONS = [
   {
-    label: "Try the zeile beta on TestFlight",
-    href: siteConfig.links.testFlight,
+    label: "Download zeile on the App Store",
+    href: siteConfig.links.appStore,
     icon: Icons.apple,
   },
 ];
@@ -74,7 +74,7 @@ export function Header() {
             <ThemeToggle className="-m-2.5 inline-flex items-center justify-center p-2.5" />
           </div>
           <a
-            href={siteConfig.links.testFlight}
+            href={siteConfig.links.appStore}
             target="_blank"
             rel="noreferrer noopener"
             className={cn(buttonVariants({ variant: "primary", size: "sm" }))}

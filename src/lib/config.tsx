@@ -4,15 +4,11 @@ import type { DrawingName } from "@/components/mockups/drawings";
 import type { DrawingVideoConfig } from "@/components/mockups/drawing-video";
 import type { HomeScreenVideoConfig } from "@/components/mockups/home-screen-video";
 
-// TODO(launch): swap for the real App Store link the day zeile ships.
-// While this is "#", DownloadCtas shows only TestFlight + a quiet
-// "App Store, soon." line (one live door). A real URL restores both badges.
-export const APP_STORE_URL = "#";
-export const TESTFLIGHT_URL = "https://testflight.apple.com/join/4ZXFHq4U";
+export const APP_STORE_URL =
+  "https://apps.apple.com/app/zeile/id6784477876";
 
 const links = {
   appStore: APP_STORE_URL,
-  testFlight: TESTFLIGHT_URL,
   email: "erikcativo@pm.me",
   contact: "/contact",
   privacy: "/privacy",
@@ -43,7 +39,7 @@ export const siteConfig = {
   tagline:
     "zeile pairs you with one person. Send a quick note or doodle, and it lands right on their Home Screen.",
   url: "https://www.zeileapp.com",
-  cta: "Try the beta",
+  cta: "Download now.",
   keywords: [
     "zeile",
     "widget",
@@ -239,7 +235,7 @@ export const siteConfig = {
     canvasPlaceholder: "Draw a little doodle…",
     localDisclosure: "Just a preview. Nothing leaves this page.",
     conversionPrompt: "Made one you like?",
-    conversionAction: "Try the beta and send it for real.",
+    conversionAction: "Download zeile on the App Store.",
     inkLabel: "Ink",
     brushLabel: "Brush size",
     eraserLabel: "Eraser",
@@ -253,7 +249,7 @@ export const siteConfig = {
     columns: [
       {
         label: "the app",
-        links: [{ label: "TestFlight beta", href: links.testFlight }],
+        links: [{ label: "Download on the App Store", href: links.appStore }],
       },
       {
         label: "say hi",

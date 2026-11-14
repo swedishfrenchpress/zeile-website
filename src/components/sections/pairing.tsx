@@ -13,6 +13,7 @@ import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 import * as m from "framer-motion/m";
+import { Pause, Play } from "lucide-react";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { ReactNode } from "react";
 
@@ -22,21 +23,24 @@ function PairingPreview({
   children,
   label,
   className,
+  control,
 }: {
   children: ReactNode;
   label: string;
   className?: string;
+  /** an interactive control, kept outside the role="img" frame */
+  control?: ReactNode;
 }) {
   return (
-    <div
-      role="img"
-      aria-label={label}
-      className={cn(
-        "relative aspect-[1320/2868] overflow-hidden rounded-note border border-border bg-background shadow-[var(--paper-shadow)]",
-        className
-      )}
-    >
-      {children}
+    <div className={cn("relative", className)}>
+      <div
+        role="img"
+        aria-label={label}
+        className="relative aspect-[1320/2868] overflow-hidden rounded-note border border-border bg-background shadow-[var(--paper-shadow)]"
+      >
+        {children}
+      </div>
+      {control}
     </div>
   );
 }
@@ -44,12 +48,24 @@ function PairingPreview({
 function PairingVideo({
   src,
   poster,
+  paused,
 }: {
   src: string;
   poster: string;
+  paused: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const pausedRef = useRef(paused);
+  const inViewRef = useRef(false);
+
+  useEffect(() => {
+    pausedRef.current = paused;
+    const video = ref.current;
+    if (!video) return;
+    if (paused) video.pause();
+    else if (inViewRef.current) video.play().catch(() => {});
+  }, [paused]);
 
   useEffect(() => {
     const video = ref.current;
@@ -57,7 +73,8 @@ function PairingVideo({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        inViewRef.current = entry.isIntersecting;
+        if (entry.isIntersecting && !pausedRef.current) {
           video.play().catch(() => {});
         } else {
           video.pause();
@@ -102,7 +119,13 @@ function PairingVideo({
   );
 }
 
-function OnboardingPreview({ reduceMotion }: { reduceMotion: boolean }) {
+function OnboardingPreview({
+  reduceMotion,
+  paused,
+}: {
+  reduceMotion: boolean;
+  paused: boolean;
+}) {
   const { onboardingVideo } = siteConfig.pairing;
   const { resolvedTheme } = useTheme();
   const mounted = useSyncExternalStore(
@@ -151,6 +174,7 @@ function OnboardingPreview({ reduceMotion }: { reduceMotion: boolean }) {
       key={theme}
       src={activeVideo.src}
       poster={activeVideo.poster}
+      paused={paused}
     />
   );
 }
@@ -158,6 +182,8 @@ function OnboardingPreview({ reduceMotion }: { reduceMotion: boolean }) {
 export function Pairing() {
   const reduceMotion = useHydratedReducedMotion();
   const { title, description } = siteConfig.pairing;
+  // the onboarding video loops, so it gets a pause (WCAG 2.2.2)
+  const [videoPaused, setVideoPaused] = useState(false);
 
   return (
     <Section
@@ -197,8 +223,28 @@ export function Pairing() {
           <PairingPreview
             label="A person setting up zeile and creating a pairing code"
             className="z-0 w-[128px] -rotate-[6deg] min-[375px]:w-[148px] sm:w-[205px] md:w-[248px]"
+            control={
+              reduceMotion ? null : (
+                <button
+                  type="button"
+                  onClick={() => setVideoPaused((paused) => !paused)}
+                  aria-label={
+                    videoPaused
+                      ? "Play the pairing video"
+                      : "Pause the pairing video"
+                  }
+                  className="absolute -bottom-3 -left-3 z-20 inline-flex size-11 items-center justify-center rounded-full border border-border bg-paper text-foreground/70 shadow-[var(--paper-shadow)] transition-colors hover:text-foreground"
+                >
+                  {videoPaused ? (
+                    <Play className="size-4" aria-hidden="true" />
+                  ) : (
+                    <Pause className="size-4" aria-hidden="true" />
+                  )}
+                </button>
+              )
+            }
           >
-            <OnboardingPreview reduceMotion={reduceMotion} />
+            <OnboardingPreview reduceMotion={reduceMotion} paused={videoPaused} />
           </PairingPreview>
 
           <PairingPreview

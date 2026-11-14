@@ -57,14 +57,14 @@ function HomeScreenWidget({ reduceMotion }: { reduceMotion: boolean }) {
   return (
     <div
       role="img"
-      aria-label="The zeile widget on an iPhone Home Screen, showing a note from Erik"
+      aria-label="The zeile widget on an iPhone Home Screen, showing a drawing from Erik"
       className="w-full max-w-[320px] rounded-[28px] border border-border bg-background p-5"
     >
       {/* a quiet 4-column icon grid; the small widget takes a 2×2 slot,
           exactly where it lives in real life */}
       <div className="grid grid-cols-4 gap-4">
         <WidgetCard
-          note={{ type: "text", text: "back at six. walk?", timestamp: "2m" }}
+          note={{ type: "doodle", doodle: "cheers", timestamp: "2m" }}
           sender={siteConfig.hero.sender}
           size="small"
           animate={false}
@@ -339,7 +339,7 @@ function Feature({
             <HomeScreenVideo
               {...video}
               playMode="in-view-once"
-              ariaLabel="A screen recording of adding the zeile widget to an iPhone Home Screen, where a note from Erik appears"
+              ariaLabel="A screen recording of adding the zeile widget to an iPhone Home Screen, where a drawing from Erik appears"
             />
           ) : (
             <HomeScreenWidget reduceMotion={reduceMotion} />

@@ -14,7 +14,7 @@ const links = {
   privacy: "/privacy",
 };
 
-/** A note as it appears on the widget mockups. */
+/** A drawing as it appears on the widget mockups. */
 export interface SampleNote {
   type: "text" | "doodle";
   text?: string;
@@ -35,15 +35,17 @@ export interface FeatureHighlightItem {
 
 export const siteConfig = {
   name: "zeile",
-  description: "Leave a little note.",
+  description: "Leave a little mark.",
   tagline:
-    "zeile pairs you with one person. Send a quick note or doodle, and it lands right on their Home Screen.",
+    "zeile pairs you with one person. Draw something small, and it lands right on their Home Screen.",
   url: "https://www.zeileapp.com",
-  cta: "Download now.",
+  cta: "Get zeile.",
+  /** the reassurance that sits under every App Store badge */
+  ctaNote: "Free. You both need it, on iPhone or iPad.",
   keywords: [
     "zeile",
     "widget",
-    "notes",
+    "drawing",
     "doodle",
     "couples app",
     "long distance",
@@ -52,7 +54,7 @@ export const siteConfig = {
   ],
   links,
   hero: {
-    headline: "Leave a little note.",
+    headline: "Leave a little mark.",
     drawingVideo: {
       light: { src: "/videos/drawing-light.mp4" },
       dark: { src: "/videos/drawing-dark.mp4" },
@@ -65,31 +67,19 @@ export const siteConfig = {
     finalWidgetImage: {
       src: "/images/screens/hero-widget-light.jpg",
       srcDark: "/images/screens/hero-widget-dark.jpg",
-      alt: "A hand-drawn black cat holding a note",
-      altDark: "A hand-drawn orange cat holding a green note",
+      alt: "A hand-drawn grumpy cat holding up a little sign",
+      altDark: "A hand-drawn orange cat holding up a green sign",
       width: 632,
       height: 632,
     },
-    /** the person whose notes arrive on the living widget */
+    /** the person whose drawings arrive on the living widget */
     sender: "Erik",
-    /** cycled by the living widget — drawings first and mostly */
-    sampleNotes: [
-      { type: "doodle", doodle: "blowkiss", timestamp: "now" },
-      { type: "doodle", doodle: "icecream", timestamp: "now" },
-      {
-        type: "text",
-        text: "good luck today. you've got this.",
-        timestamp: "now",
-      },
-      { type: "doodle", doodle: "cat", timestamp: "now" },
-      { type: "doodle", doodle: "sleepy", timestamp: "now" },
-    ] as SampleNote[],
   },
   featureHighlight: [
     {
       title: "Right there with your person.",
       description:
-        "No app to open, no inbox to check. Your note shows up on your person's widget the moment you send it.",
+        "No app to open, no inbox to check. Your drawing shows up on your person's widget the moment you send it.",
       media: "widget" as const,
       direction: "ltr" as const,
       video: {
@@ -99,23 +89,16 @@ export const siteConfig = {
         posterDark: "/videos/add-widget-dark-poster.jpg",
       },
     },
-    {
-      title: "Draw it instead.",
-      description:
-        "Some things don't need words. Sketch in any color you can think of (the whole wheel, not just a few inks) and send. Your doodle arrives crisp on a little white card, right next to their apps.",
-      media: "drawing" as const,
-      direction: "rtl" as const,
-    },
   ] satisfies FeatureHighlightItem[],
   pairing: {
     title: "One code. Two phones.",
     description:
-      "Setup is quick. One of you creates a code, the other types it in. No account to make, no phone number, no contact list to share. Just the two of you.",
+      "Setup is quick. One of you creates a code, the other types it in, and you approve them. No account to make, no phone number, no contact list to share.",
     sampleCode: "K7RM24QZ",
     screenshot: {
       src: "/images/screens/screen-pairing-light.png",
       srcDark: "/images/screens/screen-pairing-dark.png",
-      alt: "The zeile pairing screen where a person enters an 8-character code",
+      alt: "The zeile pairing screen showing an 8-character code to share with your person",
       ready: true,
     },
     onboardingVideo: {
@@ -125,54 +108,28 @@ export const siteConfig = {
       posterDark: "/images/screens/pair-onboarding-dark-poster.jpg",
     },
   },
-  bento: [
-    {
-      id: "audience-of-one",
-      title: "Made for two.",
-      content:
-        "zeile is just you and your person. No feed, no followers, no likes or streaks to chase, and nothing to perform. Just the small good feeling of being thought of.",
-      composeScreenshot: {
-        src: "/images/screens/screen-compose-light.png",
-        srcDark: "/images/screens/screen-compose-dark.png",
-        alt: "The zeile drawing composer with its canvas and color palette",
-      },
-      widgetImage: {
-        src: "/images/drawings/cat-serving-cake.png",
-        alt: "A hand-drawn cat serving a birthday cake",
-        width: 1074,
-        height: 1026,
-      },
-      fullWidth: true,
+  /** the audience-of-one beat: no feed, the History wall, and the privacy line */
+  madeForTwo: {
+    title: "Made for two.",
+    content:
+      "zeile is just you and your person. No feed, no followers, no likes or streaks to chase. Your recent drawings live in History, a little wall of the two of you.",
+    privacy: {
+      title: "Only your person can open them.",
+      description:
+        "Drawings are encrypted on your phone. Not even zeile or Apple can see them.",
     },
-    {
-      id: "write-or-draw",
-      title: "The latest note stays close.",
-      content:
-        "The widget keeps the newest thing your person sent right on the Home Screen. Your own sends stay in History, so a small note never turns into another inbox.",
-      fullWidth: false,
+    screenshot: {
+      src: "/images/screens/history-wall-light.png",
+      srcDark: "/images/screens/history-wall-dark.png",
+      alt: "The zeile History screen: a wall of sent and received drawings",
+      ready: true,
     },
-    {
-      id: "no-signup",
-      title: "Nothing to sign up for.",
-      content:
-        "No email, no password, nothing to verify. Pair once and you're sending.",
-      screenshot: {
-        src: "/images/screens/screen-history-light.png",
-        srcDark: "/images/screens/screen-history-dark.png",
-        alt: "The zeile history screen listing sent and received notes",
-        ready: true,
-      },
-      trustNote: {
-        title: "Stored in Apple CloudKit.",
-      },
-      fullWidth: false,
-    },
-  ],
+  },
   faqs: [
     {
       question: "Do we both need the app?",
       answer:
-        "Yes, zeile is for two. You each install it, pair once, and add the widget to your Home Screens. It's iPhone-only, iOS 17 and up.",
+        "Yes, zeile is for two. You each install it, pair once, and add the widget to your Home Screens. It works on iPhone and iPad, iOS 17 and up.",
     },
     {
       question: "Is zeile free?",
@@ -182,24 +139,22 @@ export const siteConfig = {
     {
       question: "How does pairing work?",
       answer:
-        "One of you creates an 8-character code, the other types it in. That's the whole setup. A pair locks to exactly two phones, and you can unpair in Settings whenever you like.",
+        "One of you creates an 8-character code, the other types it in, and you approve them. That's the whole setup. A pair locks to exactly two devices, and you can unpair in Settings whenever you like.",
     },
     {
       question: "Is there an Android version?",
       answer:
-        "No, and I'd rather be honest about why. zeile syncs your notes and doodles through iCloud and Apple's CloudKit, and there's no way to run that on Android. The other half of it: I'm just one person who built zeile on the side, and an Android version is more time and effort than I can take on right now. Sorry. I know that's not the answer you were hoping for.",
+        "No, and I'd rather be honest about why. zeile syncs your drawings through iCloud and Apple's CloudKit, and there's no way to run that on Android. The other half of it: I'm just one person who built zeile on the side, and an Android version is more time and effort than I can take on right now. Sorry. I know that's not the answer you were hoping for.",
     },
     {
-      question: "Are my notes private?",
+      question: "Are my drawings private?",
       answer: (
         <>
           <p>
-            Your notes are meant only for you and your paired person. zeile has
-            no feed or public profile. They sync through zeile’s shared public
-            CloudKit database, and zeile uses your pair code to separate your
-            notes from other pairs. A pair code isn’t an encryption key, and
-            notes aren’t end-to-end encrypted. Think of zeile like a postcard,
-            not a vault. Don’t send anything sensitive.
+            Yes. Drawings are encrypted on your phone and can only be opened on
+            your person’s. Not even zeile or Apple can see them. To deliver
+            them, iCloud still sees your names, send times, and pair code.
+            There’s no feed, no public profile, and nothing to sign up for.
           </p>
           <p className="mt-3">
             Want the full picture? Our{" "}
@@ -209,7 +164,7 @@ export const siteConfig = {
             >
               privacy policy
             </Link>{" "}
-            explains exactly how zeile stores your data, how long notes are
+            explains exactly how zeile stores your data, how long drawings are
             kept, and what the developer can access.
           </p>
         </>
@@ -219,23 +174,24 @@ export const siteConfig = {
       question: "What does the widget show?",
       answer: (
         <>
-          The latest note from your person, whether text or doodle, shown with
+          The latest drawing from your person, shown with
           {" “♥ from "}
           <span className="font-semibold italic">their name</span>
-          {".” Your own sends live in History inside the app."}
+          {".” Everything you’ve both sent lives in History inside the app."}
         </>
       ),
     },
   ] as { question: string; answer: ReactNode }[],
   finalCta: {
-    title: "Go leave the first note.",
+    title: "Go leave the first mark.",
     description:
       "You've read this far, so there's clearly someone in mind.\nMake the first move.",
     promptLabel: "Draw a little something.",
     canvasPlaceholder: "Draw a little doodle…",
+    /** touch screens: the canvas waits for a tap so a thumb flick still scrolls */
+    canvasTouchPlaceholder: "Tap here, then draw a little doodle…",
     localDisclosure: "Just a preview. Nothing leaves this page.",
-    conversionPrompt: "Made one you like?",
-    conversionAction: "Download zeile on the App Store.",
+    landingCaption: "That's how it lands on their Home Screen.",
     inkLabel: "Ink",
     brushLabel: "Brush size",
     eraserLabel: "Eraser",
@@ -243,7 +199,7 @@ export const siteConfig = {
     clearLabel: "Clear drawing",
   },
   footer: {
-    tagline: "a tiny note goes a long way.",
+    tagline: "A tiny drawing goes a long way.",
     attribution: "Made for exactly two people.",
     copyright: "© 2026 zeile",
     columns: [

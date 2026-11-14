@@ -8,14 +8,7 @@ import { DrawingVideo } from "@/components/mockups/drawing-video";
 import { WidgetCard } from "@/components/mockups/widget-card";
 import { DoodleField } from "@/components/paper/doodle-field";
 import { DownloadCtas } from "@/components/ui/download-ctas";
-import {
-  easeOutCubic,
-  easeOutQuart,
-  REVEAL_DURATION_LG,
-  REVEAL_DURATION_MD,
-  REVEAL_DURATION_SM,
-  REVEAL_STAGGER,
-} from "@/lib/animation";
+import { easeOutQuart } from "@/lib/animation";
 import { siteConfig } from "@/lib/config";
 import { SECTION_DOODLES } from "@/lib/doodles";
 import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
@@ -174,137 +167,28 @@ export function Hero() {
 
       <div className="container-page relative z-10 px-4 pt-12 pb-14 sm:px-6 sm:pt-14 sm:pb-16 min-[900px]:px-8 min-[900px]:py-14 lg:px-10 lg:py-16 xl:py-20">
         <div className="grid items-center gap-8 sm:gap-10 min-[900px]:grid-cols-[minmax(0,0.86fr)_minmax(430px,1.14fr)] min-[900px]:gap-4 lg:grid-cols-[minmax(0,0.82fr)_minmax(500px,1.18fr)] lg:gap-6 xl:gap-10">
+          {/* Headline, tagline and download render sharp on the server: the
+              hero's one authored moment is the drawing landing on the widget,
+              not a blur-in on the words someone came to read. */}
           <div className="contents min-[900px]:flex min-[900px]:min-w-0 min-[900px]:flex-col">
             <div className="order-1 flex min-w-0 flex-col items-center text-center min-[900px]:order-none min-[900px]:items-start min-[900px]:text-left">
-              <m.div
-                initial={reduceMotion ? false : { y: 16, filter: "blur(8px)" }}
-                animate={{ y: 0, filter: "blur(0px)" }}
-                transition={
-                  reduceMotion
-                    ? { duration: 0 }
-                    : {
-                        duration: REVEAL_DURATION_MD,
-                        ease: easeOutCubic,
-                        delay: 0,
-                      }
-                }
-                className="mb-6 motion-reduce:!transform-none motion-reduce:!filter-none sm:mb-8 min-[900px]:mb-7"
-              >
-                <span className="relative isolate inline-flex -rotate-1 items-center gap-2 px-4 py-3 sm:gap-2.5 sm:px-5">
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 310 52"
-                    preserveAspectRatio="none"
-                    className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-visible [filter:drop-shadow(0_4px_5px_rgb(0_0_0/0.06))_drop-shadow(0_7px_12px_var(--rose-glow))]"
-                  >
-                    <path
-                      d="M12 8 C50 3 91 6 132 4 C183 2 257 4 299 10 C307 19 305 35 297 43 C258 49 203 46 157 48 C105 49 51 47 11 42 C5 33 5 17 12 8 Z"
-                      fill="var(--paper)"
-                      stroke="var(--doodle-charcoal)"
-                      strokeOpacity="0.24"
-                      strokeWidth="1.5"
-                      vectorEffect="non-scaling-stroke"
-                    />
-                  </svg>
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 16 16"
-                    className="relative z-10 size-3 shrink-0 overflow-visible"
-                  >
-                    <path
-                      d="M8 1.5 C12.5 1.2 14.9 4.4 14.2 8.5 C13.6 12.6 10.8 14.7 6.7 14 C2.8 13.4 1.2 10.8 1.8 6.9 C2.3 3.5 4.8 1.7 8 1.5 Z"
-                      fill="var(--rose)"
-                    />
-                  </svg>
-                  <span className="relative z-10 inline-flex items-center gap-2 whitespace-nowrap font-display text-[12px] font-extrabold leading-none sm:gap-2.5 sm:text-sm">
-                    <span className="text-foreground">100% free</span>
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 32 10"
-                      className="h-2.5 w-7 text-[var(--doodle-charcoal)] opacity-45"
-                    >
-                      <path
-                        d="M1 7 C5 1 9 1 12 6 C15 10 19 9 21 5 C24 1 28 2 31 5"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                    <span className="text-foreground/60">no subscriptions</span>
-                  </span>
-                </span>
-              </m.div>
-
-              <m.h1
-                initial={reduceMotion ? false : { filter: "blur(10px)" }}
-                animate={{ filter: "blur(0px)" }}
-                transition={
-                  reduceMotion
-                    ? { duration: 0 }
-                    : {
-                        duration: REVEAL_DURATION_LG,
-                        ease: easeOutQuart,
-                        delay: 0,
-                      }
-                }
-                className="max-w-[9ch] font-display text-[clamp(2.75rem,11vw,4.5rem)] font-extrabold leading-[1.04] tracking-[-0.025em] text-foreground motion-reduce:!filter-none min-[900px]:text-[clamp(4rem,6.5vw,6rem)]"
-              >
+              <h1 className="max-w-[9ch] font-display text-[clamp(2.75rem,11vw,4.5rem)] font-extrabold leading-[1.04] tracking-[-0.025em] text-foreground min-[900px]:text-[clamp(4rem,6.5vw,6rem)]">
                 {headline}
-              </m.h1>
+              </h1>
 
-              <m.p
-                initial={reduceMotion ? false : { y: 16, filter: "blur(8px)" }}
-                animate={{ y: 0, filter: "blur(0px)" }}
-                transition={
-                  reduceMotion
-                    ? { duration: 0 }
-                    : {
-                        duration: REVEAL_DURATION_MD,
-                        ease: easeOutCubic,
-                        delay: REVEAL_STAGGER,
-                      }
-                }
-                className="mt-6 max-w-[42ch] type-lead text-foreground/75 motion-reduce:!transform-none motion-reduce:!filter-none sm:mt-8 min-[900px]:mt-7"
-              >
+              <p className="mt-5 max-w-[42ch] type-lead text-foreground/75 sm:mt-7">
                 {siteConfig.tagline}
-              </m.p>
+              </p>
             </div>
 
-            <m.div
-              initial={reduceMotion ? false : { y: 16, filter: "blur(8px)" }}
-              animate={{ y: 0, filter: "blur(0px)" }}
-              transition={
-                reduceMotion
-                  ? { duration: 0 }
-                  : {
-                      duration: REVEAL_DURATION_SM,
-                      ease: easeOutCubic,
-                      delay: REVEAL_STAGGER * 2,
-                    }
-              }
-              className="order-3 flex w-full max-w-sm justify-center justify-self-center motion-reduce:!transform-none motion-reduce:!filter-none sm:max-w-none min-[900px]:order-none min-[900px]:mt-8 min-[900px]:justify-self-auto"
-            >
-              <DownloadCtas className="min-[900px]:justify-start" />
-            </m.div>
+            <div className="order-2 flex w-full max-w-sm justify-center justify-self-center sm:max-w-none min-[900px]:order-none min-[900px]:mt-9 min-[900px]:justify-self-auto">
+              <DownloadCtas align="start" />
+            </div>
           </div>
 
-          <m.div
-            initial={reduceMotion ? false : { y: 16, filter: "blur(8px)" }}
-            animate={{ y: 0, filter: "blur(0px)" }}
-            transition={
-              reduceMotion
-                ? { duration: 0 }
-                : {
-                    duration: REVEAL_DURATION_LG,
-                    ease: easeOutCubic,
-                    delay: REVEAL_STAGGER,
-                  }
-            }
-            className="order-2 min-w-0 motion-reduce:!transform-none motion-reduce:!filter-none min-[900px]:order-none"
-          >
+          <div className="order-3 min-w-0 min-[900px]:order-none">
             <HeroMedia reduceMotion={reduceMotion} />
-          </m.div>
+          </div>
         </div>
       </div>
     </section>

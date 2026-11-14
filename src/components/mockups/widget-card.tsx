@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { Drawing } from "@/components/mockups/drawings";
 import type { SampleNote } from "@/lib/config";
 import { easeOutCubic, easeOutQuart } from "@/lib/animation";
@@ -35,6 +36,8 @@ export function HeartMark({ className }: { className?: string }) {
 interface WidgetCardProps {
   note: SampleNote;
   sender: string;
+  /** a live drawing (e.g. the visitor's own strokes) on the white card */
+  art?: ReactNode;
   /** optional real drawing export, rendered on the widget's white note card */
   image?: {
     src: string;
@@ -57,6 +60,7 @@ interface WidgetCardProps {
 export function WidgetCard({
   note,
   sender,
+  art,
   image,
   showSenderMark = true,
   showTimestamp = true,
@@ -69,8 +73,11 @@ export function WidgetCard({
   const words = note.text?.split(" ") ?? [];
   const noteKey = image?.src ?? (note.type === "text" ? note.text : note.doodle);
 
-  const body =
-    image ? (
+  const body = art ? (
+    <div className="flex aspect-square h-full max-h-full items-center justify-center overflow-hidden rounded-[12px] border border-border bg-canvas-white">
+      {art}
+    </div>
+  ) : image ? (
       <div className="flex h-full w-full items-center justify-center rounded-[12px] border border-border bg-canvas-white p-1.5">
         <Image
           src={image.src}
@@ -142,7 +149,7 @@ export function WidgetCard({
         "relative overflow-hidden rounded-[22px] border border-black/[0.05] bg-widget-paper shadow-[var(--paper-shadow)] dark:border-white/[0.07]",
         // both sizes are square — the real widget is a square on the Home
         // Screen, and the hero shows it true to shape, just bigger
-        compact ? "aspect-square rounded-[18px] p-4" : "aspect-square p-5 sm:p-6",
+        compact ? "aspect-square rounded-[18px] p-4" : "aspect-square p-4 sm:p-6",
         className
       )}
     >
@@ -180,18 +187,18 @@ export function WidgetCard({
                 </m.span>
                 <span
                   className={cn(
-                    "whitespace-nowrap font-display font-bold text-primary",
+                    "min-w-0 truncate font-display font-bold text-primary",
                     compact ? "text-xs" : "text-sm"
                   )}
                 >
-                  From {sender}
+                  from {sender}
                 </span>
               </>
             )}
             {showTimestamp && (
               <span
                 className={cn(
-                  "ml-auto font-medium text-muted-foreground",
+                  "ml-auto shrink-0 whitespace-nowrap pl-2 font-medium text-muted-foreground",
                   compact ? "text-[10px]" : "text-xs"
                 )}
               >

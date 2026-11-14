@@ -69,7 +69,7 @@ export function Footer() {
 
         {/* Bottom row — copyright */}
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-end">
-          <div className="type-label text-muted-foreground sm:text-right">
+          <div className="type-caption text-muted-foreground sm:text-right">
             <span>
               {siteConfig.footer.copyright} · {siteConfig.footer.attribution}
             </span>

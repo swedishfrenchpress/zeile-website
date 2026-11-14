@@ -28,19 +28,24 @@ export function AccordionItem({
         )}
       >
         {question}
-        <span
+        {/* a pen-drawn plus; its upright stroke folds away into a minus */}
+        <svg
           aria-hidden
-          className="relative inline-block h-4 w-4 shrink-0 text-muted-foreground"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          className="size-4 shrink-0 text-muted-foreground"
         >
-          <span className="absolute inset-0 flex items-center justify-center font-mono text-base leading-none opacity-100 transition-opacity duration-200 group-open:opacity-0">
-            +
-          </span>
-          <span className="absolute inset-0 flex items-center justify-center font-mono text-base leading-none opacity-0 transition-opacity duration-200 group-open:opacity-100">
-            −
-          </span>
-        </span>
+          <path d="M2.6 8.3 C6 7.8 10 8.1 13.5 7.8" />
+          <path
+            d="M8.1 2.6 C7.8 6.1 8.1 9.9 8.2 13.4"
+            className="origin-center transition-[opacity,transform] duration-200 ease-out group-open:rotate-90 group-open:opacity-0 motion-reduce:transition-none"
+          />
+        </svg>
       </summary>
-      <div className="max-w-[60ch] pb-6 type-body-lg text-foreground/70">
+      <div className="max-w-[48ch] pb-6 type-body-lg text-foreground/70">
         {children}
       </div>
     </details>

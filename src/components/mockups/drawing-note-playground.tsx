@@ -460,7 +460,7 @@ export function DrawingNotePlayground({
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-sm text-muted-foreground">{localDisclosure}</p>
+          <p className="type-caption text-muted-foreground">{localDisclosure}</p>
           <AnimatePresence initial={false}>
             {showLanding ? (
               <m.div

@@ -41,7 +41,9 @@
 
 @utility type-display-1 {
   font-family: var(--font-display);
-  font-size: clamp(2.75rem, 8vw, 7rem);
+  /* the hero only: caps at 84px so "Leave a little mark." holds two lines in
+     the hero column with Nunito or its Arial fallback (no swap reflow) */
+  font-size: clamp(2.75rem, 1.6rem + 4.4vw, 5.25rem);
   font-weight: 800;
   line-height: 1.04;
   letter-spacing: -0.025em;
@@ -50,19 +52,10 @@
 
 @utility type-display-2 {
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 5.5vw, 4.5rem);
+  font-size: clamp(2.25rem, 1.5rem + 3vw, 4rem);
   font-weight: 800;
   line-height: 1.06;
   letter-spacing: -0.02em;
-  text-wrap: balance;
-}
-
-@utility type-display-3 {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3vw, 2.5rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
   text-wrap: balance;
 }
 
@@ -72,12 +65,13 @@
   font-weight: 700;
   line-height: 1.3;
   letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
 @utility type-lead {
-  font-size: clamp(1.2rem, 1.2vw + 0.7rem, 1.5rem);
+  font-size: clamp(1.2rem, 0.6vw + 0.95rem, 1.375rem);
   font-weight: 400;
-  line-height: 1.55;
+  line-height: 1.45;
   letter-spacing: -0.005em;
   text-wrap: pretty;
 }
@@ -88,32 +82,22 @@
   line-height: 1.65;
   text-wrap: pretty;
 }
-
-/* The note itself — one utility so the hero widget, the compose mockup and
-   the bento cards render notes identically (mirrors the app's
-   Theme.Typography.noteLineSpacing: extra leading = written by hand). */
-@utility type-note {
-  font-family: var(--font-display);
-  font-size: clamp(1.125rem, 1vw + 0.75rem, 1.375rem);
-  font-weight: 600;
-  line-height: 1.55;
-  text-wrap: pretty;
-}
-
 /* Pairing codes only — the app's lone fixed-size display element
    (SF Mono bold, wide tracking). */
-@utility type-code {
-  font-family: var(--font-mono);
-  font-size: clamp(1.6rem, 4vw, 2.75rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.125em;
+/* Small reassurance and meta lines: the note under the App Store badge, the
+   canvas disclosure, "Last updated", the copyright. */
+@utility type-caption {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-wrap: pretty;
 }
 
 @utility type-label {
   font-size: 0.8125rem;
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.25;
   letter-spacing: 0.01em;
   text-transform: lowercase;
 }
@@ -288,9 +272,7 @@
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, sans-serif;
-  --font-mono:
-    var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, "SF Mono",
-    Menlo, monospace;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
   --max-container-width: 1200px;
 
@@ -358,17 +340,21 @@ body::before {
   }
 }
 
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-display);
-  text-wrap: balance;
-  letter-spacing: -0.02em;
-}
+/* Element defaults live in the base layer: unlayered rules would beat every
+   Tailwind utility and silently flatten the ramp's tracking and wrapping. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
 
-p {
-  text-wrap: pretty;
+  p {
+    text-wrap: pretty;
+  }
 }
 
 ::selection {

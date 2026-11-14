@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Nunito } from "next/font/google";
+import { Nunito } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { MotionProvider } from "@/components/motion-provider";
@@ -12,14 +12,6 @@ const nunito = Nunito({
   subsets: ["latin"],
   weight: ["600", "700", "800", "900"],
   variable: "--font-nunito",
-  display: "swap",
-});
-
-// Pairing codes only — the one deliberate mono moment on the site.
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["700", "800"],
-  variable: "--font-jetbrains-mono",
   display: "swap",
 });
 
@@ -68,7 +60,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${nunito.variable} ${jetbrainsMono.variable}`}
+      className={nunito.variable}
       suppressHydrationWarning
     >
       <body>

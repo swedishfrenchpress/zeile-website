@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/privacy" },
 };
 
-const externalLinkClass = "text-primary underline underline-offset-4";
+const externalLinkClass =
+  "text-foreground underline decoration-primary decoration-2 underline-offset-4 transition-colors hover:text-primary";
 
 export default function PrivacyPage() {
   return (
@@ -22,7 +23,7 @@ export default function PrivacyPage() {
           This Privacy Policy explains how zeile (&ldquo;we,&rdquo;
           &ldquo;our,&rdquo; or &ldquo;us&rdquo;) stores and handles your
           information when you use the app.
-          <span className="mt-3 block text-sm text-muted-foreground">
+          <span className="mt-3 block type-caption text-muted-foreground">
             Last updated: November 14, 2026
           </span>
         </p>
@@ -31,9 +32,9 @@ export default function PrivacyPage() {
       <SubpageSection heading="The short version">
         <p>
           zeile has no accounts, advertising, analytics, or tracking. It uses
-          Apple&apos;s CloudKit service to pair two people and deliver their
+          Apple&rsquo;s CloudKit service to pair two people and deliver their
           drawings. Drawings are end-to-end encrypted: they are encrypted on
-          the sender&apos;s device and can only be opened on the two paired
+          the sender&rsquo;s device and can only be opened on the two paired
           devices. The details iCloud needs to deliver them, such as display
           names, send times, and the pair code, are not encrypted.
         </p>
@@ -41,9 +42,9 @@ export default function PrivacyPage() {
 
       <SubpageSection heading="Where your data is stored">
         <p>
-          zeile uses Apple&apos;s CloudKit service. Drawings and pairing data
-          are stored in zeile&apos;s shared CloudKit public database, not in
-          either person&apos;s personal, private iCloud database. zeile does
+          zeile uses Apple&rsquo;s CloudKit service. Drawings and pairing data
+          are stored in zeile&rsquo;s shared CloudKit public database, not in
+          either person&rsquo;s personal, private iCloud database. zeile does
           not operate its own servers.
         </p>
         <p>
@@ -59,8 +60,8 @@ export default function PrivacyPage() {
         <p>
           When two people pair, each device creates its own encryption key and
           shares only the public half as part of pairing. Every drawing is
-          encrypted on the sender&apos;s device before it is uploaded, and only
-          the two paired devices can decrypt it. Apple and zeile&apos;s
+          encrypted on the sender&rsquo;s device before it is uploaded, and only
+          the two paired devices can decrypt it. Apple and zeile&rsquo;s
           developer can see that an encrypted drawing exists, but cannot open
           it.
         </p>
@@ -115,8 +116,8 @@ export default function PrivacyPage() {
 
       <SubpageSection heading="Who can access the database">
         <p>
-          Apple operates the CloudKit infrastructure. zeile&apos;s developer
-          also has administrative access to the app&apos;s public CloudKit
+          Apple operates the CloudKit infrastructure. zeile&rsquo;s developer
+          also has administrative access to the app&rsquo;s public CloudKit
           database and can inspect or delete records when necessary to
           operate, troubleshoot, secure, or maintain the service. That access
           covers the unencrypted details listed above and the encrypted
@@ -166,7 +167,7 @@ export default function PrivacyPage() {
           90-day or 100-drawing cleanup.
         </p>
         <p>
-          Unpairing does not immediately delete the pair&apos;s existing
+          Unpairing does not immediately delete the pair&rsquo;s existing
           CloudKit records. Drawings remain subject to the retention policy
           above.
         </p>
@@ -240,12 +241,12 @@ export default function PrivacyPage() {
           Write to us any time:{" "}
           <CopyEmail
             email={siteConfig.links.email}
-            className="text-primary underline underline-offset-4"
+            className={externalLinkClass}
           />{" "}
           or via the{" "}
           <Link
             href="/contact"
-            className="text-primary underline underline-offset-4"
+            className={externalLinkClass}
           >
             contact page
           </Link>

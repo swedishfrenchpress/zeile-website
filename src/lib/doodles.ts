@@ -109,7 +109,7 @@ export const SECTION_DOODLES: Record<string, SectionDoodles> = {
       { variant: "spiral", top: "66%", left: "5%", width: 84, tier: "far", ink: "orange", rotate: 9, flip: true },
     ],
   },
-  bento: {
+  "made-for-two": {
     anchor: 0.75,
     doodles: [
       { variant: "flower", top: "-4%", right: "4%", width: 88, tier: "mid", ink: "green", rotate: 6, mobile: true, mobileWidth: 52 },

@@ -39,7 +39,9 @@ export const siteConfig = {
   tagline:
     "zeile pairs you with one person. Draw something small, and it lands right on their Home Screen.",
   url: "https://www.zeileapp.com",
-  cta: "Download now.",
+  cta: "Get zeile.",
+  /** the reassurance that sits under every App Store badge */
+  ctaNote: "Free. You both need it, on iPhone or iPad.",
   keywords: [
     "zeile",
     "widget",
@@ -72,13 +74,6 @@ export const siteConfig = {
     },
     /** the person whose drawings arrive on the living widget */
     sender: "Erik",
-    /** cycled by the living widget: drawings only, like the app */
-    sampleNotes: [
-      { type: "doodle", doodle: "blowkiss", timestamp: "now" },
-      { type: "doodle", doodle: "icecream", timestamp: "now" },
-      { type: "doodle", doodle: "cat", timestamp: "now" },
-      { type: "doodle", doodle: "sleepy", timestamp: "now" },
-    ] as SampleNote[],
   },
   featureHighlight: [
     {
@@ -94,18 +89,11 @@ export const siteConfig = {
         posterDark: "/videos/add-widget-dark-poster.jpg",
       },
     },
-    {
-      title: "Just draw it.",
-      description:
-        "Some things don't need words. Sketch in any color you can think of (the whole wheel, not just a few inks) and send. Your doodle arrives crisp on a little white card, right next to their apps.",
-      media: "drawing" as const,
-      direction: "rtl" as const,
-    },
   ] satisfies FeatureHighlightItem[],
   pairing: {
     title: "One code. Two phones.",
     description:
-      "Setup is quick. One of you creates a code, the other types it in. No account to make, no phone number, no contact list to share. Just the two of you.",
+      "Setup is quick. One of you creates a code, the other types it in, and you approve them. No account to make, no phone number, no contact list to share.",
     sampleCode: "K7RM24QZ",
     screenshot: {
       src: "/images/screens/screen-pairing-light.png",
@@ -120,49 +108,23 @@ export const siteConfig = {
       posterDark: "/images/screens/pair-onboarding-dark-poster.jpg",
     },
   },
-  bento: [
-    {
-      id: "audience-of-one",
-      title: "Made for two.",
-      content:
-        "zeile is just you and your person. No feed, no followers, no likes or streaks to chase, and nothing to perform. Just the small good feeling of being thought of.",
-      composeScreenshot: {
-        src: "/images/screens/screen-compose-light.png",
-        srcDark: "/images/screens/screen-compose-dark.png",
-        alt: "The zeile drawing composer with its canvas and color palette",
-      },
-      widgetImage: {
-        src: "/images/drawings/cat-serving-cake.png",
-        alt: "A hand-drawn cat serving a birthday cake",
-        width: 1074,
-        height: 1026,
-      },
-      fullWidth: true,
+  /** the audience-of-one beat: no feed, the History wall, and the privacy line */
+  madeForTwo: {
+    title: "Made for two.",
+    content:
+      "zeile is just you and your person. No feed, no followers, no likes or streaks to chase. Your recent drawings live in History, a little wall of the two of you.",
+    privacy: {
+      title: "Only your person can open them.",
+      description:
+        "Drawings are encrypted on your phone. Not even zeile or Apple can see them.",
     },
-    {
-      id: "write-or-draw",
-      title: "The latest drawing stays close.",
-      content:
-        "The widget keeps your person's newest drawing right on the Home Screen. The rest live in History, a little wall of the two of you, so it never turns into another inbox.",
-      fullWidth: false,
+    screenshot: {
+      src: "/images/screens/history-wall-light.png",
+      srcDark: "/images/screens/history-wall-dark.png",
+      alt: "The zeile History screen: a wall of sent and received drawings",
+      ready: true,
     },
-    {
-      id: "no-signup",
-      title: "Nothing to sign up for.",
-      content:
-        "No email, no password, nothing to verify. Pair once and you're sending.",
-      screenshot: {
-        src: "/images/screens/history-wall-light.png",
-        srcDark: "/images/screens/history-wall-dark.png",
-        alt: "The zeile History screen: a wall of sent and received drawings",
-        ready: true,
-      },
-      trustNote: {
-        title: "Encrypted, then stored in Apple CloudKit.",
-      },
-      fullWidth: false,
-    },
-  ],
+  },
   faqs: [
     {
       question: "Do we both need the app?",
@@ -226,9 +188,10 @@ export const siteConfig = {
       "You've read this far, so there's clearly someone in mind.\nMake the first move.",
     promptLabel: "Draw a little something.",
     canvasPlaceholder: "Draw a little doodle…",
+    /** touch screens: the canvas waits for a tap so a thumb flick still scrolls */
+    canvasTouchPlaceholder: "Tap here, then draw a little doodle…",
     localDisclosure: "Just a preview. Nothing leaves this page.",
-    conversionPrompt: "Made one you like?",
-    conversionAction: "Download zeile on the App Store.",
+    landingCaption: "That's how it lands on their Home Screen.",
     inkLabel: "Ink",
     brushLabel: "Brush size",
     eraserLabel: "Eraser",
@@ -236,7 +199,7 @@ export const siteConfig = {
     clearLabel: "Clear drawing",
   },
   footer: {
-    tagline: "a tiny drawing goes a long way.",
+    tagline: "A tiny drawing goes a long way.",
     attribution: "Made for exactly two people.",
     copyright: "© 2026 zeile",
     columns: [

@@ -13,8 +13,8 @@ const FeatureHighlight = dynamic(() =>
 const Pairing = dynamic(() =>
   import("@/components/sections/pairing").then((m) => m.Pairing)
 );
-const BentoGrid = dynamic(() =>
-  import("@/components/sections/bento").then((m) => m.BentoGrid)
+const MadeForTwo = dynamic(() =>
+  import("@/components/sections/made-for-two").then((m) => m.MadeForTwo)
 );
 const FinalCta = dynamic(() =>
   import("@/components/sections/final-cta").then((m) => m.FinalCta)
@@ -33,13 +33,7 @@ export default function Home() {
           className="pt-[var(--section-y-tight)] pb-0"
         />
         <Pairing />
-        <FeatureHighlight
-          id="feature-2"
-          feature={siteConfig.featureHighlight[1]}
-          layoutIndex={1}
-          className="pt-0 pb-0"
-        />
-        <BentoGrid />
+        <MadeForTwo />
         <FAQ />
         <FinalCta />
       </main>

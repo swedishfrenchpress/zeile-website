@@ -182,6 +182,15 @@ export default function PrivacyPage() {
         </p>
       </SubpageSection>
 
+      <SubpageSection heading="This website">
+        <p>
+          This policy is about the zeile app. This website, zeileapp.com, uses
+          Vercel Web Analytics to count page visits. It does not use cookies or
+          build a profile of you, and none of it is connected to the app or to
+          your drawings.
+        </p>
+      </SubpageSection>
+
       <SubpageSection heading="Third-party services">
         <p>zeile relies on Apple services to work:</p>
         <ul>

@@ -19,9 +19,9 @@ export function FinalCta() {
     description,
     promptLabel,
     canvasPlaceholder,
+    canvasTouchPlaceholder,
     localDisclosure,
-    conversionPrompt,
-    conversionAction,
+    landingCaption,
     inkLabel,
     brushLabel,
     eraserLabel,
@@ -138,10 +138,9 @@ export function FinalCta() {
           <DrawingNotePlayground
             promptLabel={promptLabel}
             canvasPlaceholder={canvasPlaceholder}
+            canvasTouchPlaceholder={canvasTouchPlaceholder}
             localDisclosure={localDisclosure}
-            conversionPrompt={conversionPrompt}
-            conversionAction={conversionAction}
-            conversionHref={siteConfig.links.appStore}
+            landingCaption={landingCaption}
             inkLabel={inkLabel}
             brushLabel={brushLabel}
             eraserLabel={eraserLabel}

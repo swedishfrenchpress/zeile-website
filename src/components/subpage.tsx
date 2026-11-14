@@ -24,7 +24,7 @@ export function Subpage({ title, intro, children }: SubpageProps) {
           }}
         />
         <div className="container-page relative z-10 px-6 pb-[var(--section-y-base)] pt-[var(--section-y-tight)] lg:px-10">
-          <div className="mx-auto max-w-2xl">
+          <div className="mx-auto max-w-[36rem]">
             <h1 className="type-display-2 text-foreground">{title}</h1>
             {intro && (
               <div className="mt-6 type-lead text-foreground/75">{intro}</div>

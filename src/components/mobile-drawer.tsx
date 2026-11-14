@@ -1,6 +1,7 @@
 "use client";
 
 import { Logo } from "@/components/logo";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { DownloadCtas } from "@/components/ui/download-ctas";
 import {
   Drawer,
@@ -54,6 +55,10 @@ export function MobileDrawer({
               <span>{link.label}</span>
             </Link>
           ))}
+          <div className="flex items-center justify-between py-1.5 text-base text-foreground/90">
+            <span>light or dark</span>
+            <ThemeToggle className="-mr-2.5 inline-flex h-11 w-11 items-center justify-center" />
+          </div>
         </nav>
         <DrawerFooter className="gap-3">
           <DownloadCtas />

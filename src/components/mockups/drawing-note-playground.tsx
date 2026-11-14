@@ -1,13 +1,17 @@
 "use client";
 
+import { WidgetCard } from "@/components/mockups/widget-card";
+import { easeOutQuart } from "@/lib/animation";
 import { cn } from "@/lib/utils";
 import { useHydratedReducedMotion } from "@/lib/use-hydrated-reduced-motion";
 import { Eraser, RotateCcw, Trash2 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import * as m from "framer-motion/m";
 import {
+  useEffect,
   useRef,
   useState,
+  useSyncExternalStore,
   type KeyboardEvent,
   type PointerEvent,
 } from "react";
@@ -17,6 +21,15 @@ const MIN_BRUSH_WIDTH = 1;
 const MAX_BRUSH_WIDTH = 24;
 const DEFAULT_BRUSH_WIDTH = 6;
 const ERASER_COLOR = "#ffffff";
+/** how long the pen rests before the drawing "lands" on the preview widget */
+const LANDING_DELAY_MS = 900;
+
+const COARSE_QUERY = "(pointer: coarse)";
+function subscribeCoarse(onChange: () => void) {
+  const query = window.matchMedia(COARSE_QUERY);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
 
 const INKS = [
   { name: "Black", value: "#1c1c1f" },
@@ -44,10 +57,9 @@ interface Stroke {
 interface DrawingNotePlaygroundProps {
   promptLabel: string;
   canvasPlaceholder: string;
+  canvasTouchPlaceholder: string;
   localDisclosure: string;
-  conversionPrompt: string;
-  conversionAction: string;
-  conversionHref: string;
+  landingCaption: string;
   inkLabel: string;
   brushLabel: string;
   eraserLabel: string;
@@ -109,10 +121,9 @@ function DrawingStrokes({ strokes }: { strokes: Stroke[] }) {
 export function DrawingNotePlayground({
   promptLabel,
   canvasPlaceholder,
+  canvasTouchPlaceholder,
   localDisclosure,
-  conversionPrompt,
-  conversionAction,
-  conversionHref,
+  landingCaption,
   inkLabel,
   brushLabel,
   eraserLabel,
@@ -126,6 +137,38 @@ export function DrawingNotePlayground({
   const [tool, setTool] = useState<"pen" | "eraser">("pen");
   const activeStrokeId = useRef<number | null>(null);
   const nextStrokeId = useRef(0);
+  const canvasRef = useRef<SVGSVGElement>(null);
+  const landingTimer = useRef<number | null>(null);
+  // the drawing "lands" on a preview widget once the pen rests
+  const [landedAt, setLandedAt] = useState<string | null>(null);
+  // touch screens: the canvas lets a thumb flick scroll until it's tapped
+  const [touchArmed, setTouchArmed] = useState(false);
+  const coarsePointer = useSyncExternalStore(
+    subscribeCoarse,
+    () => window.matchMedia(COARSE_QUERY).matches,
+    () => false
+  );
+  const showLanding = landedAt !== null && strokes.length > 0;
+
+  const cancelLanding = () => {
+    if (landingTimer.current !== null) {
+      window.clearTimeout(landingTimer.current);
+      landingTimer.current = null;
+    }
+  };
+
+  useEffect(() => cancelLanding, []);
+
+  // scroll the canvas out of view and it lets go again
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !touchArmed) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) setTouchArmed(false);
+    });
+    observer.observe(canvas);
+    return () => observer.disconnect();
+  }, [touchArmed]);
 
   const undo = () => {
     setStrokes((current) => current.slice(0, -1));
@@ -133,12 +176,20 @@ export function DrawingNotePlayground({
 
   const clear = () => {
     activeStrokeId.current = null;
+    cancelLanding();
+    setLandedAt(null);
     setStrokes([]);
   };
 
   const startStroke = (event: PointerEvent<SVGSVGElement>) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
+    if (event.pointerType !== "mouse" && !touchArmed) {
+      // the first tap only arms the canvas; the next touch draws
+      setTouchArmed(true);
+      return;
+    }
     if (tool === "eraser" && strokes.length === 0) return;
+    cancelLanding();
 
     const point = pointFromPointer(
       event.clientX,
@@ -187,6 +238,17 @@ export function DrawingNotePlayground({
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
+    if (activeStrokeId.current !== null) {
+      cancelLanding();
+      landingTimer.current = window.setTimeout(() => {
+        setLandedAt(
+          new Date().toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit",
+          })
+        );
+      }, LANDING_DELAY_MS);
+    }
     activeStrokeId.current = null;
   };
 
@@ -212,8 +274,15 @@ export function DrawingNotePlayground({
       <div className="mx-auto flex w-full max-w-[500px] min-w-0 flex-col gap-4">
         <h3 className="type-subhead text-foreground">{promptLabel}</h3>
 
-        <div className="relative aspect-square overflow-hidden rounded-note border border-rose-hairline bg-canvas-white shadow-[var(--paper-shadow)] focus-within:border-primary focus-within:shadow-[var(--paper-shadow),0_0_16px_0_var(--rose-glow)]">
+        <div
+          className={cn(
+            "relative aspect-square overflow-hidden rounded-note border border-rose-hairline bg-canvas-white shadow-[var(--paper-shadow)] focus-within:border-primary focus-within:shadow-[var(--paper-shadow),0_0_16px_0_var(--rose-glow)]",
+            touchArmed &&
+              "border-primary shadow-[var(--paper-shadow),0_0_16px_0_var(--rose-glow)]"
+          )}
+        >
           <svg
+            ref={canvasRef}
             role="img"
             aria-label="Interactive drawing canvas"
             aria-describedby="drawing-canvas-help"
@@ -225,7 +294,8 @@ export function DrawingNotePlayground({
             onPointerCancel={finishStroke}
             onKeyDown={handleCanvasKeyDown}
             className={cn(
-              "absolute inset-0 z-10 h-full w-full touch-none select-none outline-none",
+              "absolute inset-0 z-10 h-full w-full select-none outline-none",
+              touchArmed ? "touch-none" : "touch-pan-y",
               tool === "eraser" ? "cursor-cell" : "cursor-crosshair"
             )}
           >
@@ -235,15 +305,18 @@ export function DrawingNotePlayground({
           <span
             aria-hidden="true"
             className={cn(
-              "pointer-events-none absolute inset-0 flex items-center justify-center px-8 text-center font-display text-xl font-semibold text-[#8c8c8c] transition-opacity duration-200",
+              "pointer-events-none absolute inset-0 flex items-center justify-center px-8 text-center font-display text-xl font-semibold text-[#737373] transition-opacity duration-200",
               strokes.length > 0 ? "opacity-0" : "opacity-100"
             )}
           >
-            {canvasPlaceholder}
+            {coarsePointer && !touchArmed
+              ? canvasTouchPlaceholder
+              : canvasPlaceholder}
           </span>
           <span id="drawing-canvas-help" className="sr-only">
-            Draw with a mouse, finger, or stylus. Press Command Z or Control Z
-            to undo the last stroke.
+            Draw with a mouse, finger, or stylus. On a touch screen, tap once to
+            start drawing. Press Command Z or Control Z to undo the last
+            stroke.
           </span>
         </div>
 
@@ -273,7 +346,7 @@ export function DrawingNotePlayground({
                   <span
                     aria-hidden="true"
                     className={cn(
-                      "size-6 rounded-full border border-foreground/15 transition-transform duration-200 ease-out-quart group-hover:scale-110 motion-reduce:transition-none",
+                      "size-6 rounded-full border border-foreground/15 transition-transform dark:border-foreground/40 duration-200 ease-out-quart group-hover:scale-110 motion-reduce:transition-none",
                       selected &&
                         "scale-110 ring-2 ring-ring ring-offset-2 ring-offset-background"
                     )}
@@ -317,7 +390,7 @@ export function DrawingNotePlayground({
           >
             {tool === "pen" ? (
               <span
-                className="rounded-full"
+                className="rounded-full ring-1 ring-foreground/15 dark:ring-foreground/40"
                 style={{
                   width: previewDotSize,
                   height: previewDotSize,
@@ -389,36 +462,42 @@ export function DrawingNotePlayground({
         <div className="flex flex-col gap-2">
           <p className="text-sm text-muted-foreground">{localDisclosure}</p>
           <AnimatePresence initial={false}>
-            {strokes.length > 0 ? (
-              <m.p
+            {showLanding ? (
+              <m.div
+                key="landing"
                 aria-live="polite"
                 initial={
-                  reduceMotion
-                    ? false
-                    : { opacity: 0, y: 6, filter: "blur(4px)" }
+                  reduceMotion ? false : { opacity: 0, y: 28, rotate: 4 }
                 }
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                animate={{ opacity: 1, y: 0, rotate: -2 }}
                 exit={
-                  reduceMotion
-                    ? { opacity: 0 }
-                    : { opacity: 0, y: -4, filter: "blur(3px)" }
+                  reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12, rotate: 0 }
                 }
                 transition={{
-                  duration: reduceMotion ? 0 : 0.28,
-                  ease: [0.25, 1, 0.5, 1],
+                  duration: reduceMotion ? 0 : 0.6,
+                  ease: easeOutQuart,
                 }}
-                className="type-subhead text-foreground"
+                className="mt-3 flex items-center gap-5"
               >
-                {conversionPrompt}{" "}
-                <a
-                  href={conversionHref}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="text-primary underline decoration-primary/40 underline-offset-4 transition-colors hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                >
-                  {conversionAction}
-                </a>
-              </m.p>
+                <WidgetCard
+                  note={{ type: "doodle", timestamp: landedAt ?? "" }}
+                  sender="you"
+                  size="small"
+                  art={
+                    <svg
+                      aria-hidden="true"
+                      viewBox={`0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`}
+                      className="h-full w-full"
+                    >
+                      <DrawingStrokes strokes={strokes} />
+                    </svg>
+                  }
+                  className="w-36 shrink-0 text-left sm:w-40"
+                />
+                <p className="type-subhead max-w-[22ch] text-balance text-foreground">
+                  {landingCaption}
+                </p>
+              </m.div>
             ) : null}
           </AnimatePresence>
         </div>

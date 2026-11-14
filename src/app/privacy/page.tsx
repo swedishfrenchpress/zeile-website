@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy policy · zeile",
   description:
-    "How zeile stores and handles notes, doodles, pairing data, and device information using Apple CloudKit.",
+    "How zeile encrypts drawings and handles pairing data and device information using Apple CloudKit.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -23,7 +23,7 @@ export default function PrivacyPage() {
           &ldquo;our,&rdquo; or &ldquo;us&rdquo;) stores and handles your
           information when you use the app.
           <span className="mt-3 block text-sm text-muted-foreground">
-            Last updated: July 15, 2026
+            Last updated: November 14, 2026
           </span>
         </p>
       }
@@ -31,41 +31,49 @@ export default function PrivacyPage() {
       <SubpageSection heading="The short version">
         <p>
           zeile has no accounts, advertising, analytics, or tracking. It uses
-          Apple&apos;s CloudKit service to store the information needed to pair
-          two people and deliver their notes and doodles. This data is stored
-          in zeile&apos;s shared public CloudKit database and is not end-to-end
-          encrypted.
+          Apple&apos;s CloudKit service to pair two people and deliver their
+          drawings. Drawings are end-to-end encrypted: they are encrypted on
+          the sender&apos;s device and can only be opened on the two paired
+          devices. The details iCloud needs to deliver them, such as display
+          names, send times, and the pair code, are not encrypted.
         </p>
       </SubpageSection>
 
       <SubpageSection heading="Where your data is stored">
         <p>
-          zeile uses Apple&apos;s CloudKit service. Notes, doodles, and pairing
-          data are stored in zeile&apos;s shared CloudKit public database—not in
-          either person&apos;s personal, private iCloud database. zeile does not
-          operate its own servers.
+          zeile uses Apple&apos;s CloudKit service. Drawings and pairing data
+          are stored in zeile&apos;s shared CloudKit public database, not in
+          either person&apos;s personal, private iCloud database. zeile does
+          not operate its own servers.
         </p>
         <p>
           &ldquo;Public database&rdquo; is a technical CloudKit term. It does
-          not mean zeile publishes your notes in a public feed, on a profile,
-          or on a searchable webpage. It means the database is shared at the
-          app level rather than giving every pair its own private database.
+          not mean zeile publishes your drawings in a public feed, on a
+          profile, or on a searchable webpage. It means the database is shared
+          at the app level rather than giving every pair its own private
+          database.
         </p>
       </SubpageSection>
 
-      <SubpageSection heading="How pairs are separated">
+      <SubpageSection heading="How drawings are protected">
         <p>
-          Each note includes your pair code, which zeile uses to retrieve the
-          right pair&apos;s notes. One person must approve the second person
-          before the pair is connected, and the normal pairing flow locks
-          after two people are connected.
+          When two people pair, each device creates its own encryption key and
+          shares only the public half as part of pairing. Every drawing is
+          encrypted on the sender&apos;s device before it is uploaded, and only
+          the two paired devices can decrypt it. Apple and zeile&apos;s
+          developer can see that an encrypted drawing exists, but cannot open
+          it.
         </p>
         <p>
-          This separation happens in the application; it is not cryptographic
-          access control. A pair code is not an encryption key, and notes are
-          not end-to-end encrypted. A technically capable person with access
-          to zeile&apos;s CloudKit interface could potentially access public
-          database records outside the normal app experience.
+          One person must approve the second person before the pair is
+          connected, and the pair then locks to those two devices. zeile also
+          offers an optional 12-digit safety code. Compare it in person or on a
+          call to check that nobody came between you while you paired.
+        </p>
+        <p>
+          There is no key backup or recovery. If the keys on your devices are
+          lost, drawings encrypted with them cannot be recovered by anyone,
+          including us. Pairing again protects new drawings from then on.
         </p>
       </SubpageSection>
 
@@ -75,16 +83,21 @@ export default function PrivacyPage() {
           widget, zeile may store:
         </p>
         <ul>
-          <li>Your note text or doodle</li>
+          <li>Your drawings, encrypted</li>
           <li>Your chosen display name</li>
-          <li>The pair code associated with the note</li>
-          <li>The note type and creation time</li>
+          <li>The pair code associated with each drawing</li>
+          <li>The time each drawing was sent</li>
           <li>
-            Technical device identifiers used to distinguish the two paired
-            devices
+            Technical device identifiers and public encryption keys used to
+            distinguish the two paired devices
           </li>
           <li>Pairing and approval status</li>
         </ul>
+        <p>
+          Everything on this list except the drawings themselves is stored
+          without end-to-end encryption, because iCloud uses it to deliver each
+          drawing to the right device.
+        </p>
         <p>
           zeile does not collect your email address, phone number, location,
           advertising identifier, or usage analytics.
@@ -93,10 +106,10 @@ export default function PrivacyPage() {
 
       <SubpageSection heading="Data stored on your device">
         <p>
-          The latest received note may be cached locally in zeile&apos;s App
-          Group storage so the Home Screen widget can display it without
-          downloading it again. Unpairing clears the connection and widget
-          data from that device.
+          The latest received drawing is kept on your device, encrypted with a
+          key that never leaves it, so the Home Screen widget can show it
+          without downloading it again. Unpairing clears the connection and
+          widget data from that device.
         </p>
       </SubpageSection>
 
@@ -105,7 +118,9 @@ export default function PrivacyPage() {
           Apple operates the CloudKit infrastructure. zeile&apos;s developer
           also has administrative access to the app&apos;s public CloudKit
           database and can inspect or delete records when necessary to
-          operate, troubleshoot, secure, or maintain the service.
+          operate, troubleshoot, secure, or maintain the service. That access
+          covers the unencrypted details listed above and the encrypted
+          drawings, which the developer cannot open.
         </p>
         <p>
           Apple explains its public database model in the documentation for the{" "}
@@ -126,43 +141,44 @@ export default function PrivacyPage() {
         </p>
       </SubpageSection>
 
-      <SubpageSection heading="How long notes are kept">
-        <p>zeile applies two limits to note and doodle records:</p>
+      <SubpageSection heading="How long drawings are kept">
+        <p>zeile applies two limits to drawings:</p>
         <ul>
           <li>
-            Notes become eligible for permanent deletion when they reach 90
+            Drawings become eligible for permanent deletion when they reach 90
             days old.
           </li>
           <li>
-            If a pair has more than 100 notes, everything outside the newest
+            If a pair has more than 100 drawings, everything outside the newest
             100 becomes eligible for permanent deletion.
           </li>
         </ul>
         <p>
           An automated cleanup runs once per day and permanently deletes
           records that pass either limit. Deletion may therefore happen during
-          the next daily cleanup rather than at the exact moment a note reaches
-          a limit.
+          the next daily cleanup rather than at the exact moment a drawing
+          reaches a limit.
         </p>
         <p>
-          These limits apply to notes and doodles. Pairing records—including
-          pair codes, display names, device identifiers, and connection
-          status—are stored separately and are not currently included in the
-          automatic 90-day or 100-note cleanup.
+          These limits apply to drawings. Pairing records, including pair
+          codes, display names, device identifiers, and connection status, are
+          stored separately and are not currently included in the automatic
+          90-day or 100-drawing cleanup.
         </p>
         <p>
           Unpairing does not immediately delete the pair&apos;s existing
-          CloudKit records. Note and doodle records remain subject to the
-          retention policy above.
+          CloudKit records. Drawings remain subject to the retention policy
+          above.
         </p>
       </SubpageSection>
 
       <SubpageSection heading="Sensitive information">
         <p>
-          Because zeile is not end-to-end encrypted storage, do not use it for
-          passwords, financial information, medical information, private keys,
-          or anything else that could cause harm if disclosed. Think of zeile
-          like a postcard, not a vault.
+          Drawings are end-to-end encrypted, but zeile is still not the place
+          for passwords, financial or medical information, private keys, or
+          anything else that could cause harm if disclosed. The latest drawing
+          also appears on a Home Screen widget, where anyone looking at the
+          phone can see it.
         </p>
       </SubpageSection>
 
@@ -170,16 +186,16 @@ export default function PrivacyPage() {
         <p>zeile relies on Apple services to work:</p>
         <ul>
           <li>
-            <strong>App distribution:</strong> the Apple App Store for iOS
-            distribution
+            <strong>App distribution:</strong> the Apple App Store for iOS and
+            iPadOS distribution
           </li>
           <li>
             <strong>Storage and sync:</strong> Apple iCloud and CloudKit to
-            store and deliver notes, doodles, and pairing data
+            store and deliver encrypted drawings and pairing data
           </li>
           <li>
             <strong>Notifications:</strong> the Apple Push Notification
-            service to notify the paired device of a new note
+            service to notify the paired device of a new drawing
           </li>
         </ul>
         <p>

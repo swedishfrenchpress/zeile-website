@@ -79,7 +79,7 @@ export const siteConfig = {
     {
       title: "Right there with your person.",
       description:
-        "No app to open, no inbox to check. Your drawing shows up on your person's widget the moment you send it.",
+        "No app to open, no inbox to check. Your drawing shows up on your person’s widget the moment you send it.",
       media: "widget" as const,
       direction: "ltr" as const,
       video: {
@@ -134,17 +134,17 @@ export const siteConfig = {
     {
       question: "Is zeile free?",
       answer:
-        "Yes, completely. zeile is free to download and free to use. There's no premium version to upgrade to, no subscription, and nothing locked behind a paywall.",
+        "Yes, completely. zeile is free to download and free to use. There’s no premium version to upgrade to, no subscription, and nothing locked behind a paywall.",
     },
     {
       question: "How does pairing work?",
       answer:
-        "One of you creates an 8-character code, the other types it in, and you approve them. That's the whole setup. A pair locks to exactly two devices, and you can unpair in Settings whenever you like.",
+        "One of you creates an 8-character code, the other types it in, and you approve them. That’s the whole setup. A pair locks to exactly two devices, and you can unpair in Settings whenever you like.",
     },
     {
       question: "Is there an Android version?",
       answer:
-        "No, and I'd rather be honest about why. zeile syncs your drawings through iCloud and Apple's CloudKit, and there's no way to run that on Android. The other half of it: I'm just one person who built zeile on the side, and an Android version is more time and effort than I can take on right now. Sorry. I know that's not the answer you were hoping for.",
+        "No, and I’d rather be honest about why. zeile syncs your drawings through iCloud and Apple’s CloudKit, and there’s no way to run that on Android. The other half of it: I’m just one person who built zeile on the side, and an Android version is more time and effort than I can take on right now. Sorry. I know that’s not the answer you were hoping for.",
     },
     {
       question: "Are my drawings private?",
@@ -160,7 +160,7 @@ export const siteConfig = {
             Want the full picture? Our{" "}
             <Link
               href={links.privacy}
-              className="text-primary underline underline-offset-4"
+              className="text-foreground underline decoration-primary decoration-2 underline-offset-4 transition-colors hover:text-primary"
             >
               privacy policy
             </Link>{" "}
@@ -185,13 +185,13 @@ export const siteConfig = {
   finalCta: {
     title: "Go leave the first mark.",
     description:
-      "You've read this far, so there's clearly someone in mind.\nMake the first move.",
+      "You’ve read this far, so there’s clearly someone in mind.\nMake the first move.",
     promptLabel: "Draw a little something.",
     canvasPlaceholder: "Draw a little doodle…",
     /** touch screens: the canvas waits for a tap so a thumb flick still scrolls */
     canvasTouchPlaceholder: "Tap here, then draw a little doodle…",
     localDisclosure: "Just a preview. Nothing leaves this page.",
-    landingCaption: "That's how it lands on their Home Screen.",
+    landingCaption: "That’s how it lands on their Home Screen.",
     inkLabel: "Ink",
     brushLabel: "Brush size",
     eraserLabel: "Eraser",

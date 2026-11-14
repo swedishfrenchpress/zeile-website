@@ -24,7 +24,7 @@ export function Subpage({ title, intro, children }: SubpageProps) {
           }}
         />
         <div className="container-page relative z-10 px-6 pb-[var(--section-y-base)] pt-[var(--section-y-tight)] lg:px-10">
-          <div className="mx-auto max-w-[36rem]">
+          <div className="mx-auto max-w-[34rem]">
             <h1 className="type-display-2 text-foreground">{title}</h1>
             {intro && (
               <div className="mt-6 type-lead text-foreground/75">{intro}</div>
@@ -48,7 +48,7 @@ export function SubpageSection({
   return (
     <section className="flex flex-col gap-3">
       <h2 className="type-subhead text-foreground">{heading}</h2>
-      <div className="flex flex-col gap-3 type-body-lg text-foreground/75 [&_ul]:flex [&_ul]:list-disc [&_ul]:flex-col [&_ul]:gap-1.5 [&_ul]:pl-5">
+      <div className="flex flex-col gap-4 type-body-lg text-foreground/75 [&_ul]:flex [&_ul]:list-disc [&_ul]:flex-col [&_ul]:gap-1.5 [&_ul]:pl-5">
         {children}
       </div>
     </section>

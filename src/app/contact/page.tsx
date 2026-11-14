@@ -16,7 +16,7 @@ export default function ContactPage() {
       title="Get in touch"
       intro={
         <p>
-          Have a question, found a bug, or just want to say hi? I&apos;d love
+          Have a question, found a bug, or just want to say hi? I&rsquo;d love
           to hear from you.
         </p>
       }
@@ -26,9 +26,9 @@ export default function ContactPage() {
           Reach me directly at{" "}
           <CopyEmail
             email={siteConfig.links.email}
-            className="text-primary underline underline-offset-4"
+            className="text-foreground underline decoration-primary decoration-2 underline-offset-4 transition-colors hover:text-primary"
           />{" "}
-          and I&apos;ll get back to you.
+          and I&rsquo;ll get back to you.
         </p>
       </SubpageSection>
     </Subpage>

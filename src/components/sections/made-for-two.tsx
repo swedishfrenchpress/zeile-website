@@ -59,7 +59,7 @@ export function MadeForTwo() {
           <div className="mt-10 flex items-start gap-4 rounded-[20px] border border-rose-hairline bg-widget-paper p-5 shadow-[var(--paper-shadow)] sm:p-6">
             <SealedEnvelope className="mt-1 h-8 w-11 shrink-0" />
             <div className="min-w-0">
-              <p className="font-display text-lg font-extrabold leading-snug text-foreground">
+              <p className="type-subhead text-foreground">
                 {privacy.title}
               </p>
               <p className="mt-1.5 type-body-lg text-foreground/70">

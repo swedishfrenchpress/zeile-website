@@ -172,7 +172,7 @@ export function Hero() {
               not a blur-in on the words someone came to read. */}
           <div className="contents min-[900px]:flex min-[900px]:min-w-0 min-[900px]:flex-col">
             <div className="order-1 flex min-w-0 flex-col items-center text-center min-[900px]:order-none min-[900px]:items-start min-[900px]:text-left">
-              <h1 className="max-w-[9ch] font-display text-[clamp(2.75rem,11vw,4.5rem)] font-extrabold leading-[1.04] tracking-[-0.025em] text-foreground min-[900px]:text-[clamp(4rem,6.5vw,6rem)]">
+              <h1 className="max-w-[9ch] type-display-1 text-foreground">
                 {headline}
               </h1>
 

@@ -109,7 +109,7 @@ export function WidgetCard({
           "text-foreground",
           compact
             ? "font-display text-[15px] font-semibold leading-snug"
-            : "type-note"
+            : "type-subhead"
         )}
       >
         {animate

@@ -35,7 +35,7 @@ export function DownloadCtas({
       {showNote && (
         <p
           className={cn(
-            "text-center font-display text-[0.9375rem] font-semibold leading-snug text-muted-foreground",
+            "type-caption text-center text-muted-foreground",
             align === "start" && "min-[900px]:pl-1 min-[900px]:text-left"
           )}
         >

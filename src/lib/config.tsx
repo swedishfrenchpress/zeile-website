@@ -152,8 +152,8 @@ export const siteConfig = {
       content:
         "No email, no password, nothing to verify. Pair once and you're sending.",
       screenshot: {
-        src: "/images/screens/screen-history-light.png",
-        srcDark: "/images/screens/screen-history-dark.png",
+        src: "/images/screens/history-wall-light.png",
+        srcDark: "/images/screens/history-wall-dark.png",
         alt: "The zeile History screen: a wall of sent and received drawings",
         ready: true,
       },
